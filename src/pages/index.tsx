@@ -1,56 +1,49 @@
-import {
-  Link as ChakraLink,
-  Text,
-  Code,
-  List,
-  ListIcon,
-  ListItem,
-} from '@chakra-ui/core'
-import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
+import { Box, Container, Link, VStack, Text, Heading } from "@chakra-ui/core";
+import React, { Fragment } from "react";
+import useSWR from "swr";
 
-import { Hero } from '../components/Hero'
-import { Container } from '../components/Container'
-import { Main } from '../components/Main'
-import { DarkModeSwitch } from '../components/DarkModeSwitch'
-import { CTA } from '../components/CTA'
-import { Footer } from '../components/Footer'
+export async function niceFetch(
+  url: RequestInfo,
+  opts?: RequestInit
+): Promise<any> {
+  const res = await fetch(url, {
+    credentials: "include",
+    ...opts,
+  });
+  return res.json();
+}
 
-const Index = () => (
-  <Container height="100vh">
-    <Hero />
-    <Main>
-      <Text>
-        Example repository of <Code>Next.js</Code> + <Code>chakra-ui</Code> +{' '}
-        <Code>typescript</Code>.
-      </Text>
+const Index = () => {
+  const { data, error } = useSWR(
+    `http://localhost:1750/api/lessons`,
+    niceFetch
+  );
 
-      <List spacing={3} my={0}>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink
-            isExternal
-            href="https://chakra-ui.com"
-            flexGrow={1}
-            mr={2}
-          >
-            Chakra UI <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink isExternal href="https://nextjs.org" flexGrow={1} mr={2}>
-            Next.js <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-      </List>
-    </Main>
+  if (error) return <div>failed to load</div>;
+  if (!data) return <div>loading...</div>;
 
-    <DarkModeSwitch />
-    <Footer>
-      <Text>Next ❤️ Chakra</Text>
-    </Footer>
-    <CTA />
-  </Container>
-)
+  return (
+    <Container maxW="xl" centerContent>
+      <Box marginTop="100" maxW="xl" padding="4">
+        <VStack spacing="20px" align="left">
+          {data.lessons.map((lesson: any) => {
+            return (
+              <Box key={lesson.id}>
+                <Link>
+                  <Heading as="h2" size="xl" isTruncated>
+                    {lesson.title}
+                  </Heading>
+                </Link>
+                <Text marginTop={2} textAlign="right" fontSize="xs">
+                  van {lesson.author.name}
+                </Text>
+              </Box>
+            );
+          })}
+        </VStack>
+      </Box>
+    </Container>
+  );
+};
 
-export default Index
+export default Index;
