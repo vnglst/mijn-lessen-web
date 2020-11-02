@@ -1,18 +1,21 @@
 import { useRouter } from "next/dist/client/router";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { niceFetch } from "../..";
+import { API_URL } from "../../../config";
 
 function TokenPage() {
   const router = useRouter();
   const { token } = router.query;
 
   const { data, error } = useSWR(
-    token ? `http://localhost:1750/api/login/${token}` : null,
+    token ? `${API_URL}/login/${token}` : null,
     niceFetch
   );
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
+
+  mutate(`${API_URL}/me`);
 
   return (
     <div>
