@@ -1,4 +1,4 @@
-import { Box, Heading, Link, Text } from "@chakra-ui/core";
+import { AspectRatio, Box, Heading, Link, Text } from "@chakra-ui/core";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import NextLink from "next/link";
 import React from "react";
@@ -7,7 +7,7 @@ import HeroWave from "../../components/HeroWave";
 import NavBar from "../../components/NavBar";
 import { API_URL } from "../../config";
 
-function LessonPage({
+function LessonOverview({
   lesson,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const embedId = lesson.videoUrl
@@ -35,24 +35,21 @@ function LessonPage({
       </HeroWave>
       <Box p={["15px", "30px"]} width="100%" overflow="hidden">
         {embedId && (
-          <iframe
-            style={{ border: "5px solid black", maxWidth: "100%" }}
-            title="Youtube video"
-            width="560"
-            height="315"
-            src={`https://www.youtube.com/embed/${embedId}`}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          <AspectRatio maxW="560px" ratio={1.6}>
+            <iframe
+              style={{ border: "5px solid black" }}
+              title="Youtube video"
+              src={`https://www.youtube.com/embed/${embedId}`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </AspectRatio>
         )}
         <Text my="40px" fontSize="lg">
           {lesson.intro}
         </Text>
-        <NextLink
-          href={`/lessen/${lesson.id}/vraag/${lesson.questions[0].id}`}
-          passHref
-        >
+        <NextLink href={`/lessen/${lesson.id}/vraag`} passHref>
           <Link fontSize="lg">Start</Link>
         </NextLink>
       </Box>
@@ -66,4 +63,4 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return { props: { lesson } };
 }
 
-export default LessonPage;
+export default LessonOverview;

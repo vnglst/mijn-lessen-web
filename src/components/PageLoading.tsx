@@ -37,6 +37,8 @@ const PageLoading: FC = () => {
 
   if (loading) return <Progress size="xs" bg="white" isIndeterminate />;
 
+  return null;
+
   return <Progress size="xs" bg="white" value={0} />;
 };
 
