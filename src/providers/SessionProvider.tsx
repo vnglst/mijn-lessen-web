@@ -18,7 +18,7 @@ export const SessionContext = React.createContext({} as Session);
 
 export const SessionProvider: FC = ({ children }) => {
   const [session, setSession] = useState({} as Session);
-  const { data, error } = useSWR(`${API_URL}/me`, niceFetch);
+  const { data, error } = useSWR(`${API_URL}/session`, niceFetch);
 
   useEffect(() => {
     if (error) setSession({ error });

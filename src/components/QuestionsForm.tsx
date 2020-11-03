@@ -13,13 +13,13 @@ import {
 import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
-import { niceFetch } from "../../..";
+import { niceFetch } from "../pages/";
 import {
   Option,
   Question,
-} from "../../../../../../vragen-vragen/node_modules/@prisma/client";
-import HeroWave from "../../../../components/HeroWave";
-import { API_URL } from "../../../../config";
+} from "../../../vragen-vragen/node_modules/@prisma/client";
+import HeroWave from "./HeroWave";
+import { API_URL } from "../config";
 
 type Q = Question & { options: Option[] };
 
@@ -59,12 +59,12 @@ interface Props {
   initialQuestions: Q[];
 }
 
-const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
+const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
   useClearAnswers(lessonId);
   const router = useRouter();
   const [idx, setIdx] = useSessionState(`idx-${lessonId}`, 0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [questions, setQuestions] = useState(initialQuestions);
+  // const [questions, setQuestions] = useState(initialQuestions);
   const [optionId, setOptionId] = useSessionState(`optionId-${lessonId}`, "");
   const [answerState, setAnswerState] = useSessionState(
     `answerState-${lessonId}`,
@@ -90,7 +90,8 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
     router.push("/");
   };
 
-  async function handleSubmit() {
+  async function handleSubmit(e: any) {
+    e.preventDefault();
     setIsSubmitting(true);
     await niceFetch(`${API_URL}/questions/${current.id}`, {
       method: "POST",
@@ -109,7 +110,13 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
   }
 
   return (
-    <Box minHeight="100vh" display="flex" flexDirection="column">
+    <Box
+      as="form"
+      onSubmit={handleSubmit}
+      minHeight="100vh"
+      display="flex"
+      flexDirection="column"
+    >
       <HeroWave>
         <Heading
           id="question"
@@ -127,39 +134,38 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
         </Heading>
       </HeroWave>
       <Box display="flex" flexDirection="column">
-        <form onSubmit={handleSubmit}>
-          <FormControl
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            marginTop="80px"
-            isRequired
+        <FormControl
+          id="answer"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          marginTop="80px"
+          isRequired
+        >
+          <RadioGroup
+            aria-labelledby="question"
+            onChange={setOptionId}
+            value={optionId + ""}
+            name="answer"
           >
-            <RadioGroup
-              aria-labelledby="question"
-              onChange={setOptionId}
-              value={optionId + ""}
-              name="answer"
-            >
-              <Stack direction="column">
-                {current.options.map(({ title, id }) => {
-                  return (
-                    <Radio
-                      marginY="10px"
-                      key={id}
-                      colorScheme="blue"
-                      size="lg"
-                      value={id + ""}
-                      isDisabled={isAnswered}
-                    >
-                      {title}
-                    </Radio>
-                  );
-                })}
-              </Stack>
-            </RadioGroup>
-          </FormControl>
-        </form>
+            <Stack direction="column">
+              {current.options.map(({ title, id }) => {
+                return (
+                  <Radio
+                    marginY="10px"
+                    key={id}
+                    colorScheme="blue"
+                    size="lg"
+                    value={id + ""}
+                    isDisabled={isAnswered}
+                  >
+                    {title}
+                  </Radio>
+                );
+              })}
+            </Stack>
+          </RadioGroup>
+        </FormControl>
       </Box>
       {/* <Progress value={30} size="xs" /> */}
       <Flex
@@ -167,7 +173,6 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
         height="100%"
         justifyContent="center"
         width="100%"
-        borderTop="1px solid black"
         p={6}
         bg={
           isAnswered
@@ -179,7 +184,7 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
       >
         <Flex
           mt={5}
-          mb={[0, 10, 40]}
+          mb={[10, 20]}
           maxW="lg"
           width="100%"
           justifyContent="space-between"
@@ -208,34 +213,36 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
               </>
             )}
           </Flex>
-          <ButtonGroup
-            display="flex"
-            width="100%"
-            justifyContent="space-between"
-          >
-            {isAnswered ? (
-              <Button
-                type="submit"
-                marginLeft="auto"
-                bg="white"
-                onClick={handleNext}
-              >
-                Volgende
-              </Button>
-            ) : (
-              <Button
-                type="submit"
-                marginLeft="auto"
-                variant="my-green"
-                onClick={handleSubmit}
-                isLoading={isSubmitting}
-                disabled={!optionId}
-                alignSelf="flex-end"
-              >
-                Controleren
-              </Button>
-            )}
-          </ButtonGroup>
+          <FormControl>
+            <ButtonGroup
+              display="flex"
+              width="100%"
+              justifyContent="space-between"
+            >
+              {isAnswered ? (
+                <Button
+                  type="submit"
+                  marginLeft="auto"
+                  bg="white"
+                  onClick={handleNext}
+                >
+                  Volgende
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  marginLeft="auto"
+                  variant="my-green"
+                  onClick={handleSubmit}
+                  isLoading={isSubmitting}
+                  disabled={!optionId}
+                  alignSelf="flex-end"
+                >
+                  Controleren
+                </Button>
+              )}
+            </ButtonGroup>
+          </FormControl>
         </Flex>
       </Flex>
     </Box>

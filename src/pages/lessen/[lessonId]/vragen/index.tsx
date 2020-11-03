@@ -1,34 +1,34 @@
 import { ButtonGroup, CloseButton, Center, Spinner } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import useSWR from "swr";
 import { niceFetch } from "../../..";
 import AppHead from "../../../../components/Head";
 import HeroWave from "../../../../components/HeroWave";
 import NavBar from "../../../../components/NavBar";
 import { API_URL } from "../../../../config";
-import LessonForm from "./_LessonForm";
+import Questions from "../../../../components/QuestionsForm";
 
-const useBeforeUnload = (value: ((evt: BeforeUnloadEvent) => any) | string) => {
-  const handleBeforeunload = (evt: BeforeUnloadEvent) => {
-    let returnValue;
-    if (typeof value === "function") {
-      returnValue = value(evt);
-    } else {
-      returnValue = value;
-    }
-    if (returnValue) {
-      evt.preventDefault();
-      evt.returnValue = returnValue;
-    }
-    return returnValue;
-  };
+// const useBeforeUnload = (value: ((evt: BeforeUnloadEvent) => any) | string) => {
+//   const handleBeforeunload = (evt: BeforeUnloadEvent) => {
+//     let returnValue;
+//     if (typeof value === "function") {
+//       returnValue = value(evt);
+//     } else {
+//       returnValue = value;
+//     }
+//     if (returnValue) {
+//       evt.preventDefault();
+//       evt.returnValue = returnValue;
+//     }
+//     return returnValue;
+//   };
 
-  useEffect(() => {
-    window.addEventListener("beforeunload", handleBeforeunload);
-    return () => window.removeEventListener("beforeunload", handleBeforeunload);
-  }, []);
-};
+//   useEffect(() => {
+//     window.addEventListener("beforeunload", handleBeforeunload);
+//     return () => window.removeEventListener("beforeunload", handleBeforeunload);
+//   }, []);
+// };
 
 function LessonApp() {
   // useBeforeUnload(
@@ -63,7 +63,7 @@ function LessonApp() {
         </ButtonGroup>
       </NavBar>
       {data ? (
-        <LessonForm
+        <Questions
           initialQuestions={data.lesson.questions}
           lessonId={data.lesson.id}
         />

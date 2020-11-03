@@ -1,37 +1,82 @@
-import { Box, Flex, Link, Text } from "@chakra-ui/core";
+import {
+  Box,
+  Button,
+  Flex,
+  Link,
+  Menu,
+  MenuButton,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+  Text,
+} from "@chakra-ui/core";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { default as React, FC } from "react";
+import { mutate } from "swr";
+import { API_URL } from "../config";
+import { niceFetch } from "../pages";
 import { useSession } from "../providers";
 
-const AccountLink: FC = () => {
-  const { error, session } = useSession();
+const AccountMenu: FC = () => {
+  const { session } = useSession();
+  const router = useRouter();
 
-  if (error)
-    return (
-      <Text fontSize="xs" noOfLines={1} textColor="red">
-        Fout, probeer
-        <NextLink href="/account/login" passHref>
-          <Link>opieuw in te loggen</Link>
-        </NextLink>
-      </Text>
-    );
+  const withUser = () => (
+    <MenuGroup title="Account">
+      <MenuItem
+        onClick={() => {
+          router.push("/account");
+        }}
+      >
+        Your profile
+      </MenuItem>
+      <MenuItem
+        onClick={async () => {
+          await niceFetch(`${API_URL}/logout`);
+          mutate(`${API_URL}/session`, {});
+        }}
+      >
+        Logout
+      </MenuItem>
+    </MenuGroup>
+  );
 
-  if (!session || !session.user)
-    return (
-      <NextLink href="/account/login" passHref>
-        <Text fontSize="xs" noOfLines={1} textColor="red">
-          <Link>Inloggen</Link>
-        </Text>
-      </NextLink>
-    );
+  const noUser = () => (
+    <MenuGroup title="Account">
+      <MenuItem
+        onClick={() => {
+          router.push("/account/inloggen");
+        }}
+      >
+        Inloggen
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          router.push("/account/registreren");
+        }}
+      >
+        Nieuw account
+      </MenuItem>
+    </MenuGroup>
+  );
 
   return (
-    <Text fontSize="xs" noOfLines={1}>
-      Ingelogd als{" "}
-      <NextLink href="/account" passHref>
-        <Link>{session.user.name}</Link>
-      </NextLink>
-    </Text>
+    <Menu>
+      <MenuButton
+        as={Button}
+        bg="white"
+        _active={{
+          boxShadow: "none",
+        }}
+        padding={0}
+        rightIcon={<ChevronDownIcon />}
+      >
+        {session?.user?.name || "Inloggen"}
+      </MenuButton>
+      <MenuList>{session?.user ? withUser() : noUser()}</MenuList>
+    </Menu>
   );
 };
 
@@ -70,7 +115,7 @@ const NavBar: FC = ({ children }) => {
                 </Box>
               </Flex>
               <Box>
-                <AccountLink />
+                <AccountMenu />
               </Box>
             </>
           )}

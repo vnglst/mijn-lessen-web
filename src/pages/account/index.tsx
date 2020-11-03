@@ -1,36 +1,40 @@
-import { Box, Button, ButtonGroup, Link, Text } from "@chakra-ui/core";
+import { Button, ButtonGroup, Code, Flex, Text } from "@chakra-ui/core";
+import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
 import { niceFetch } from "..";
+import DefaultLayout from "../../components/DefaultLayout";
 import { API_URL } from "../../config";
-import NextLink from "next/link";
 
 function AccountPage() {
-  const { data: session, mutate } = useSWR(`${API_URL}/me`, niceFetch);
+  const router = useRouter();
+  const { data: session, mutate } = useSWR(`${API_URL}/session`, niceFetch);
 
   async function handleLogout() {
-    await niceFetch(`http://localhost:1750/api/logout`);
+    await niceFetch(`${API_URL}/logout`);
     mutate({});
   }
 
+  if (session && !session.user) router.push("/account/inloggen");
+
   return (
-    <Box marginTop="100" padding="4">
-      <h1>Logged in</h1>
-      <pre>{JSON.stringify(session, null, 4)}</pre>
-      <ButtonGroup>
-        {session?.user ? (
-          <Button marginRight="10" variant="my-green" onClick={handleLogout}>
-            Uitloggen
-          </Button>
-        ) : (
-          <NextLink href="/account/login">
-            <Text>
-              <Link>Inloggen</Link>
-            </Text>
-          </NextLink>
-        )}
-      </ButtonGroup>
-    </Box>
+    <DefaultLayout
+      pageTitle="Je account"
+      headingText={`Hallo ${session?.user.name || ""}!`}
+      centered
+    >
+      <Flex p={8} flexDirection="column" width="100%" alignItems="center">
+        <Flex maxW="lg" flexDirection="column" width="100%">
+          <Text>
+            Je bent ingelogd met het e-mailadres{" "}
+            <Code>{session?.user.email}</Code>
+          </Text>
+          <ButtonGroup mt={10}>
+            <Button onClick={handleLogout}>Uitloggen</Button>
+          </ButtonGroup>
+        </Flex>
+      </Flex>
+    </DefaultLayout>
   );
 }
 

@@ -2,6 +2,7 @@ import { AspectRatio, Box, Heading, Link, Text } from "@chakra-ui/core";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import NextLink from "next/link";
 import React from "react";
+import DefaultLayout from "../../components/DefaultLayout";
 import AppHead from "../../components/Head";
 import HeroWave from "../../components/HeroWave";
 import NavBar from "../../components/NavBar";
@@ -15,25 +16,8 @@ function LessonOverview({
     : null;
 
   return (
-    <>
-      <AppHead>
-        <title>Les {lesson.title} | Wiser.Today</title>
-      </AppHead>
-      <NavBar />
-      <HeroWave>
-        <Heading
-          as="h1"
-          size="xl"
-          marginTop="auto"
-          fontWeight="900"
-          noOfLines={3}
-          lineHeight={1.6}
-          p={["15px", "30px"]}
-        >
-          {lesson.title}
-        </Heading>
-      </HeroWave>
-      <Box p={["15px", "30px"]} width="100%" overflow="hidden">
+    <DefaultLayout pageTitle={`Les ${lesson.title}`} headingText={lesson.title}>
+      <Box p={10} maxW="2xl" width="100%" overflow="hidden">
         {embedId && (
           <AspectRatio maxW="560px" ratio={1.6}>
             <iframe
@@ -49,11 +33,11 @@ function LessonOverview({
         <Text my="40px" fontSize="lg">
           {lesson.intro}
         </Text>
-        <NextLink href={`/lessen/${lesson.id}/vraag`} passHref>
+        <NextLink href={`/lessen/${lesson.id}/vragen`} passHref>
           <Link fontSize="lg">Start</Link>
         </NextLink>
       </Box>
-    </>
+    </DefaultLayout>
   );
 }
 

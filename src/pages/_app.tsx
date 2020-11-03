@@ -4,7 +4,7 @@ import { AppProps } from "next/app";
 import React from "react";
 import PageLoading from "../components/PageLoading";
 import { SessionProvider } from "../providers";
-import { theme } from "./theme";
+import { theme } from "../theme";
 
 function WiserApp({ Component, pageProps }: AppProps) {
   return (
