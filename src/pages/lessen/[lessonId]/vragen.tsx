@@ -2,12 +2,12 @@ import { ButtonGroup, CloseButton, Center, Spinner } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
-import { niceFetch } from "../../..";
-import AppHead from "../../../../components/Head";
-import HeroWave from "../../../../components/HeroWave";
-import NavBar from "../../../../components/NavBar";
-import { API_URL } from "../../../../config";
-import Questions from "../../../../components/QuestionsForm";
+import { niceFetch } from "../..";
+import AppHead from "../../../components/Head";
+import HeroWave from "../../../components/HeroWave";
+import NavBar from "../../../components/NavBar";
+import { API_URL } from "../../../config";
+import Questions from "../../../components/QuestionsForm";
 
 // const useBeforeUnload = (value: ((evt: BeforeUnloadEvent) => any) | string) => {
 //   const handleBeforeunload = (evt: BeforeUnloadEvent) => {
@@ -55,7 +55,7 @@ function LessonApp() {
   return (
     <>
       <AppHead>
-        <title>Oefenen {data?.lesson?.title} | Wiser.Today</title>
+        <title>Oefenen {data?.lesson?.title} | Wizer.Today</title>
       </AppHead>
       <NavBar>
         <ButtonGroup>

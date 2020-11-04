@@ -10,6 +10,7 @@
     "@chakra-ui/core": "next",
     "@chakra-ui/icons": "^1.0.0-rc.8",
     "framer-motion": "latest",
+    "lodash": "^4.17.20",
     "next": "^9.5.5",
     "next-google-fonts": "^1.2.1",
     "react": "^17.0.1",

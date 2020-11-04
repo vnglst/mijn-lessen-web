@@ -1,8 +1,8 @@
 import {
+  Avatar,
   Box,
   Button,
   Flex,
-  Link,
   Menu,
   MenuButton,
   MenuGroup,
@@ -24,7 +24,7 @@ const AccountMenu: FC = () => {
   const router = useRouter();
 
   const withUser = () => (
-    <MenuGroup title="Account">
+    <MenuGroup title={`Ingelogd als ${session?.user.name}`}>
       <MenuItem
         onClick={() => {
           router.push("/account");
@@ -67,13 +67,25 @@ const AccountMenu: FC = () => {
       <MenuButton
         as={Button}
         bg="white"
+        _hover={{ boxShadow: "none" }}
+        _focus={{ boxShadow: "none" }}
         _active={{
           boxShadow: "none",
         }}
         padding={0}
         rightIcon={<ChevronDownIcon />}
       >
-        {session?.user?.name || "Inloggen"}
+        {session?.user?.name ? (
+          <Avatar
+            size="sm"
+            // bgColor="white"
+            name={session?.user?.name}
+            src="https://pbs.twimg.com/profile_images/984699772383744000/4pG8DS5n_reasonably_small.jpg"
+            // src="https://bigheads.io/svg?accessory=none&body=breasts&circleColor=blue&clothing=dressShirt&clothingColor=blue&eyebrows=concerned&eyes=simple&faceMask=false&faceMaskColor=green&facialHair=none2&hair=buzz&hairColor=orange&hat=beanie&hatColor=green&lashes=true&lipColor=red&mask=false&mouth=grin&skinTone=brown"
+          />
+        ) : (
+          "Inloggen"
+        )}
       </MenuButton>
       <MenuList>{session?.user ? withUser() : noUser()}</MenuList>
     </Menu>

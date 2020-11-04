@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   ButtonGroup,
   Flex,
@@ -38,21 +37,15 @@ function useSessionState<T>(key: string, initialState: T) {
   return [state, setStateWithSession];
 }
 
-const useClearAnswers = (lessonId: string) => {
-  const [started, setStarted] = useSessionState(`started-${lessonId}`, false);
+// const useClearAnswers = (lessonId: string) => {
+//   const [started, setStarted] = useSessionState(`started-${lessonId}`, false);
 
-  useEffect(() => {
-    if (started) return;
-    setStarted(true);
-    niceFetch(`${API_URL}/answers/?lessonId=${lessonId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-  }, [started]);
-};
+//   useEffect(() => {
+//     if (started) return;
+//     setStarted(true);
+//     niceFetch(`${API_URL}/answers/?lessonId=${lessonId}`, { method: "DELETE" });
+//   }, [started]);
+// };
 
 interface Props {
   lessonId: string;
@@ -60,7 +53,7 @@ interface Props {
 }
 
 const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
-  useClearAnswers(lessonId);
+  // useClearAnswers(lessonId);
   const router = useRouter();
   const [idx, setIdx] = useSessionState(`idx-${lessonId}`, 0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -86,8 +79,8 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
       return;
     }
 
-    sessionStorage.clear();
-    router.push("/");
+    // sessionStorage.clear();
+    router.push(`/lessen/${lessonId}/resultaat`);
   };
 
   async function handleSubmit(e: any) {
@@ -95,10 +88,6 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
     setIsSubmitting(true);
     await niceFetch(`${API_URL}/questions/${current.id}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
       body: JSON.stringify({
         optionId: parseInt(optionId, 10),
         lessonId,
@@ -110,11 +99,10 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
   }
 
   return (
-    <Box
+    <Flex
       as="form"
       onSubmit={handleSubmit}
       minHeight="100vh"
-      display="flex"
       flexDirection="column"
     >
       <HeroWave>
@@ -133,7 +121,7 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
           {current.title}
         </Heading>
       </HeroWave>
-      <Box display="flex" flexDirection="column">
+      <Flex flexDirection="column">
         <FormControl
           id="answer"
           display="flex"
@@ -166,7 +154,7 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
             </Stack>
           </RadioGroup>
         </FormControl>
-      </Box>
+      </Flex>
       {/* <Progress value={30} size="xs" /> */}
       <Flex
         mt="auto"
@@ -226,7 +214,7 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
                   bg="white"
                   onClick={handleNext}
                 >
-                  Volgende
+                  {hasNextQuestion() ? "Volgende" : "Bekijk resultaat"}
                 </Button>
               ) : (
                 <Button
@@ -245,7 +233,7 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
           </FormControl>
         </Flex>
       </Flex>
-    </Box>
+    </Flex>
   );
 };
 

@@ -20,10 +20,10 @@ const Index = () => {
   const { data } = useSWR(`${API_URL}/lessons`, niceFetch);
 
   return (
-    <DefaultLayout pageTitle="Home" headingText="Goedendag!">
+    <DefaultLayout pageTitle="Home" headingText="Goedendag!" centered>
       <Box p={10} marginTop="10px">
         <Heading as="h2" size="lg" marginBottom="40px" textColor="gray.800">
-          Speciaal voor jou
+          Lessen voor jou
         </Heading>
         {!data && <Skeleton borderRadius="20px" width="250px" height="250px" />}
         <Wrap spacing="40px">

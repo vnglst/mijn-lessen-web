@@ -1,18 +1,18 @@
-import { Box } from "@chakra-ui/core";
+import { Flex } from "@chakra-ui/core";
 import React, { FC } from "react";
 
 interface Props {}
 
 const HeroWave: FC<Props> = ({ children }) => {
   return (
-    <Box
+    <Flex
       width="100%"
-      // minHeight="100px"
-      display="flex"
       flexDirection="column"
+      background="radial-gradient(202.15% 198.95% at 85.93% -78.83%, #f9b006 0%,#ffffff 82.16%)"
+      alignItems="center"
       // background="radial-gradient(202.15% 198.95% at 85.93% -78.83%,#F6A89E 0%,#ffffff 82.16%)"
       // background="radial-gradient(202.15% 198.95% at 85.93% -78.83%,#FCDA8B 0%,#ffffff 82.16%)"
-      background="radial-gradient(202.15% 198.95% at 85.93% -78.83%, #f9b006 0%,#ffffff 82.16%)"
+      // minHeight="100px"
       // justifyContent="space-between"
     >
       <svg
@@ -31,7 +31,7 @@ const HeroWave: FC<Props> = ({ children }) => {
         ></path>
       </svg>
       {children}
-    </Box>
+    </Flex>
   );
 };
 
