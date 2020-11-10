@@ -9,10 +9,10 @@ import {
   useToast,
 } from "@chakra-ui/core";
 import React, { useState } from "react";
-import { niceFetch } from "..";
 import DefaultLayout from "../../components/DefaultLayout";
 import NextLink from "next/link";
 import { API_URL } from "../../config";
+import { niceFetch } from "../../helpers";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -22,10 +22,6 @@ const LoginPage = () => {
     e.preventDefault();
     await niceFetch(`${API_URL}/login`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
       body: JSON.stringify({ email }),
     });
 

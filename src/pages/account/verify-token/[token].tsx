@@ -1,25 +1,27 @@
 import { Code, Flex, Text, Link } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import useSWR, { mutate } from "swr";
-import { niceFetch } from "../..";
 import DefaultLayout from "../../../components/DefaultLayout";
 import { API_URL } from "../../../config";
 import NextLink from "next/link";
+import FullScreenSpinner from "../../../components/FullScreenSpinner";
+import { niceFetch } from "../../../helpers";
 
 function TokenPage() {
   const router = useRouter();
   const { token } = router.query;
 
-  const { data: session, error } = useSWR(
+  const { data: session } = useSWR(
     token ? `${API_URL}/login/${token}` : null,
     niceFetch
   );
 
-  if (error) return <div>failed to load</div>;
-  if (!session) return <div>loading...</div>;
+  useEffect(() => {
+    mutate(`${API_URL}/session`);
+  }, session);
 
-  mutate(`${API_URL}/me`);
+  if (!session) return <FullScreenSpinner />;
 
   return (
     <DefaultLayout

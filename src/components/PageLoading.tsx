@@ -35,9 +35,18 @@ const PageLoading: FC = () => {
     };
   });
 
-  if (loading) return <Progress size="xs" bg="white" isIndeterminate />;
+  if (loading)
+    return (
+      <Progress
+        position="sticky"
+        top="0"
+        size="xs"
+        bg="white"
+        isIndeterminate
+      />
+    );
 
-  return <Progress size="xs" bg="white" value={0} />;
+  return <Progress position="sticky" top="0" size="xs" bg="white" value={0} />;
 };
 
 export default PageLoading;

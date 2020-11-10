@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import { default as React, FC } from "react";
 import { mutate } from "swr";
 import { API_URL } from "../config";
-import { niceFetch } from "../pages";
+import { niceFetch } from "../helpers";
 import { useSession } from "../providers";
 
 const AccountMenu: FC = () => {
@@ -30,15 +30,16 @@ const AccountMenu: FC = () => {
           router.push("/account");
         }}
       >
-        Your profile
+        Je profiel
       </MenuItem>
       <MenuItem
         onClick={async () => {
           await niceFetch(`${API_URL}/logout`);
           mutate(`${API_URL}/session`, {});
+          router.push("/account/inloggen");
         }}
       >
-        Logout
+        Uitloggen
       </MenuItem>
     </MenuGroup>
   );
@@ -78,10 +79,9 @@ const AccountMenu: FC = () => {
         {session?.user?.name ? (
           <Avatar
             size="sm"
-            // bgColor="white"
+            bgColor="white"
             name={session?.user?.name}
-            src="https://pbs.twimg.com/profile_images/984699772383744000/4pG8DS5n_reasonably_small.jpg"
-            // src="https://bigheads.io/svg?accessory=none&body=breasts&circleColor=blue&clothing=dressShirt&clothingColor=blue&eyebrows=concerned&eyes=simple&faceMask=false&faceMaskColor=green&facialHair=none2&hair=buzz&hairColor=orange&hat=beanie&hatColor=green&lashes=true&lipColor=red&mask=false&mouth=grin&skinTone=brown"
+            src={session?.user?.avatar}
           />
         ) : (
           "Inloggen"

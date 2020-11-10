@@ -4,6 +4,7 @@ import {
   Flex,
   FormControl,
   Heading,
+  Progress,
   Radio,
   RadioGroup,
   Stack,
@@ -11,90 +12,82 @@ import {
 } from "@chakra-ui/core";
 import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
-import React, { FC, useEffect, useState } from "react";
-import { niceFetch } from "../pages/";
-import {
-  Option,
-  Question,
-} from "../../../vragen-vragen/node_modules/@prisma/client";
-import HeroWave from "./HeroWave";
+import React, { FC, useState } from "react";
+import useSound from "use-sound";
 import { API_URL } from "../config";
+import { niceFetch } from "../helpers";
+import { useSessionStore } from "../hooks/useSessionStore";
+import { Option, Question } from "../providers/types";
+import HeroWave from "./HeroWave";
 
-type Q = Question & { options: Option[] };
-
-function useSessionState<T>(key: string, initialState: T) {
-  const [state, setState] = useState(
-    typeof window === "undefined"
-      ? initialState
-      : JSON.parse(sessionStorage.getItem(key) || "false") || initialState
-  );
-
-  const setStateWithSession = (newState: T) => {
-    sessionStorage.setItem(key, JSON.stringify(newState));
-    setState(newState);
-  };
-
-  return [state, setStateWithSession];
-}
-
-// const useClearAnswers = (lessonId: string) => {
-//   const [started, setStarted] = useSessionState(`started-${lessonId}`, false);
-
-//   useEffect(() => {
-//     if (started) return;
-//     setStarted(true);
-//     niceFetch(`${API_URL}/answers/?lessonId=${lessonId}`, { method: "DELETE" });
-//   }, [started]);
-// };
+type Answer = null | "correct" | "incorrect";
 
 interface Props {
   lessonId: string;
-  initialQuestions: Q[];
+  initialQuestions: Question[];
 }
 
-const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
-  // useClearAnswers(lessonId);
+const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
+  const [playCorrectFx] = useSound("/sounds/pepSound5.mp3", { volume: 0.5 });
+  const [playMistakeFx] = useSound("/sounds/pepSound4.mp3", { volume: 0.5 });
+  const [playLevelUp] = useSound("/sounds/blessing.mp3", { volume: 0.1 });
+
   const router = useRouter();
-  const [idx, setIdx] = useSessionState(`idx-${lessonId}`, 0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // const [questions, setQuestions] = useState(initialQuestions);
-  const [optionId, setOptionId] = useSessionState(`optionId-${lessonId}`, "");
-  const [answerState, setAnswerState] = useSessionState(
-    `answerState-${lessonId}`,
-    null as null | "correct" | "incorrect"
+  const [questions, setQuestions] = useSessionStore(
+    `questions-${lessonId}`,
+    initialQuestions
+  );
+  const [optionId, setOptionId] = useSessionStore(`optionId-${lessonId}`, "");
+  const [answer, setAnswer] = useSessionStore(
+    `answer-${lessonId}`,
+    null as Answer
   );
 
-  const isAnswered = !!answerState;
-
-  const current: Q = questions[idx];
-
-  const hasNextQuestion = () => idx < questions.length - 1;
+  const isAnswered = !!answer;
+  const current: Question = questions[0];
+  const hasNextQuestion = questions.length > 1;
   const correctOption = current.options.find((o) => o.correct) as Option;
 
-  const handleNext = () => {
-    if (hasNextQuestion()) {
-      setIdx(idx + 1);
+  const handleNext = async () => {
+    let newQuestions = [...questions.slice(1)];
+    if (answer === "incorrect") newQuestions.push(current);
+
+    if (newQuestions.length > 0) {
+      setQuestions(newQuestions);
       setOptionId("");
-      setAnswerState(null);
+      setAnswer(null);
       return;
     }
 
-    // sessionStorage.clear();
-    router.push(`/lessen/${lessonId}/resultaat`);
+    setIsSubmitting(true);
+    const { pointsEarned } = await niceFetch(
+      `${API_URL}/protected/lessons/${lessonId}/result`,
+      {
+        method: "POST",
+      }
+    );
+    setIsSubmitting(false);
+    if (pointsEarned) playLevelUp();
+    router.push(`/lessen/${lessonId}/resultaat?pointsEarned=${pointsEarned}`);
   };
 
   async function handleSubmit(e: any) {
     e.preventDefault();
     setIsSubmitting(true);
-    await niceFetch(`${API_URL}/questions/${current.id}`, {
+    await niceFetch(`${API_URL}/protected/answers/`, {
       method: "POST",
       body: JSON.stringify({
         optionId: parseInt(optionId, 10),
-        lessonId,
+        questionId: current.id,
       }),
     });
     const isCorrect = correctOption?.id == optionId;
-    setAnswerState(isCorrect ? "correct" : "incorrect");
+
+    if (isCorrect) playCorrectFx();
+    else playMistakeFx();
+
+    setAnswer(isCorrect ? "correct" : "incorrect");
     setIsSubmitting(false);
   }
 
@@ -114,12 +107,17 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
           fontWeight="900"
           noOfLines={3}
           lineHeight={1.6}
-          p={["15px", "30px"]}
+          pt={["15px", "30px"]}
           textAlign="center"
           width="100%"
         >
           {current.title}
         </Heading>
+        {current.title && (
+          <Text mt={2} fontSize="lg">
+            {current.subtitle}
+          </Text>
+        )}
       </HeroWave>
       <Flex flexDirection="column">
         <FormControl
@@ -127,13 +125,13 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
           display="flex"
           flexDirection="column"
           alignItems="center"
-          marginTop="80px"
+          marginTop="60px"
           isRequired
         >
           <RadioGroup
             aria-labelledby="question"
             onChange={setOptionId}
-            value={optionId + ""}
+            value={optionId.toString()}
             name="answer"
           >
             <Stack direction="column">
@@ -144,7 +142,7 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
                     key={id}
                     colorScheme="blue"
                     size="lg"
-                    value={id + ""}
+                    value={id.toString()}
                     isDisabled={isAnswered}
                   >
                     {title}
@@ -155,16 +153,21 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
           </RadioGroup>
         </FormControl>
       </Flex>
-      {/* <Progress value={30} size="xs" /> */}
-      <Flex
+      <Progress
         mt="auto"
+        value={
+          100 - Math.round((questions.length / initialQuestions.length) * 100)
+        }
+        size="xs"
+      />
+      <Flex
         height="100%"
         justifyContent="center"
         width="100%"
         p={6}
         bg={
           isAnswered
-            ? answerState === "correct"
+            ? answer === "correct"
               ? "green.200"
               : "red.200"
             : "white"
@@ -178,7 +181,7 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
           justifyContent="space-between"
         >
           <Flex width="100%" flexDirection="row">
-            {answerState === "incorrect" && (
+            {answer === "incorrect" && (
               <>
                 <WarningIcon mt={2} mr={5} boxSize={8} />
                 <Flex flexDirection="column">
@@ -189,7 +192,7 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
                 </Flex>
               </>
             )}
-            {answerState === "correct" && (
+            {answer === "correct" && (
               <>
                 <CheckIcon mt={2} mr={5} boxSize={8} />
                 <Flex flexDirection="column">
@@ -209,12 +212,12 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions: questions }) => {
             >
               {isAnswered ? (
                 <Button
-                  type="submit"
                   marginLeft="auto"
                   bg="white"
                   onClick={handleNext}
+                  isLoading={isSubmitting}
                 >
-                  {hasNextQuestion() ? "Volgende" : "Bekijk resultaat"}
+                  {hasNextQuestion ? "Volgende" : "Bekijk resultaat"}
                 </Button>
               ) : (
                 <Button
