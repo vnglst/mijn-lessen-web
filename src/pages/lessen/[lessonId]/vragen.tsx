@@ -42,7 +42,7 @@ function LessonApp() {
       </AppHead>
       <NavBar>
         <ButtonGroup>
-          <CloseButton onClick={handleClose} size="md" p="20px" />
+          <CloseButton onClick={handleClose} size="md" />
         </ButtonGroup>
       </NavBar>
       {lesson ? (

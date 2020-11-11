@@ -36,15 +36,15 @@ function ResultPage() {
                 router.push(`/lessen/${lessonId}/`);
               }}
             >
-              NOG EEN KEER
+              Nog een keer
             </Button>
             <Button
               onClick={() => {
                 router.push(`/`);
               }}
-              variant="my-green"
+              variant="primary"
             >
-              MEER LESSEN
+              Meer lessen
             </Button>
           </ButtonGroup>
         </Flex>

@@ -28,9 +28,9 @@ interface Props {
 }
 
 const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
-  const [playCorrectFx] = useSound("/sounds/pepSound5.mp3", { volume: 0.5 });
-  const [playMistakeFx] = useSound("/sounds/pepSound4.mp3", { volume: 0.5 });
-  const [playLevelUp] = useSound("/sounds/blessing.mp3", { volume: 0.1 });
+  const [playCorrectFx] = useSound("/sounds/pepSound5.mp3", { volume: 1 });
+  const [playMistakeFx] = useSound("/sounds/pepSound4.mp3", { volume: 1 });
+  const [playLevelUp] = useSound("/sounds/blessing.mp3", { volume: 1 });
 
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -223,7 +223,7 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
                 <Button
                   type="submit"
                   marginLeft="auto"
-                  variant="my-green"
+                  variant="primary"
                   onClick={handleSubmit}
                   isLoading={isSubmitting}
                   disabled={!optionId}

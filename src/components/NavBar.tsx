@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Flex,
+  Heading,
   Menu,
   MenuButton,
   MenuGroup,
@@ -118,11 +119,17 @@ const NavBar: FC = ({ children }) => {
                   }}
                 >
                   <NextLink href="/" passHref>
-                    <Text as="a" fontSize="md" noOfLines={2} fontWeight="900">
+                    <Heading
+                      as="a"
+                      fontSize="md"
+                      noOfLines={2}
+                      fontWeight="900"
+                      lineHeight={1.4}
+                    >
                       Wizer.
                       <br />
                       Today
-                    </Text>
+                    </Heading>
                   </NextLink>
                 </Box>
               </Flex>

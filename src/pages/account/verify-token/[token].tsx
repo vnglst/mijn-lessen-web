@@ -25,7 +25,7 @@ function TokenPage() {
 
   return (
     <DefaultLayout
-      pageTitle="Inlogd met magische link"
+      pageTitle="Ingelogd met magische link"
       headingText="Ingelogd met magisch link"
       centered
     >

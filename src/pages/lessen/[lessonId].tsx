@@ -43,9 +43,9 @@ function LessonOverview({
                 sessionStorage.clear();
                 router.push(`/lessen/${lesson.id}/vragen`);
               }}
-              variant="my-green"
+              variant="primary"
             >
-              START LES
+              Start les
             </Button>
           </ButtonGroup>
         </Flex>

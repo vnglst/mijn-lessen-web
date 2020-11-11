@@ -61,8 +61,8 @@ const LoginPage = () => {
             <NextLink href="/account/inloggen" passHref>
               <Link my="auto">Inloggen bij bestaand account</Link>
             </NextLink>
-            <Button type="submit" variant="my-green">
-              REGISTREREN
+            <Button type="submit" variant="primary">
+              Registreren
             </Button>
           </ButtonGroup>
         </Flex>
