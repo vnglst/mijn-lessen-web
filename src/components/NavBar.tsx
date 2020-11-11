@@ -5,12 +5,12 @@ import {
   Flex,
   Heading,
   Menu,
-  MenuButton,
+  MenuButton as ChakraMenuButton,
   MenuGroup,
   MenuItem,
   MenuList,
 } from "@chakra-ui/core";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, AddIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { default as React, FC } from "react";
@@ -18,6 +18,55 @@ import { mutate } from "swr";
 import { API_URL } from "../config";
 import { niceFetch } from "../helpers";
 import { useSession } from "../providers";
+
+const MenuButton: FC = ({ children }) => {
+  return (
+    <ChakraMenuButton
+      as={Button}
+      bg="transparent"
+      _hover={{ boxShadow: "none" }}
+      _focus={{ boxShadow: "none" }}
+      _active={{ boxShadow: "none" }}
+      size="sm"
+      rightIcon={<ChevronDownIcon />}
+    >
+      {children}
+    </ChakraMenuButton>
+  );
+};
+
+const CreateMenu: FC = () => {
+  const session = useSession();
+  const router = useRouter();
+
+  if (!session?.user) return null;
+
+  return (
+    <Menu>
+      <MenuButton>
+        <AddIcon fontSize="xs" />
+      </MenuButton>
+      <MenuList>
+        <MenuGroup title={`Jouw lessen`}>
+          <MenuItem
+            onClick={() => {
+              router.push("/account");
+            }}
+          >
+            Nieuwe les maken
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              router.push("/");
+            }}
+          >
+            Al mijn lessen
+          </MenuItem>
+        </MenuGroup>
+      </MenuList>
+    </Menu>
+  );
+};
 
 const AccountMenu: FC = () => {
   const session = useSession();
@@ -65,17 +114,7 @@ const AccountMenu: FC = () => {
 
   return (
     <Menu>
-      <MenuButton
-        as={Button}
-        bg="white"
-        _hover={{ boxShadow: "none" }}
-        _focus={{ boxShadow: "none" }}
-        _active={{
-          boxShadow: "none",
-        }}
-        padding={0}
-        rightIcon={<ChevronDownIcon />}
-      >
+      <MenuButton>
         {session?.user?.name ? (
           <Avatar
             size="sm"
@@ -133,6 +172,7 @@ const NavBar: FC = ({ children }) => {
                 </Box>
               </Flex>
               <Box>
+                <CreateMenu />
                 <AccountMenu />
               </Box>
             </>

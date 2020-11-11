@@ -30,7 +30,7 @@ const LessonCard: FC<Props> = ({
       <Flex
         as={Link}
         transition="all 0.25s ease-out;"
-        width={["100%", "280px", "310px"]}
+        width={["75vw", "260px", "310px"]}
         minHeight={[0, "400px"]}
         height="100%"
         border="1px solid lightgray"
@@ -55,28 +55,35 @@ const LessonCard: FC<Props> = ({
             objectFit="contain"
             src={imageUrl}
             maxHeight="200px"
-            mt={3}
+            mt={5}
+            p={3}
             borderRadius="0 20px 0px 0px"
+            style={{
+              filter: "blur(1px)",
+              transform: "rotate(-10deg)",
+            }}
           />
         )}
         <Flex mt="auto" flexDirection="column" height="100%" width="100%" p={5}>
-          <Heading
-            as="h3"
-            size="md"
-            noOfLines={2}
-            isTruncated
-            mb={2}
-            mt="auto"
-            textAlign="left"
-            fontWeight="semibold"
-          >
-            {title}
-          </Heading>
-          {subtitle && (
-            <Text fontSize="sm" noOfLines={3} mb={8} isTruncated>
-              {subtitle}
-            </Text>
-          )}
+          <Flex flexDirection="column" mb={6}>
+            <Heading
+              as="h3"
+              size="md"
+              noOfLines={2}
+              isTruncated
+              mb={2}
+              mt="auto"
+              textAlign="left"
+              fontWeight="semibold"
+            >
+              {title}
+            </Heading>
+            {subtitle && (
+              <Text fontSize="sm" noOfLines={3} isTruncated>
+                {subtitle}
+              </Text>
+            )}
+          </Flex>
           <Flex alignItems="baseline" justifyContent="space-around">
             <Flex
               ml="auto"
