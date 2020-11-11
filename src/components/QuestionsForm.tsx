@@ -16,7 +16,8 @@ import React, { FC, useState } from "react";
 import useSound from "use-sound";
 import { API_URL } from "../config";
 import { niceFetch } from "../helpers";
-import { useSessionStore } from "../hooks/useSessionStore";
+import { useSessionStore } from "../hooks";
+import { useSession } from "../providers";
 import { Option, Question } from "../providers/types";
 import HeroWave from "./HeroWave";
 
@@ -28,11 +29,12 @@ interface Props {
 }
 
 const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
+  const router = useRouter();
+  const session = useSession();
   const [playCorrectFx] = useSound("/sounds/pepSound5.mp3", { volume: 1 });
   const [playMistakeFx] = useSound("/sounds/pepSound4.mp3", { volume: 1 });
   const [playLevelUp] = useSound("/sounds/blessing.mp3", { volume: 1 });
 
-  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [questions, setQuestions] = useSessionStore(
     `questions-${lessonId}`,
@@ -60,34 +62,41 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
       return;
     }
 
-    setIsSubmitting(true);
-    const { pointsEarned } = await niceFetch(
-      `${API_URL}/protected/lessons/${lessonId}/result`,
-      {
-        method: "POST",
-      }
-    );
-    setIsSubmitting(false);
-    if (pointsEarned) playLevelUp();
+    let pointsEarned = 0;
+
+    if (session?.user) {
+      setIsSubmitting(true);
+      const json = await niceFetch(
+        `${API_URL}/protected/lessons/${lessonId}/result`,
+        { method: "POST" }
+      );
+      pointsEarned = json.pointsEarned;
+      setIsSubmitting(false);
+      if (pointsEarned) playLevelUp();
+    }
+
     router.push(`/lessen/${lessonId}/resultaat?pointsEarned=${pointsEarned}`);
   };
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    setIsSubmitting(true);
-    await niceFetch(`${API_URL}/protected/answers/`, {
-      method: "POST",
-      body: JSON.stringify({
-        optionId: parseInt(optionId, 10),
-        questionId: current.id,
-      }),
-    });
-    const isCorrect = correctOption?.id == optionId;
 
+    const isCorrect = correctOption?.id == optionId;
     if (isCorrect) playCorrectFx();
     else playMistakeFx();
 
     setAnswer(isCorrect ? "correct" : "incorrect");
+
+    if (session?.user) {
+      setIsSubmitting(true);
+      await niceFetch(`${API_URL}/protected/answers/`, {
+        method: "POST",
+        body: JSON.stringify({
+          optionId: parseInt(optionId, 10),
+          questionId: current.id,
+        }),
+      });
+    }
     setIsSubmitting(false);
   }
 

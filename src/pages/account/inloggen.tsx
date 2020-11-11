@@ -5,12 +5,11 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Link,
   useToast,
 } from "@chakra-ui/core";
 import React, { useState } from "react";
 import DefaultLayout from "../../components/DefaultLayout";
-import NextLink from "next/link";
+import TextLink from "../../components/ui/TextLink";
 import { API_URL } from "../../config";
 import { niceFetch } from "../../helpers";
 
@@ -60,9 +59,7 @@ const LoginPage = () => {
             />
           </FormControl>
           <ButtonGroup mt={10} justifyContent="space-between" display="flex">
-            <NextLink href="/account/registreren" passHref>
-              <Link my="auto">Account aanmaken</Link>
-            </NextLink>
+            <TextLink href="/account/registreren">Account aanmaken</TextLink>
             <Button type="submit" variant="primary">
               Versturen
             </Button>

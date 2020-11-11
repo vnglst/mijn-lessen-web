@@ -9,7 +9,6 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
-  Text,
 } from "@chakra-ui/core";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
@@ -21,7 +20,7 @@ import { niceFetch } from "../helpers";
 import { useSession } from "../providers";
 
 const AccountMenu: FC = () => {
-  const { session } = useSession();
+  const session = useSession();
   const router = useRouter();
 
   const withUser = () => (

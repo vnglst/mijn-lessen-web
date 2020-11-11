@@ -5,6 +5,11 @@ export const theme = extendTheme({
     heading: `'Montserrat', sans-serif;`,
   },
   components: {
+    Link: {
+      baseStyle: {
+        textDecoration: "underline",
+      },
+    },
     Button: {
       sizes: {
         md: {

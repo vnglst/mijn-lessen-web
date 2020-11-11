@@ -4,6 +4,7 @@ import React from "react";
 import useSWR from "swr";
 import FullScreenSpinner from "../../../components/FullScreenSpinner";
 import AppHead from "../../../components/Head";
+import LoginAlert from "../../../components/LoginAlert";
 import NavBar from "../../../components/NavBar";
 import QuestionsForm from "../../../components/QuestionsForm";
 import { API_URL } from "../../../config";
@@ -40,6 +41,7 @@ function LessonApp() {
       <AppHead>
         <title>Oefenen {data?.lesson?.title} | Wizer.Today</title>
       </AppHead>
+      <LoginAlert />
       <NavBar>
         <ButtonGroup>
           <CloseButton onClick={handleClose} size="md" />

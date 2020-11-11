@@ -7,6 +7,7 @@ import { API_URL } from "../../../config";
 import NextLink from "next/link";
 import FullScreenSpinner from "../../../components/FullScreenSpinner";
 import { niceFetch } from "../../../helpers";
+import TextLink from "../../../components/ui/TextLink";
 
 function TokenPage() {
   const router = useRouter();
@@ -34,11 +35,7 @@ function TokenPage() {
           <Text>
             Je bent ingelogd met het e-mailadres{" "}
             <Code>{session?.user.email}</Code>. Je kunt dit venster sluiten of
-            naar{" "}
-            <NextLink href="/" passHref>
-              <Link>onze homepage</Link>
-            </NextLink>
-            .
+            naar <TextLink href="/">onze homepage</TextLink>.
           </Text>
         </Flex>
       </Flex>

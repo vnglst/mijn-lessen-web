@@ -35,6 +35,7 @@ const LessonCard: FC<Props> = ({
         height="100%"
         border="1px solid lightgray"
         borderRadius="0 20px 20px 20px"
+        textDecoration="none"
         _hover={{
           boxShadow: "4px 4px 0px #000000;",
           border: "1px solid black",

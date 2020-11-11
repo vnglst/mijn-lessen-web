@@ -1,6 +1,6 @@
 import { Progress } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 const PageLoading: FC = () => {
   const router = useRouter();
@@ -38,15 +38,16 @@ const PageLoading: FC = () => {
   if (loading)
     return (
       <Progress
-        position="sticky"
-        top="0"
+        position="absolute"
+        zIndex={10}
         size="xs"
-        bg="white"
+        bg="transparent"
         isIndeterminate
+        width="100%"
       />
     );
 
-  return <Progress position="sticky" top="0" size="xs" bg="white" value={0} />;
+  return null;
 };
 
 export default PageLoading;

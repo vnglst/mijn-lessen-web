@@ -9,7 +9,7 @@ import { useSession } from "../providers";
 import { Lesson } from "../providers/types";
 
 const Index = () => {
-  const { session } = useSession();
+  const session = useSession();
   const { data } = useSWR(`${API_URL}/lessons`, niceFetch);
   const lessons: Lesson[] | undefined = data?.lessons;
 

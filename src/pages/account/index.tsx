@@ -8,7 +8,6 @@ import {
   Text,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import { userInfo } from "os";
 import React, { useState } from "react";
 import { GiLightBulb } from "react-icons/gi";
 import useSWR from "swr";
