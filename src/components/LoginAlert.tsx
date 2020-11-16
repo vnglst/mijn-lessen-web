@@ -11,7 +11,7 @@ import TextLink from "./ui/TextLink";
 const LoginAlert: FC = () => {
   const session = useSession();
 
-  if (session?.user) return null;
+  if (!session || session?.user) return null;
 
   return (
     <Alert status="error">

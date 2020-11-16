@@ -50,14 +50,14 @@ const CreateMenu: FC = () => {
         <MenuGroup title={`Jouw lessen`}>
           <MenuItem
             onClick={() => {
-              router.push("/account");
+              router.push("/mijn-lessen/nieuw");
             }}
           >
             Nieuwe les maken
           </MenuItem>
           <MenuItem
             onClick={() => {
-              router.push("/");
+              router.push("/mijn-lessen/");
             }}
           >
             Al mijn lessen

@@ -1,13 +1,12 @@
-import { Code, Flex, Text, Link } from "@chakra-ui/core";
+import { Code, Flex, Text } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import useSWR, { mutate } from "swr";
 import DefaultLayout from "../../../components/DefaultLayout";
-import { API_URL } from "../../../config";
-import NextLink from "next/link";
 import FullScreenSpinner from "../../../components/FullScreenSpinner";
-import { niceFetch } from "../../../helpers";
 import TextLink from "../../../components/ui/TextLink";
+import { API_URL } from "../../../config";
+import { niceFetch } from "../../../helpers";
 
 function TokenPage() {
   const router = useRouter();

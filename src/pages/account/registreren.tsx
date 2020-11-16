@@ -12,7 +12,7 @@ import TextLink from "../../components/ui/TextLink";
 import { API_URL } from "../../config";
 import { niceFetch } from "../../helpers";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
 
@@ -70,4 +70,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

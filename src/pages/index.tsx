@@ -1,8 +1,8 @@
-import { Box, Heading, Skeleton, Wrap, WrapItem } from "@chakra-ui/core";
+import { Box } from "@chakra-ui/core";
 import React from "react";
 import useSWR from "swr";
 import DefaultLayout from "../components/DefaultLayout";
-import LessonCard from "../components/LessonCard";
+import LessonList from "../components/LessonList";
 import { API_URL } from "../config";
 import { niceFetch } from "../helpers";
 import { useSession } from "../providers";
@@ -20,28 +20,7 @@ const Index = () => {
       centered
     >
       <Box p={10} marginTop="10px">
-        <Heading as="h2" size="lg" marginBottom="40px" textColor="gray.800">
-          Lessen voor jou
-        </Heading>
-        {!data && <Skeleton borderRadius="20px" width="250px" height="250px" />}
-        <Wrap spacing={["20px", "30px"]}>
-          {lessons?.map((lesson) => {
-            return (
-              <WrapItem key={lesson.id}>
-                <LessonCard
-                  id={lesson.id}
-                  title={lesson.title}
-                  subtitle={lesson.subtitle}
-                  imageUrl={lesson.imageUrl}
-                  views={lesson.viewCount}
-                  hearts={lesson.likeCount}
-                  lightbulbs={lesson.points}
-                  authorAvatar={lesson.author.avatar}
-                />
-              </WrapItem>
-            );
-          })}
-        </Wrap>
+        <LessonList lessons={lessons} heading="Lessen voor jou" />
       </Box>
     </DefaultLayout>
   );

@@ -10,5 +10,5 @@ export async function niceFetch(
     },
     ...opts,
   });
-  return res.json();
+  return res.status !== 204 ? res.json() : null;
 }
