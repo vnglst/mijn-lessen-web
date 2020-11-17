@@ -272,8 +272,6 @@ const LessonOverview: FC = () => {
                 mb={[8, 2]}
                 mr={2}
                 marginLeft="auto"
-                variant="outline"
-                colorScheme="orange"
                 onClick={() => {
                   router.push(`/lessen/${lessonId}`);
                 }}

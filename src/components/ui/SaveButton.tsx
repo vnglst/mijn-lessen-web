@@ -32,7 +32,7 @@ const SaveButton: FC<SaveButtonProps> = ({
       isDisabled={saving}
       {...rest}
     >
-      {saved ? "Bewaard" : "Bewaren"}
+      Bewaren
     </Button>
   );
 };

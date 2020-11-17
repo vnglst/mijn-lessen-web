@@ -66,28 +66,26 @@ const QuestionModal: FC<QuestionModalProps> = ({
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
-          <form>
-            <ModalHeader>Vraag bewerken</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <QuestionEditor
-                question={question}
-                updateQuestion={updateQuestion}
-              />
-            </ModalBody>
-            <ModalFooter>
-              <SaveButton
-                onClick={handleSubmit}
-                saving={saving === "saving"}
-                saved={saving === "saved"}
-                unsaved={saving === "unsaved"}
-              />
-              <Button ml={3} onClick={onClose}>
-                Afsluiten
-              </Button>
-            </ModalFooter>
-          </form>
+        <ModalContent as="form">
+          <ModalHeader>Vraag bewerken</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <QuestionEditor
+              question={question}
+              updateQuestion={updateQuestion}
+            />
+          </ModalBody>
+          <ModalFooter mt={4}>
+            <SaveButton
+              onClick={handleSubmit}
+              saving={saving === "saving"}
+              saved={saving === "saved"}
+              unsaved={saving === "unsaved"}
+            />
+            <Button ml={3} onClick={onClose}>
+              Afsluiten
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

@@ -1,7 +1,7 @@
 export type Option = {
   id: number;
   title: string;
-  createdAt: Date;
+  createdAt?: Date;
   correct: boolean;
   questionId: number;
 };
