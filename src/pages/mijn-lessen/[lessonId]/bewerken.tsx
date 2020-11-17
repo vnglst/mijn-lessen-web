@@ -11,11 +11,12 @@ import {
   Flex,
   Heading,
   Image,
-  List,
   Skeleton,
   Text,
   Textarea,
+  useDisclosure,
 } from "@chakra-ui/core";
+import { EditIcon } from "@chakra-ui/icons";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
@@ -24,12 +25,12 @@ import { GrView } from "react-icons/gr";
 import useSWR from "swr";
 import HeroWave from "../../../components/HeroWave";
 import NavBar from "../../../components/NavBar";
-import QuestionEditor from "../../../components/QuestionEditor";
+import QuestionModal from "../../../components/QuestionModal";
 import SaveButton from "../../../components/ui/SaveButton";
 import TextLink from "../../../components/ui/TextLink";
 import { API_URL } from "../../../config";
 import { niceFetch } from "../../../helpers";
-import { Lesson } from "../../../providers/types";
+import { Lesson, Question } from "../../../providers/types";
 
 const modules = {
   toolbar: [
@@ -55,6 +56,12 @@ const ReactQuill = dynamic(() => import("react-quill"), {
 });
 
 const LessonOverview: FC = () => {
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  // const [openQuestion, setOpenQuestion] = useState(
+  //   undefined as undefined | Question
+  // );
+  // console.log("openQuestion", openQuestion);
+
   const router = useRouter();
   const { lessonId } = router.query;
   const { data, mutate } = useSWR(
@@ -62,7 +69,6 @@ const LessonOverview: FC = () => {
     niceFetch
   );
   const lesson: Lesson | null = data?.lesson;
-  console.log("lesson", lesson);
 
   const [intro, setIntro] = useState("");
   const [saving, setSaving] = useState(
@@ -216,7 +222,7 @@ const LessonOverview: FC = () => {
               Uitleg
             </Heading>
             {/* TODO: custom medium like toolbar https://github.com/zenoamaro/react-quill#html-toolbar */}
-            <Box mb={16}>
+            <Box mb={12}>
               <ReactQuill
                 theme="snow"
                 value={intro}
@@ -241,20 +247,11 @@ const LessonOverview: FC = () => {
               >
                 Vragen
               </Heading>
-              <List spacing={3}>
-                {lesson.questions.map((question, idx) => {
-                  return (
-                    <>
-                      <p>{question.title}</p>
-                      <QuestionEditor
-                        key={question.id}
-                        question={question}
-                        number={idx + 1}
-                      />
-                    </>
-                  );
-                })}
-              </List>
+              <Flex wrap="wrap" alignItems="flex-start">
+                {lesson.questions.map((question) => (
+                  <QuestionModal key={question.id} question={question} />
+                ))}
+              </Flex>
             </Flex>
 
             <ButtonGroup
@@ -286,7 +283,7 @@ const LessonOverview: FC = () => {
               <SaveButton
                 ml="auto"
                 mb={[8, 2]}
-                handleSave={handleSubmit}
+                onClick={handleSubmit}
                 saving={saving === "saving"}
                 saved={saving === "saved"}
                 unsaved={saving === "unsaved"}

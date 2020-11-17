@@ -1,78 +1,62 @@
 import {
-  Button,
-  ButtonGroup,
   Flex,
   FormLabel,
   Input,
   InputGroup,
   InputLeftAddon,
-  ListItem,
   Text,
 } from "@chakra-ui/core";
-import React, { FC, useState } from "react";
-import { API_URL } from "../config";
-import { niceFetch } from "../helpers";
+import React, { FC } from "react";
 import { Question } from "../providers/types";
-import SaveButton from "./ui/SaveButton";
 
 export interface QuestionEditorProps {
   question: Question;
-  number: number;
+  updateQuestion: (question: Question) => void;
 }
 
 const QuestionEditor: FC<QuestionEditorProps> = ({
-  question: initialQuestion,
-  number,
+  question,
+  updateQuestion,
 }) => {
-  const [question, setQuestion] = useState(initialQuestion);
-  const [saving, setSaving] = useState(
-    "saved" as "unsaved" | "saving" | "saved"
-  );
-
-  async function handleSubmit(e: any) {
-    e.preventDefault();
-    setSaving("saving");
-    await niceFetch(
-      `${API_URL}/protected/lessons/${question.lessonId}/questions/${question.id}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          title: question.title,
-          subtitle: question.subtitle,
-          options: question.options,
-        }),
-      }
-    );
-    setSaving("saved");
-  }
-
-  function updateQuestion(newQuestion: Question) {
-    setSaving("unsaved");
-    setQuestion(newQuestion);
-  }
-
   return (
-    <ListItem>
-      <FormLabel>Vraag {number}</FormLabel>
+    <>
+      <FormLabel
+        style={{ fontVariant: "all-small-caps" }}
+        textTransform="uppercase"
+        textColor="gray.600"
+      >
+        Vraag
+      </FormLabel>
       <Input
         name={`question-${question.id}`}
         fontWeight="bold"
         fontSize="xl"
-        value={question.title}
+        value={question.title || ""}
         onChange={(e) => updateQuestion({ ...question, title: e.target.value })}
-        my={2}
       ></Input>
-      <FormLabel>Subvraag</FormLabel>
+      <FormLabel
+        style={{ fontVariant: "all-small-caps" }}
+        textTransform="uppercase"
+        textColor="gray.600"
+      >
+        Subvraag
+      </FormLabel>
       <Input
         name={`subquestion-${question.id}`}
         fontStyle="italic"
-        value={question.subtitle}
+        value={question.subtitle || ""}
         onChange={(e) =>
           updateQuestion({ ...question, subtitle: e.target.value })
         }
       />
-      <Flex flexDir="column" my={4}>
-        <Text>Opties</Text>
+      <Flex flexDir="column">
+        <FormLabel
+          style={{ fontVariant: "all-small-caps" }}
+          textTransform="uppercase"
+          textColor="gray.600"
+        >
+          Opties
+        </FormLabel>
         {question.options.map((option, idx) => {
           return (
             <InputGroup my={2} key={option.id}>
@@ -86,7 +70,7 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
               />
               <Input
                 name={`option-${option.id}`}
-                value={option.title}
+                value={option.title || ""}
                 onChange={(e) => {
                   const updatedOptions = question.options.map((option, index) =>
                     index === idx
@@ -103,16 +87,7 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
           );
         })}
       </Flex>
-      <ButtonGroup>
-        <Button colorScheme="orange">Annuleren</Button>
-        <SaveButton
-          handleSave={handleSubmit}
-          saving={saving === "saving"}
-          saved={saving === "saved"}
-          unsaved={saving === "unsaved"}
-        />
-      </ButtonGroup>
-    </ListItem>
+    </>
   );
 };
 

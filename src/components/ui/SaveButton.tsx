@@ -7,14 +7,14 @@ export interface SaveButtonProps extends ButtonProps {
   saving: boolean;
   saved: boolean;
   unsaved: boolean;
-  handleSave: (e: any) => Promise<void>;
+  onClick: (e: any) => Promise<void>;
 }
 
 const SaveButton: FC<SaveButtonProps> = ({
   saving,
   saved,
   unsaved,
-  handleSave,
+  onClick: handleSave,
   ...rest
 }) => {
   function getSaveIcon() {

@@ -48,7 +48,7 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
 
   const isAnswered = !!answer;
   const current: Question = questions[0];
-  const hasNextQuestion = questions.length > 1;
+  const hasNextQuestion = questions.length > 1 || answer === "incorrect";
   const correctOption = current.options.find((o) => o.correct) as Option;
 
   const handleNext = async () => {
@@ -97,6 +97,7 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
         }),
       });
     }
+
     setIsSubmitting(false);
   }
 
