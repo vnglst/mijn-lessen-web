@@ -3,20 +3,21 @@ export type Option = {
   title: string;
   createdAt?: Date;
   correct: boolean;
-  questionId: number;
+  questionId?: number;
 };
 
 export type Question = {
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
+  id?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
   title: string;
   subtitle: string;
-  explanation: string | null;
-  points: number;
-  shuffle: boolean;
+  explanation?: string | null;
+  points?: number;
+  shuffle?: boolean;
   lessonId: number;
   options: Option[];
+  draft?: boolean;
 };
 
 export type Lesson = {

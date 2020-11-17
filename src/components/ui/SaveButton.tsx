@@ -15,6 +15,7 @@ const SaveButton: FC<SaveButtonProps> = ({
   saved,
   unsaved,
   onClick: handleSave,
+  children,
   ...rest
 }) => {
   function getSaveIcon() {
@@ -26,13 +27,12 @@ const SaveButton: FC<SaveButtonProps> = ({
   return (
     <Button
       leftIcon={getSaveIcon()}
-      type="submit"
       variant="primary"
       onClick={handleSave}
       isDisabled={saving}
       {...rest}
     >
-      Bewaren
+      {children || "Bewaren"}
     </Button>
   );
 };

@@ -15,6 +15,8 @@ import {
 } from "@chakra-ui/core";
 import { AddIcon } from "@chakra-ui/icons";
 import React, { FC } from "react";
+import { API_URL } from "../config";
+import { niceFetch } from "../helpers";
 import { Question } from "../providers/types";
 
 export interface QuestionEditorProps {
@@ -125,7 +127,7 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
             flexDir="column"
             onChange={(selectedId) => {
               const updated = question.options.map((option) =>
-                option.id.toString() === selectedId
+                option?.id == selectedId
                   ? { ...option, correct: true }
                   : { ...option, correct: false }
               );
@@ -140,7 +142,7 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
                   pl={3}
                   key={id}
                   colorScheme="green"
-                  value={id.toString()}
+                  value={id?.toString()}
                 >
                   &nbsp;
                   <VisuallyHidden>{title}</VisuallyHidden>
@@ -149,26 +151,26 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
             })}
           </RadioGroup>
         </GridItem>
-        {/* <ButtonGroup>
+        <ButtonGroup>
           <IconButton
             aria-label="Optie toevoegen"
             icon={<AddIcon />}
-            onClick={() => {
+            onClick={async () => {
+              const newOption = await niceFetch(
+                `${API_URL}/protected/lessons/${question.lessonId}/questions/${question.id}/options`,
+                {
+                  method: "PUT",
+                  body: JSON.stringify({ title: "" }),
+                }
+              );
+              if (!newOption.id) return;
               updateQuestion({
                 ...question,
-                options: [
-                  ...question.options,
-                  {
-                    id: `temp-${question.options.length}`,
-                    title: "",
-                    correct: false,
-                    questionId: question.id,
-                  },
-                ],
+                options: [...question.options, newOption],
               });
             }}
           />
-        </ButtonGroup> */}
+        </ButtonGroup>
       </Grid>
     </>
   );

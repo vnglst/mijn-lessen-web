@@ -1,5 +1,6 @@
 import {
   Button,
+  ButtonGroup,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -9,7 +10,7 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/core";
-import { EditIcon } from "@chakra-ui/icons";
+import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import React, { FC, useState } from "react";
 import { API_URL } from "../config";
 import { niceFetch } from "../helpers";
@@ -19,19 +20,21 @@ import SaveButton from "./ui/SaveButton";
 
 export interface QuestionModalProps {
   question: Question;
+  mutate: any;
 }
 
 const QuestionModal: FC<QuestionModalProps> = ({
   question: initialQuestion,
+  mutate,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [question, setQuestion] = useState(initialQuestion);
 
   const [saving, setSaving] = useState(
-    "saved" as "unsaved" | "saving" | "saved"
+    "unsaved" as "unsaved" | "saving" | "saved"
   );
 
-  async function handleSubmit(e: any) {
+  async function handleSave(e: any) {
     e.preventDefault();
     setSaving("saving");
     await niceFetch(
@@ -41,11 +44,51 @@ const QuestionModal: FC<QuestionModalProps> = ({
         body: JSON.stringify({
           title: question.title,
           subtitle: question.subtitle,
-          options: question.options,
+          options: question.options.map((option) => {
+            return {
+              title: option.title,
+              correct: option.correct,
+              id: typeof option.id === "string" ? undefined : option.id,
+            };
+          }),
         }),
       }
     );
+    mutate();
     setSaving("saved");
+  }
+
+  async function handleCreate(e: any) {
+    e.preventDefault();
+    setSaving("saving");
+    await niceFetch(
+      `${API_URL}/protected/lessons/${question.lessonId}/questions`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          title: question.title,
+          subtitle: question.subtitle,
+          options: question.options.map((option) => {
+            return { title: option.title, correct: option.correct };
+          }),
+        }),
+      }
+    );
+    mutate();
+    setSaving("saved");
+    setQuestion(initialQuestion);
+    onClose();
+  }
+
+  async function handleDelete(e: any) {
+    e.preventDefault();
+    await niceFetch(
+      `${API_URL}/protected/lessons/${question.lessonId}/questions/${question.id}`,
+      { method: "DELETE" }
+    );
+    mutate();
+    setQuestion(initialQuestion);
+    onClose();
   }
 
   function updateQuestion(newQuestion: Question) {
@@ -56,15 +99,16 @@ const QuestionModal: FC<QuestionModalProps> = ({
   return (
     <>
       <Button
-        leftIcon={<EditIcon />}
+        leftIcon={initialQuestion.draft ? <AddIcon /> : <EditIcon />}
         mr={6}
         mb={6}
         onClick={onOpen}
         variant="outline"
+        size="md"
       >
-        {initialQuestion.title}
+        {initialQuestion.title || "Nieuwe vraag"}
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent as="form">
           <ModalHeader>Vraag bewerken</ModalHeader>
@@ -75,16 +119,44 @@ const QuestionModal: FC<QuestionModalProps> = ({
               updateQuestion={updateQuestion}
             />
           </ModalBody>
-          <ModalFooter mt={4}>
-            <SaveButton
-              onClick={handleSubmit}
-              saving={saving === "saving"}
-              saved={saving === "saved"}
-              unsaved={saving === "unsaved"}
-            />
-            <Button ml={3} onClick={onClose}>
-              Afsluiten
+          <ModalFooter
+            mt={4}
+            display="flex"
+            flexWrap="wrap"
+            justifyContent="space-between"
+          >
+            <Button
+              mr={6}
+              leftIcon={<DeleteIcon />}
+              variant="link"
+              onClick={handleDelete}
+            >
+              Verwijderen
             </Button>
+            <ButtonGroup>
+              {initialQuestion.draft ? (
+                <SaveButton
+                  onClick={handleCreate}
+                  type="submit"
+                  saving={saving === "saving"}
+                  saved={saving === "saved"}
+                  unsaved={saving === "unsaved"}
+                >
+                  Toevoegen
+                </SaveButton>
+              ) : (
+                <SaveButton
+                  onClick={handleSave}
+                  type="submit"
+                  saving={saving === "saving"}
+                  saved={saving === "saved"}
+                  unsaved={saving === "unsaved"}
+                />
+              )}
+              <Button ml={3} onClick={onClose}>
+                Afsluiten
+              </Button>
+            </ButtonGroup>
           </ModalFooter>
         </ModalContent>
       </Modal>

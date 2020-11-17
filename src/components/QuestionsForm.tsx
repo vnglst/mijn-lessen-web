@@ -92,7 +92,7 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
       await niceFetch(`${API_URL}/protected/answers/`, {
         method: "POST",
         body: JSON.stringify({
-          optionId: parseInt(optionId, 10),
+          optionId: parseInt(optionId),
           questionId: current.id,
         }),
       });

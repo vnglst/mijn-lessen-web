@@ -14,9 +14,7 @@ import {
   Skeleton,
   Text,
   Textarea,
-  useDisclosure,
 } from "@chakra-ui/core";
-import { EditIcon } from "@chakra-ui/icons";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
@@ -30,7 +28,7 @@ import SaveButton from "../../../components/ui/SaveButton";
 import TextLink from "../../../components/ui/TextLink";
 import { API_URL } from "../../../config";
 import { niceFetch } from "../../../helpers";
-import { Lesson, Question } from "../../../providers/types";
+import { Lesson } from "../../../providers/types";
 
 const modules = {
   toolbar: [
@@ -56,12 +54,6 @@ const ReactQuill = dynamic(() => import("react-quill"), {
 });
 
 const LessonOverview: FC = () => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-  // const [openQuestion, setOpenQuestion] = useState(
-  //   undefined as undefined | Question
-  // );
-  // console.log("openQuestion", openQuestion);
-
   const router = useRouter();
   const { lessonId } = router.query;
   const { data, mutate } = useSWR(
@@ -249,13 +241,27 @@ const LessonOverview: FC = () => {
               </Heading>
               <Flex wrap="wrap" alignItems="flex-start">
                 {lesson.questions.map((question) => (
-                  <QuestionModal key={question.id} question={question} />
+                  <QuestionModal
+                    key={question.id}
+                    question={question}
+                    mutate={mutate}
+                  />
                 ))}
+                <QuestionModal
+                  mutate={mutate}
+                  question={{
+                    lessonId: parseInt(lessonId as string),
+                    title: "",
+                    subtitle: "",
+                    draft: true,
+                    options: [],
+                  }}
+                />
               </Flex>
             </Flex>
 
-            <ButtonGroup
-              position={["initial", "sticky"]}
+            <Flex
+              // position={["initial", "sticky"]}
               bottom="0"
               alignItems="center"
               justifyContent="center"
@@ -263,30 +269,33 @@ const LessonOverview: FC = () => {
               flexWrap="wrap-reverse"
               bg="white"
               width="100%"
-              pt={2}
+              pt={5}
             >
               <TextLink mb={[8, 2]} mr={[0, "auto"]} href="/mijn-lessen">
                 Terug naar mijn lessen
               </TextLink>
-              <Button
-                mb={[8, 2]}
-                mr={2}
-                marginLeft="auto"
-                onClick={() => {
-                  router.push(`/lessen/${lessonId}`);
-                }}
-              >
-                Bekijken
-              </Button>
-              <SaveButton
-                ml="auto"
-                mb={[8, 2]}
-                onClick={handleSubmit}
-                saving={saving === "saving"}
-                saved={saving === "saved"}
-                unsaved={saving === "unsaved"}
-              />
-            </ButtonGroup>
+              <ButtonGroup>
+                <Button
+                  mb={[8, 2]}
+                  mr={2}
+                  marginLeft="auto"
+                  onClick={() => {
+                    router.push(`/lessen/${lessonId}`);
+                  }}
+                >
+                  Bekijken
+                </Button>
+                <SaveButton
+                  ml="auto"
+                  mb={[8, 2]}
+                  type="submit"
+                  onClick={handleSubmit}
+                  saving={saving === "saving"}
+                  saved={saving === "saved"}
+                  unsaved={saving === "unsaved"}
+                />
+              </ButtonGroup>
+            </Flex>
           </Container>
         </Flex>
       </form>
