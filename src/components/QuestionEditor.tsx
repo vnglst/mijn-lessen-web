@@ -1,5 +1,6 @@
 import {
   ButtonGroup,
+  Flex,
   FormControl,
   FormLabel,
   Grid,
@@ -13,10 +14,8 @@ import {
   Text,
   VisuallyHidden,
 } from "@chakra-ui/core";
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import React, { FC } from "react";
-import { API_URL } from "../config";
-import { niceFetch } from "../helpers";
 import { Question } from "../providers/types";
 
 export interface QuestionEditorProps {
@@ -86,28 +85,41 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
         <GridItem gridArea="c1">
           {question.options.map((option, idx) => {
             return (
-              <InputGroup my={2} key={option.id}>
-                <InputLeftAddon
-                  children={
-                    <Text>
-                      {idx + 1}
-                      <sup>e</sup>
-                    </Text>
-                  }
-                />
-                <Input
-                  name={`option-${option.id}`}
-                  value={option.title || ""}
-                  onChange={(e) => {
-                    const updated = question.options.map((option, index) =>
-                      index === idx
-                        ? { ...option, title: e.target.value }
-                        : option
+              <Flex key={option.id} flexDir="row" my={2}>
+                <IconButton
+                  icon={<DeleteIcon />}
+                  mr={2}
+                  onClick={() => {
+                    const updated = question.options.filter(
+                      (_, index) => index !== idx
                     );
                     updateQuestion({ ...question, options: updated });
                   }}
+                  aria-label="Optie verwijdern"
                 />
-              </InputGroup>
+                <InputGroup>
+                  <InputLeftAddon
+                    children={
+                      <Text>
+                        {idx + 1}
+                        <sup>e</sup>
+                      </Text>
+                    }
+                  />
+                  <Input
+                    name={`option-${option.id}`}
+                    value={option.title || ""}
+                    onChange={(e) => {
+                      const updated = question.options.map((option, index) =>
+                        index === idx
+                          ? { ...option, title: e.target.value }
+                          : option
+                      );
+                      updateQuestion({ ...question, options: updated });
+                    }}
+                  />
+                </InputGroup>
+              </Flex>
             );
           })}
         </GridItem>
@@ -127,23 +139,17 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
             flexDir="column"
             onChange={(selectedId) => {
               const updated = question.options.map((option) =>
-                option?.id == selectedId
+                option?.id === selectedId
                   ? { ...option, correct: true }
                   : { ...option, correct: false }
               );
               updateQuestion({ ...question, options: updated });
             }}
-            value={selectedOption?.id.toString()}
+            value={selectedOption?.id}
           >
             {question.options.map(({ id, title }) => {
               return (
-                <Radio
-                  py={3}
-                  pl={3}
-                  key={id}
-                  colorScheme="green"
-                  value={id?.toString()}
-                >
+                <Radio py={3} pl={3} key={id} colorScheme="green" value={id}>
                   &nbsp;
                   <VisuallyHidden>{title}</VisuallyHidden>
                 </Radio>
@@ -155,15 +161,12 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
           <IconButton
             aria-label="Optie toevoegen"
             icon={<AddIcon />}
-            onClick={async () => {
-              const newOption = await niceFetch(
-                `${API_URL}/protected/lessons/${question.lessonId}/questions/${question.id}/options`,
-                {
-                  method: "PUT",
-                  body: JSON.stringify({ title: "" }),
-                }
-              );
-              if (!newOption.id) return;
+            onClick={() => {
+              const newOption = {
+                id: "" + question.options.length,
+                title: "",
+                correct: false,
+              };
               updateQuestion({
                 ...question,
                 options: [...question.options, newOption],

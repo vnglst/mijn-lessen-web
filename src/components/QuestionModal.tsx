@@ -44,18 +44,13 @@ const QuestionModal: FC<QuestionModalProps> = ({
         body: JSON.stringify({
           title: question.title,
           subtitle: question.subtitle,
-          options: question.options.map((option) => {
-            return {
-              title: option.title,
-              correct: option.correct,
-              id: typeof option.id === "string" ? undefined : option.id,
-            };
-          }),
+          options: question.options,
         }),
       }
     );
-    mutate();
     setSaving("saved");
+    mutate();
+    onClose();
   }
 
   async function handleCreate(e: any) {
@@ -68,16 +63,12 @@ const QuestionModal: FC<QuestionModalProps> = ({
         body: JSON.stringify({
           title: question.title,
           subtitle: question.subtitle,
-          options: question.options.map((option) => {
-            return { title: option.title, correct: option.correct };
-          }),
+          options: question.options,
         }),
       }
     );
-    mutate();
     setSaving("saved");
-    setQuestion(initialQuestion);
-    onClose();
+    handleClose();
   }
 
   async function handleDelete(e: any) {
@@ -86,14 +77,18 @@ const QuestionModal: FC<QuestionModalProps> = ({
       `${API_URL}/protected/lessons/${question.lessonId}/questions/${question.id}`,
       { method: "DELETE" }
     );
-    mutate();
-    setQuestion(initialQuestion);
-    onClose();
+    handleClose();
   }
 
   function updateQuestion(newQuestion: Question) {
     setSaving("unsaved");
     setQuestion(newQuestion);
+  }
+
+  function handleClose() {
+    mutate();
+    setQuestion(initialQuestion);
+    onClose();
   }
 
   return (
@@ -108,7 +103,7 @@ const QuestionModal: FC<QuestionModalProps> = ({
       >
         {initialQuestion.title || "Nieuwe vraag"}
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={isOpen} onClose={handleClose} size="xl">
         <ModalOverlay />
         <ModalContent as="form">
           <ModalHeader>Vraag bewerken</ModalHeader>
@@ -126,7 +121,6 @@ const QuestionModal: FC<QuestionModalProps> = ({
             justifyContent="space-between"
           >
             <Button
-              mr={6}
               leftIcon={<DeleteIcon />}
               variant="link"
               onClick={handleDelete}
@@ -153,7 +147,7 @@ const QuestionModal: FC<QuestionModalProps> = ({
                   unsaved={saving === "unsaved"}
                 />
               )}
-              <Button ml={3} onClick={onClose}>
+              <Button ml={4} onClick={handleClose}>
                 Afsluiten
               </Button>
             </ButtonGroup>

@@ -1,1 +1,1 @@
-# Wiser.Today Web
+# Wizer.Today Web

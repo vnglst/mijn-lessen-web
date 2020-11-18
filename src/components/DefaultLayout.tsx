@@ -89,7 +89,7 @@ const DefaultLayout: FC<Props> = ({
           </TextLink>{" "}
           |{" "}
           <TextLink textDecoration="none" href="#">
-            Over Wiser.Today
+            Over Wizer.Today
           </TextLink>{" "}
           |{" "}
           <TextLink textDecoration="none" href="#">

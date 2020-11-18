@@ -1,6 +1,6 @@
 {
-  "name": "wiser-web",
-  "description": "Wiser.Today NextJs Web Server",
+  "name": "wizer-web",
+  "description": "Wizer.Today NextJs Web Server",
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
