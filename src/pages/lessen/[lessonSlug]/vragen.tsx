@@ -20,9 +20,9 @@ function shuffleQuestions(questions: Question[]) {
 
 function LessonApp() {
   const router = useRouter();
-  const { lessonId } = router.query;
+  const lessonSlug = router.query.lessonSlug as string;
   const { data } = useSWR(
-    () => (lessonId ? `${API_URL}/lessons/${lessonId}` : null),
+    () => (lessonSlug ? `${API_URL}/lessons/${lessonSlug}` : null),
     niceFetch
   );
   const lesson: Lesson | null = data?.lesson;
@@ -55,6 +55,7 @@ function LessonApp() {
               : lesson.questions
           }
           lessonId={data.lesson.id}
+          lessonSlug={lessonSlug}
         />
       ) : (
         <FullScreenSpinner />

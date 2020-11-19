@@ -7,7 +7,7 @@ import LoginAlert from "../../../components/LoginAlert";
 
 function ResultPage() {
   const router = useRouter();
-  const { lessonId, pointsEarned } = router.query;
+  const { lessonSlug, pointsEarned } = router.query;
 
   return (
     <>
@@ -41,7 +41,7 @@ function ResultPage() {
             >
               <Button
                 onClick={() => {
-                  router.push(`/lessen/${lessonId}/`);
+                  router.push(`/lessen/${lessonSlug}/`);
                 }}
               >
                 Nog een keer

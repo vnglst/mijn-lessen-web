@@ -37,17 +37,15 @@ const QuestionModal: FC<QuestionModalProps> = ({
   async function handleSave(e: any) {
     e.preventDefault();
     setSaving("saving");
-    await niceFetch(
-      `${API_URL}/protected/lessons/${question.lessonId}/questions/${question.id}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          title: question.title,
-          subtitle: question.subtitle,
-          options: question.options,
-        }),
-      }
-    );
+    await niceFetch(`${API_URL}/protected/questions/${question.id}`, {
+      method: "POST",
+      body: JSON.stringify({
+        title: question.title,
+        subtitle: question.subtitle,
+        options: question.options,
+        lessonId: question.lessonId,
+      }),
+    });
     setSaving("saved");
     mutate();
     onClose();
@@ -56,27 +54,24 @@ const QuestionModal: FC<QuestionModalProps> = ({
   async function handleCreate(e: any) {
     e.preventDefault();
     setSaving("saving");
-    await niceFetch(
-      `${API_URL}/protected/lessons/${question.lessonId}/questions`,
-      {
-        method: "PUT",
-        body: JSON.stringify({
-          title: question.title,
-          subtitle: question.subtitle,
-          options: question.options,
-        }),
-      }
-    );
+    await niceFetch(`${API_URL}/protected/questions/`, {
+      method: "PUT",
+      body: JSON.stringify({
+        title: question.title,
+        subtitle: question.subtitle,
+        options: question.options,
+        lessonId: question.lessonId,
+      }),
+    });
     setSaving("saved");
     handleClose();
   }
 
   async function handleDelete(e: any) {
     e.preventDefault();
-    await niceFetch(
-      `${API_URL}/protected/lessons/${question.lessonId}/questions/${question.id}`,
-      { method: "DELETE" }
-    );
+    await niceFetch(`${API_URL}/protected/questions/${question.id}`, {
+      method: "DELETE",
+    });
     handleClose();
   }
 

@@ -25,10 +25,11 @@ type Answer = null | "correct" | "incorrect";
 
 interface Props {
   lessonId: string;
+  lessonSlug: string;
   initialQuestions: Question[];
 }
 
-const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
+const LessonForm: FC<Props> = ({ lessonSlug, lessonId, initialQuestions }) => {
   const router = useRouter();
   const session = useSession();
   const [playCorrectFx] = useSound("/sounds/pepSound5.mp3", { volume: 1 });
@@ -37,12 +38,12 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [questions, setQuestions] = useSessionStore(
-    `questions-${lessonId}`,
+    `questions-${lessonSlug}`,
     initialQuestions
   );
-  const [optionId, setOptionId] = useSessionStore(`optionId-${lessonId}`, "");
+  const [optionId, setOptionId] = useSessionStore(`optionId-${lessonSlug}`, "");
   const [answer, setAnswer] = useSessionStore(
-    `answer-${lessonId}`,
+    `answer-${lessonSlug}`,
     null as Answer
   );
 
@@ -66,16 +67,16 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
 
     if (session?.user) {
       setIsSubmitting(true);
-      const json = await niceFetch(
-        `${API_URL}/protected/lessons/${lessonId}/result`,
-        { method: "POST" }
-      );
+      const json = await niceFetch(`${API_URL}/protected/result`, {
+        method: "PUT",
+        body: JSON.stringify({ lessonId }),
+      });
       pointsEarned = json.pointsEarned;
       setIsSubmitting(false);
       if (pointsEarned) playLevelUp();
     }
 
-    router.push(`/lessen/${lessonId}/resultaat?pointsEarned=${pointsEarned}`);
+    router.push(`/lessen/${lessonSlug}/resultaat?pointsEarned=${pointsEarned}`);
   };
 
   async function handleSubmit(e: any) {
@@ -90,9 +91,9 @@ const LessonForm: FC<Props> = ({ lessonId, initialQuestions }) => {
     if (session?.user) {
       setIsSubmitting(true);
       await niceFetch(`${API_URL}/protected/answers/`, {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify({
-          optionId: parseInt(optionId),
+          optionId: optionId,
           questionId: current.id,
         }),
       });

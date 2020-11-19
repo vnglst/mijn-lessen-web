@@ -22,7 +22,7 @@ const LessonList: FC<LessonListProps> = ({ lessons, heading }) => {
           return (
             <WrapItem key={lesson.id}>
               <LessonCard
-                id={lesson.id}
+                slug={lesson.slug}
                 title={lesson.title}
                 subtitle={lesson.subtitle}
                 imageUrl={lesson.imageUrl}

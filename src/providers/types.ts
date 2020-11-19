@@ -5,7 +5,7 @@ export type Option = {
 };
 
 export type Question = {
-  id?: number;
+  id?: string;
   createdAt?: Date;
   updatedAt?: Date;
   title: string;
@@ -13,15 +13,16 @@ export type Question = {
   explanation?: string | null;
   points?: number;
   shuffle?: boolean;
-  lessonId: number;
+  lessonId: string;
   options: Option[];
   draft?: boolean;
 };
 
 export type Lesson = {
-  id: number;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
+  slug: string;
   authorId: number;
   title: string;
   subtitle: string | null;

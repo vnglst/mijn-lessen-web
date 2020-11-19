@@ -1,22 +1,11 @@
-import {
-  Avatar,
-  Box,
-  Flex,
-  Heading,
-  IconButton,
-  Image,
-  Link,
-  Text,
-} from "@chakra-ui/core";
-import { EditIcon } from "@chakra-ui/icons";
+import { Avatar, Box, Flex, Heading, Image, Link, Text } from "@chakra-ui/core";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import React, { FC } from "react";
 import { GiHearts, GiLightBulb } from "react-icons/gi";
 import { GrView } from "react-icons/gr";
 
 interface Props {
-  id: number;
+  slug: string;
   title: string;
   subtitle: string | null;
   imageUrl: string | null;
@@ -28,7 +17,7 @@ interface Props {
 }
 
 const LessonCard: FC<Props> = ({
-  id,
+  slug,
   title,
   subtitle,
   hearts = 0,
@@ -39,7 +28,7 @@ const LessonCard: FC<Props> = ({
   showStats = false,
 }) => {
   return (
-    <NextLink href={`/lessen/${id}`} passHref>
+    <NextLink href={`/lessen/${slug}`} passHref>
       <Flex
         as={Link}
         transition="all 0.25s ease-out;"

@@ -73,7 +73,7 @@ function LessonOverview({
                   <IconButton
                     onClick={(e) => {
                       e.preventDefault();
-                      router.push(`/mijn-lessen/${lesson.id}/bewerken`);
+                      router.push(`/mijn-lessen/${lesson.slug}/bewerken`);
                     }}
                     aria-label="Bewerken"
                     icon={<EditIcon />}
@@ -95,7 +95,7 @@ function LessonOverview({
                 mx="auto"
                 onClick={async () => {
                   sessionStorage.clear();
-                  router.push(`/lessen/${lesson.id}/vragen`);
+                  router.push(`/lessen/${lesson.slug}/vragen`);
                 }}
                 variant="primary"
               >
@@ -110,7 +110,7 @@ function LessonOverview({
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const res = await fetch(`${API_URL}/lessons/${context.params?.lessonId}`);
+  const res = await fetch(`${API_URL}/lessons/${context.params?.lessonSlug}`);
   const { lesson } = await res.json();
   return { props: { lesson } };
 }
