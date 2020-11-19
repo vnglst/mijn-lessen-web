@@ -2,11 +2,12 @@ import { ButtonGroup, CloseButton } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
-import FullScreenSpinner from "../../../components/FullScreenSpinner";
+import FullScreenSpinner from "../../../components/ui/FullScreenSpinner";
 import AppHead from "../../../components/Head";
-import LoginAlert from "../../../components/LoginAlert";
+import HeroWave from "../../../components/ui/HeroWave";
+import LoginAlert from "../../../components/quiz/LoginAlert";
 import NavBar from "../../../components/NavBar";
-import QuestionsForm from "../../../components/QuestionsForm";
+import QuestionsForm from "../../../components/quiz/Quiz";
 import { API_URL } from "../../../config";
 import { niceFetch, shuffle } from "../../../helpers";
 import { Lesson, Question } from "../../../providers/types";
@@ -33,7 +34,7 @@ function LessonApp() {
     );
     if (!reallyClose) return;
     sessionStorage.clear();
-    router.push(`/lessen/${data.lesson.id}/`);
+    router.push(`/lessen/${data.lesson.slug}/`);
   };
 
   return (
@@ -47,6 +48,7 @@ function LessonApp() {
           <CloseButton onClick={handleClose} size="md" />
         </ButtonGroup>
       </NavBar>
+      <HeroWave />
       {lesson ? (
         <QuestionsForm
           initialQuestions={

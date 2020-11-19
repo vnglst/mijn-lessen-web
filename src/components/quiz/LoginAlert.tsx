@@ -5,8 +5,8 @@ import {
   AlertTitle,
 } from "@chakra-ui/core";
 import React, { FC } from "react";
-import { useSession } from "../providers";
-import TextLink from "./ui/TextLink";
+import { useSession } from "../../providers";
+import TextLink from "../ui/TextLink";
 
 const LoginAlert: FC = () => {
   const session = useSession();

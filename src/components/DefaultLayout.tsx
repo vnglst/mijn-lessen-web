@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Image, Text, Container } from "@chakra-ui/core";
 import { default as React, FC } from "react";
 import AppHead from "../components/Head";
-import HeroWave from "../components/HeroWave";
+import HeroWave from "./ui/HeroWave";
 import NavBar from "../components/NavBar";
 import TextLink from "./ui/TextLink";
 
@@ -26,55 +26,57 @@ const DefaultLayout: FC<Props> = ({
       <AppHead>
         <title>{pageTitle} | Wizer.Today</title>
       </AppHead>
-      <header>
-        <NavBar />
-      </header>
-      <HeroWave>
-        <Container display="flex" mt={14} justify="space-between">
-          <Flex flexDirection="column" width="100%">
-            <Heading
-              as="h1"
-              size="xl"
-              mt="auto"
-              fontWeight="900"
-              noOfLines={3}
-              textColor="gray.800"
-              lineHeight={1.6}
-              textAlign={centered ? "center" : "left"}
-            >
-              {headingText}
-            </Heading>
-            {subtitle && (
-              <Text
-                mt={2}
-                fontSize="lg"
-                textAlign={centered ? "center" : "left"}
-              >
-                {subtitle}
-              </Text>
-            )}
-          </Flex>
-          {imageUrl && (
-            <Image
-              display={["none", "flex"]}
-              objectFit="contain"
-              src={imageUrl}
-              maxHeight="100px"
-              style={{
-                transform: "rotate(5deg)",
-              }}
-            />
+      <NavBar />
+      <HeroWave />
+      <Container display="flex" mt="25vh" justify="space-between">
+        <Flex flexDirection="column" width="100%">
+          <Heading
+            as="h1"
+            size="xl"
+            mt="auto"
+            fontWeight="900"
+            noOfLines={3}
+            textColor="gray.800"
+            lineHeight={1.6}
+            textAlign={centered ? "center" : "left"}
+          >
+            {headingText}
+          </Heading>
+          {subtitle && (
+            <Text mt={2} fontSize="lg" textAlign={centered ? "center" : "left"}>
+              {subtitle}
+            </Text>
           )}
-        </Container>
-      </HeroWave>
-      <Flex as="main">{children}</Flex>
+        </Flex>
+        {imageUrl && (
+          <Image
+            display={["none", "flex"]}
+            objectFit="contain"
+            src={imageUrl}
+            maxHeight="100px"
+            style={{
+              transform: "rotate(5deg)",
+            }}
+          />
+        )}
+      </Container>
+      <Flex
+        as="main"
+        width="100%"
+        flexDirection="column"
+        alignItems="center"
+        mt={6}
+        minHeight="100vh"
+      >
+        {children}
+      </Flex>
       <Flex
         as="footer"
         width="100%"
         mr="auto"
         height="100%"
         p={8}
-        pt="400px"
+        pt="10vh"
         flexDirection="row"
         justifyContent="flex-end"
         background="radial-gradient(202.15% 198.95% at 85.93% -78.83%,#FFFFFF 48.72%,#fef4e2 82.16%);"

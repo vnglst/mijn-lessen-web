@@ -1,6 +1,7 @@
 import {
   Button,
   ButtonGroup,
+  Container,
   Flex,
   FormControl,
   Heading,
@@ -14,12 +15,11 @@ import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import React, { FC, useState } from "react";
 import useSound from "use-sound";
-import { API_URL } from "../config";
-import { niceFetch } from "../helpers";
-import { useSessionStore } from "../hooks";
-import { useSession } from "../providers";
-import { Option, Question } from "../providers/types";
-import HeroWave from "./HeroWave";
+import { API_URL } from "../../config";
+import { niceFetch } from "../../helpers";
+import { useSessionStore } from "../../hooks";
+import { useSession } from "../../providers";
+import { Option, Question } from "../../providers/types";
 
 type Answer = null | "correct" | "incorrect";
 
@@ -29,7 +29,7 @@ interface Props {
   initialQuestions: Question[];
 }
 
-const LessonForm: FC<Props> = ({ lessonSlug, lessonId, initialQuestions }) => {
+const Quiz: FC<Props> = ({ lessonSlug, lessonId, initialQuestions }) => {
   const router = useRouter();
   const session = useSession();
   const [playCorrectFx] = useSound("/sounds/pepSound5.mp3", { volume: 1 });
@@ -109,61 +109,64 @@ const LessonForm: FC<Props> = ({ lessonSlug, lessonId, initialQuestions }) => {
       minHeight="100vh"
       flexDirection="column"
     >
-      <HeroWave>
+      <Container
+        display="flex"
+        flexDirection="column"
+        marginTop="auto"
+        pt={["15px", "30px"]}
+      >
         <Heading
           id="question"
           as="h1"
           size="xl"
-          marginTop="auto"
           fontWeight="900"
           noOfLines={3}
           lineHeight={1.6}
-          pt={["15px", "30px"]}
           textAlign="center"
           width="100%"
         >
           {current.title}
         </Heading>
         {current.title && (
-          <Text mt={2} fontSize="lg">
+          <Text mt={2} fontSize="lg" textAlign="center">
             {current.subtitle}
           </Text>
         )}
-      </HeroWave>
-      <Flex flexDirection="column">
-        <FormControl
-          id="answer"
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          marginTop="60px"
-          isRequired
-        >
-          <RadioGroup
-            aria-labelledby="question"
-            onChange={setOptionId}
-            value={optionId.toString()}
-            name="answer"
+        <Flex flexDirection="column">
+          <FormControl
+            id="answer"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            marginTop="60px"
+            isRequired
           >
-            <Stack direction="column">
-              {current.options.map(({ title, id }) => {
-                return (
-                  <Radio
-                    marginY="10px"
-                    key={id}
-                    colorScheme="blue"
-                    size="lg"
-                    value={id.toString()}
-                    isDisabled={isAnswered}
-                  >
-                    {title}
-                  </Radio>
-                );
-              })}
-            </Stack>
-          </RadioGroup>
-        </FormControl>
-      </Flex>
+            <RadioGroup
+              aria-labelledby="question"
+              onChange={setOptionId}
+              value={optionId.toString()}
+              name="answer"
+            >
+              <Stack direction="column">
+                {current.options.map(({ title, id }) => {
+                  return (
+                    <Radio
+                      marginY="10px"
+                      key={id}
+                      colorScheme="blue"
+                      size="lg"
+                      value={id.toString()}
+                      isDisabled={isAnswered}
+                    >
+                      {title}
+                    </Radio>
+                  );
+                })}
+              </Stack>
+            </RadioGroup>
+          </FormControl>
+        </Flex>
+      </Container>
       <Progress
         mt="auto"
         value={
@@ -251,4 +254,4 @@ const LessonForm: FC<Props> = ({ lessonSlug, lessonId, initialQuestions }) => {
   );
 };
 
-export default LessonForm;
+export default Quiz;

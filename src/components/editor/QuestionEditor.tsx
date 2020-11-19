@@ -1,8 +1,6 @@
 import {
   ButtonGroup,
-  Flex,
   FormControl,
-  FormLabel,
   Grid,
   GridItem,
   IconButton,
@@ -15,8 +13,10 @@ import {
   VisuallyHidden,
 } from "@chakra-ui/core";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { nanoid } from "nanoid";
 import React, { FC } from "react";
-import { Question } from "../providers/types";
+import { Question } from "../../providers/types";
+import MyFormLabel from "../ui/MyFormLabel";
 
 export interface QuestionEditorProps {
   question: Question;
@@ -32,14 +32,7 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
   return (
     <>
       <FormControl my={4}>
-        <FormLabel
-          style={{ fontVariant: "all-small-caps" }}
-          textTransform="uppercase"
-          textColor="gray.600"
-          mb={2}
-        >
-          Vraag
-        </FormLabel>
+        <MyFormLabel mb={2}>Vraag</MyFormLabel>
         <Input
           name={`question-${question.id}`}
           fontWeight="bold"
@@ -51,13 +44,7 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
         ></Input>
       </FormControl>
       <FormControl my={4}>
-        <FormLabel
-          style={{ fontVariant: "all-small-caps" }}
-          textTransform="uppercase"
-          textColor="gray.600"
-        >
-          Subvraag
-        </FormLabel>
+        <MyFormLabel>Subvraag</MyFormLabel>
         <Input
           name={`subquestion-${question.id}`}
           fontStyle="italic"
@@ -74,18 +61,18 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
         gap={2}
       >
         <GridItem gridArea="h1">
-          <FormLabel
-            style={{ fontVariant: "all-small-caps" }}
-            textTransform="uppercase"
-            textColor="gray.600"
-          >
-            Opties
-          </FormLabel>
+          <MyFormLabel>Opties</MyFormLabel>
         </GridItem>
         <GridItem gridArea="c1">
           {question.options.map((option, idx) => {
             return (
-              <Flex key={option.id} flexDir="row" my={2}>
+              <FormControl
+                display="flex"
+                isRequired
+                key={option.id}
+                flexDir="row"
+                my={2}
+              >
                 <IconButton
                   icon={<DeleteIcon />}
                   mr={2}
@@ -119,21 +106,15 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
                     }}
                   />
                 </InputGroup>
-              </Flex>
+              </FormControl>
             );
           })}
         </GridItem>
 
         <GridItem gridArea="h2">
-          <FormLabel
-            style={{ fontVariant: "all-small-caps" }}
-            textTransform="uppercase"
-            textColor="gray.600"
-          >
-            Goede antwoord
-          </FormLabel>
+          <MyFormLabel>Goede antwoord</MyFormLabel>
         </GridItem>
-        <GridItem gridArea="c2">
+        <FormControl as={GridItem} isRequired gridArea="c2">
           <RadioGroup
             display="flex"
             flexDir="column"
@@ -156,14 +137,15 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
               );
             })}
           </RadioGroup>
-        </GridItem>
+        </FormControl>
+
         <ButtonGroup>
           <IconButton
             aria-label="Optie toevoegen"
             icon={<AddIcon />}
             onClick={() => {
               const newOption = {
-                id: "" + question.options.length,
+                id: nanoid(10),
                 title: "",
                 correct: false,
               };

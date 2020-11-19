@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { GiLightBulb } from "react-icons/gi";
 import useSWR from "swr";
 import DefaultLayout from "../../components/DefaultLayout";
-import FullScreenSpinner from "../../components/FullScreenSpinner";
+import FullScreenSpinner from "../../components/ui/FullScreenSpinner";
 import { API_URL } from "../../config";
 import { niceFetch } from "../../helpers";
 

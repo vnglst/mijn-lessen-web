@@ -1,38 +1,13 @@
-import { Button, ButtonProps, Spinner } from "@chakra-ui/core";
-import { CheckIcon } from "@chakra-ui/icons";
+import { Button, ButtonProps } from "@chakra-ui/core";
 import React, { FC } from "react";
 import { VscSave } from "react-icons/vsc";
 
-export interface SaveButtonProps extends ButtonProps {
-  saving: boolean;
-  saved: boolean;
-  unsaved: boolean;
-  onClick: (e: any) => Promise<void>;
-}
+export interface SaveButtonProps extends ButtonProps {}
 
-const SaveButton: FC<SaveButtonProps> = ({
-  saving,
-  saved,
-  unsaved,
-  onClick: handleSave,
-  children,
-  ...rest
-}) => {
-  function getSaveIcon() {
-    if (saved) return <CheckIcon />;
-    if (saving) return <Spinner size="xs" />;
-    if (unsaved) return <VscSave />;
-  }
-
+const SaveButton: FC<SaveButtonProps> = ({ children, ...rest }) => {
   return (
-    <Button
-      leftIcon={getSaveIcon()}
-      variant="primary"
-      onClick={handleSave}
-      isDisabled={saving}
-      {...rest}
-    >
-      {children || "Bewaren"}
+    <Button leftIcon={<VscSave />} variant="primary" {...rest}>
+      {children || "Opslaan"}
     </Button>
   );
 };

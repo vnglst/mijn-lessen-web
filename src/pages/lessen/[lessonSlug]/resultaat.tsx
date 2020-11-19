@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { GiLightBulb } from "react-icons/gi";
 import DefaultLayout from "../../../components/DefaultLayout";
-import LoginAlert from "../../../components/LoginAlert";
+import LoginAlert from "../../../components/quiz/LoginAlert";
 
 function ResultPage() {
   const router = useRouter();

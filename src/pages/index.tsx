@@ -19,7 +19,7 @@ const Index = () => {
       headingText={`Hallo ${session?.user?.name ?? ""}`}
       centered
     >
-      <Box p={10} marginTop="10px">
+      <Box p={10} mt={5}>
         <LessonList lessons={lessons} heading="Lessen voor jou" />
       </Box>
     </DefaultLayout>

@@ -1,6 +1,8 @@
 import {
   Button,
   ButtonGroup,
+  Flex,
+  IconButton,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -8,20 +10,23 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   useDisclosure,
 } from "@chakra-ui/core";
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import React, { FC, useState } from "react";
-import { API_URL } from "../config";
-import { niceFetch } from "../helpers";
-import { Question } from "../providers/types";
+import React, { FC, MouseEvent, useState } from "react";
+import { API_URL } from "../../config";
+import { niceFetch } from "../../helpers";
+import { Question } from "../../providers/types";
+import SaveButton from "../ui/SaveButton";
 import QuestionEditor from "./QuestionEditor";
-import SaveButton from "./ui/SaveButton";
 
 export interface QuestionModalProps {
   question: Question;
-  mutate: any;
+  mutate: (data?: any, shouldRevalidate?: boolean | undefined) => Promise<any>;
 }
+
+type SaveState = "unsaved" | "saving" | "saved";
 
 const QuestionModal: FC<QuestionModalProps> = ({
   question: initialQuestion,
@@ -29,12 +34,9 @@ const QuestionModal: FC<QuestionModalProps> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [question, setQuestion] = useState(initialQuestion);
+  const [saving, setSaving] = useState("unsaved" as SaveState);
 
-  const [saving, setSaving] = useState(
-    "unsaved" as "unsaved" | "saving" | "saved"
-  );
-
-  async function handleSave(e: any) {
+  async function handleSave(e: MouseEvent) {
     e.preventDefault();
     setSaving("saving");
     await niceFetch(`${API_URL}/protected/questions/${question.id}`, {
@@ -51,7 +53,7 @@ const QuestionModal: FC<QuestionModalProps> = ({
     onClose();
   }
 
-  async function handleCreate(e: any) {
+  async function handleCreate(e: MouseEvent) {
     e.preventDefault();
     setSaving("saving");
     await niceFetch(`${API_URL}/protected/questions/`, {
@@ -64,15 +66,17 @@ const QuestionModal: FC<QuestionModalProps> = ({
       }),
     });
     setSaving("saved");
-    handleClose();
+    mutate();
+    onClose();
   }
 
-  async function handleDelete(e: any) {
-    e.preventDefault();
+  async function handleDelete() {
+    const sure = confirm("Weet je zeker dat je deze wil verwijderen?");
+    if (!sure) return;
     await niceFetch(`${API_URL}/protected/questions/${question.id}`, {
       method: "DELETE",
     });
-    handleClose();
+    mutate();
   }
 
   function updateQuestion(newQuestion: Question) {
@@ -81,23 +85,54 @@ const QuestionModal: FC<QuestionModalProps> = ({
   }
 
   function handleClose() {
-    mutate();
     setQuestion(initialQuestion);
     onClose();
   }
 
   return (
     <>
-      <Button
-        leftIcon={initialQuestion.draft ? <AddIcon /> : <EditIcon />}
-        mr={6}
-        mb={6}
-        onClick={onOpen}
-        variant="outline"
-        size="md"
-      >
-        {initialQuestion.title || "Nieuwe vraag"}
-      </Button>
+      <Flex flexDir="column">
+        {initialQuestion.title && (
+          <Text isTruncated fontWeight="bold">
+            {initialQuestion.title}
+          </Text>
+        )}
+
+        {initialQuestion.subtitle && (
+          <Text mt={2} isTruncated fontSize="sm">
+            {initialQuestion.subtitle}
+          </Text>
+        )}
+      </Flex>
+
+      {!initialQuestion.draft && (
+        <IconButton
+          icon={<DeleteIcon />}
+          aria-label="Verwijderen"
+          onClick={handleDelete}
+          ml="auto"
+          variant="outline"
+        />
+      )}
+
+      {initialQuestion.draft ? (
+        <IconButton
+          icon={<AddIcon />}
+          size="lg"
+          aria-label="Toevoegen"
+          onClick={onOpen}
+        />
+      ) : (
+        <IconButton
+          ml={4}
+          variant="outline"
+          icon={<EditIcon />}
+          size="md"
+          aria-label="Bewerken"
+          onClick={onOpen}
+        />
+      )}
+
       <Modal isOpen={isOpen} onClose={handleClose} size="xl">
         <ModalOverlay />
         <ModalContent as="form">
@@ -113,23 +148,14 @@ const QuestionModal: FC<QuestionModalProps> = ({
             mt={4}
             display="flex"
             flexWrap="wrap"
-            justifyContent="space-between"
+            justifyContent="flex-end"
           >
-            <Button
-              leftIcon={<DeleteIcon />}
-              variant="link"
-              onClick={handleDelete}
-            >
-              Verwijderen
-            </Button>
             <ButtonGroup>
               {initialQuestion.draft ? (
                 <SaveButton
                   onClick={handleCreate}
                   type="submit"
-                  saving={saving === "saving"}
-                  saved={saving === "saved"}
-                  unsaved={saving === "unsaved"}
+                  isLoading={saving === "saving"}
                 >
                   Toevoegen
                 </SaveButton>
@@ -137,9 +163,7 @@ const QuestionModal: FC<QuestionModalProps> = ({
                 <SaveButton
                   onClick={handleSave}
                   type="submit"
-                  saving={saving === "saving"}
-                  saved={saving === "saved"}
-                  unsaved={saving === "unsaved"}
+                  isLoading={saving === "saving"}
                 />
               )}
               <Button ml={4} onClick={handleClose}>
