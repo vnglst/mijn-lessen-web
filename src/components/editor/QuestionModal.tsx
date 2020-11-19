@@ -167,7 +167,7 @@ const QuestionModal: FC<QuestionModalProps> = ({
                 />
               )}
               <Button ml={4} onClick={handleClose}>
-                Afsluiten
+                Sluiten
               </Button>
             </ButtonGroup>
           </ModalFooter>

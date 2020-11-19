@@ -8,9 +8,7 @@ import { niceFetch } from "../../helpers";
 import { useSession } from "../../providers";
 import { Lesson } from "../../providers/types";
 
-export interface MyLessonsProps {}
-
-const MyLessons: FC<MyLessonsProps> = ({}) => {
+const MyLessons: FC = () => {
   const session = useSession();
   const { data } = useSWR(
     `${API_URL}/lessons/?userName=${session?.user.name}`,

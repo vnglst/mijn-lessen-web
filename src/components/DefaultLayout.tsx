@@ -1,9 +1,9 @@
-import { Box, Flex, Heading, Image, Text, Container } from "@chakra-ui/core";
+import { Box, Container, Flex, Heading, Image, Text } from "@chakra-ui/core";
 import { default as React, FC } from "react";
 import AppHead from "../components/Head";
+import Footer from "./Footer";
+import NavBarTop from "./navigation/NavBarTop";
 import HeroWave from "./ui/HeroWave";
-import NavBar from "../components/NavBar";
-import TextLink from "./ui/TextLink";
 
 interface Props {
   pageTitle: string;
@@ -26,7 +26,7 @@ const DefaultLayout: FC<Props> = ({
       <AppHead>
         <title>{pageTitle} | Wizer.Today</title>
       </AppHead>
-      <NavBar />
+      <NavBarTop />
       <HeroWave />
       <Container display="flex" mt="25vh" justify="space-between">
         <Flex flexDirection="column" width="100%">
@@ -54,9 +54,8 @@ const DefaultLayout: FC<Props> = ({
             objectFit="contain"
             src={imageUrl}
             maxHeight="100px"
-            style={{
-              transform: "rotate(5deg)",
-            }}
+            borderRadius={10}
+            style={{ transform: "rotate(5deg)" }}
           />
         )}
       </Container>
@@ -70,39 +69,7 @@ const DefaultLayout: FC<Props> = ({
       >
         {children}
       </Flex>
-      <Flex
-        as="footer"
-        width="100%"
-        mr="auto"
-        height="100%"
-        p={8}
-        pt="10vh"
-        flexDirection="row"
-        justifyContent="flex-end"
-        background="radial-gradient(202.15% 198.95% at 85.93% -78.83%,#FFFFFF 48.72%,#fef4e2 82.16%);"
-      >
-        <Text textColor="gray.500" fontSize="xs">
-          <TextLink textDecoration="none" href="#">
-            Algemene voorwaarden
-          </TextLink>{" "}
-          |{" "}
-          <TextLink textDecoration="none" href="#">
-            Privacybeleid
-          </TextLink>{" "}
-          |{" "}
-          <TextLink textDecoration="none" href="#">
-            Over Wizer.Today
-          </TextLink>{" "}
-          |{" "}
-          <TextLink textDecoration="none" href="#">
-            v1.1
-          </TextLink>
-          ,{" "}
-          <TextLink textDecoration="none" href="#">
-            8de7cc9
-          </TextLink>
-        </Text>
-      </Flex>
+      <Footer pt="10vh" p={8} justifyContent="flex-end" />
     </Box>
   );
 };

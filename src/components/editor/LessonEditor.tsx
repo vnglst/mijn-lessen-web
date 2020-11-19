@@ -37,7 +37,6 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
   const [title, setTitle] = useState(lesson.title);
   const [subtitle, setSubtitle] = useState(lesson.subtitle || "");
   const [image, setImage] = useState(lesson.imageUrl || "");
-
   const [saving, setSaving] = useState("saved" as SaveState);
 
   async function handleSave(e: MouseEvent) {
@@ -137,8 +136,8 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
             mb={10}
           >
             <MyFormLabel>Vragen</MyFormLabel>
-            <FormHelperText my={2}>
-              Voeg hier de vragen toe. Elke les heeft minimaal 1 vraag.
+            <FormHelperText my={3}>
+              Voeg hier de vragen toe. Een les heeft minimaal 1 vraag.
             </FormHelperText>
             <UnorderedList ml={0}>
               {lesson.questions.map((question) => (
@@ -155,7 +154,7 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
                 </ListItem>
               ))}
             </UnorderedList>
-            <Box ml={0}>
+            <Box mt={2}>
               <QuestionModal
                 mutate={mutate}
                 question={{

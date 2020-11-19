@@ -16,34 +16,46 @@ import { useRouter } from "next/router";
 import React, { FC, useState } from "react";
 import useSound from "use-sound";
 import { API_URL } from "../../config";
-import { niceFetch } from "../../helpers";
+import { niceFetch, shuffle } from "../../helpers";
 import { useSessionStore } from "../../hooks";
 import { useSession } from "../../providers";
-import { Option, Question } from "../../providers/types";
+import { Lesson, Option, Question } from "../../providers/types";
 
 type Answer = null | "correct" | "incorrect";
 
-interface Props {
-  lessonId: string;
-  lessonSlug: string;
-  initialQuestions: Question[];
+function shuffleQuestions(questions: Question[]) {
+  const newQuestions = questions.map((q) => {
+    return { ...q, options: shuffle(q.options) };
+  });
+  return shuffle(newQuestions);
 }
 
-const Quiz: FC<Props> = ({ lessonSlug, lessonId, initialQuestions }) => {
+interface Props {
+  lesson: Lesson;
+}
+
+const Quiz: FC<Props> = ({ lesson }) => {
+  const initialQuestions = lesson.shuffle
+    ? shuffleQuestions(lesson.questions)
+    : lesson.questions;
+
+  const { id: lessonId } = lesson;
+
   const router = useRouter();
   const session = useSession();
+
   const [playCorrectFx] = useSound("/sounds/pepSound5.mp3", { volume: 1 });
   const [playMistakeFx] = useSound("/sounds/pepSound4.mp3", { volume: 1 });
   const [playLevelUp] = useSound("/sounds/blessing.mp3", { volume: 1 });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [questions, setQuestions] = useSessionStore(
-    `questions-${lessonSlug}`,
+    `questions-${lessonId}`,
     initialQuestions
   );
-  const [optionId, setOptionId] = useSessionStore(`optionId-${lessonSlug}`, "");
+  const [optionId, setOptionId] = useSessionStore(`optionId-${lessonId}`, "");
   const [answer, setAnswer] = useSessionStore(
-    `answer-${lessonSlug}`,
+    `answer-${lessonId}`,
     null as Answer
   );
 
@@ -76,7 +88,9 @@ const Quiz: FC<Props> = ({ lessonSlug, lessonId, initialQuestions }) => {
       if (pointsEarned) playLevelUp();
     }
 
-    router.push(`/lessen/${lessonSlug}/resultaat?pointsEarned=${pointsEarned}`);
+    router.push(
+      `/lessen/${lesson.slug}/resultaat?pointsEarned=${pointsEarned}`
+    );
   };
 
   async function handleSubmit(e: any) {

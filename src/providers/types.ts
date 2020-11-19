@@ -35,4 +35,13 @@ export type Lesson = {
   points: number;
   questions: Question[];
   author: { name: string | null; avatar: string | null };
+  draft?: boolean;
+};
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  points: number;
 };

@@ -2,26 +2,20 @@ import { ButtonGroup, CloseButton } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
-import FullScreenSpinner from "../../../components/ui/FullScreenSpinner";
 import AppHead from "../../../components/Head";
-import HeroWave from "../../../components/ui/HeroWave";
+import NavBarTop from "../../../components/navigation/NavBarTop";
 import LoginAlert from "../../../components/quiz/LoginAlert";
-import NavBar from "../../../components/NavBar";
-import QuestionsForm from "../../../components/quiz/Quiz";
+import Quiz from "../../../components/quiz/Quiz";
+import FullScreenSpinner from "../../../components/ui/FullScreenSpinner";
+import HeroWave from "../../../components/ui/HeroWave";
 import { API_URL } from "../../../config";
-import { niceFetch, shuffle } from "../../../helpers";
-import { Lesson, Question } from "../../../providers/types";
-
-function shuffleQuestions(questions: Question[]) {
-  const newQuestions = questions.map((q) => {
-    return { ...q, options: shuffle(q.options) };
-  });
-  return shuffle(newQuestions);
-}
+import { niceFetch } from "../../../helpers";
+import { Lesson } from "../../../providers/types";
 
 function LessonApp() {
   const router = useRouter();
   const lessonSlug = router.query.lessonSlug as string;
+
   const { data } = useSWR(
     () => (lessonSlug ? `${API_URL}/lessons/${lessonSlug}` : null),
     niceFetch
@@ -43,25 +37,13 @@ function LessonApp() {
         <title>Oefenen {data?.lesson?.title} | Wizer.Today</title>
       </AppHead>
       <LoginAlert />
-      <NavBar>
+      <NavBarTop>
         <ButtonGroup>
           <CloseButton onClick={handleClose} size="md" />
         </ButtonGroup>
-      </NavBar>
+      </NavBarTop>
       <HeroWave />
-      {lesson ? (
-        <QuestionsForm
-          initialQuestions={
-            lesson.shuffle
-              ? shuffleQuestions(lesson.questions)
-              : lesson.questions
-          }
-          lessonId={data.lesson.id}
-          lessonSlug={lessonSlug}
-        />
-      ) : (
-        <FullScreenSpinner />
-      )}
+      {lesson ? <Quiz lesson={lesson} /> : <FullScreenSpinner />}
     </>
   );
 }

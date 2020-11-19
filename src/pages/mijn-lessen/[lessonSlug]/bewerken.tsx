@@ -8,7 +8,7 @@ import { API_URL } from "../../../config";
 import { niceFetch } from "../../../helpers";
 import { Lesson } from "../../../providers/types";
 
-const LessonOverview: FC = () => {
+const EditLesson: FC = () => {
   const router = useRouter();
   const { lessonSlug } = router.query;
   const { data, mutate } = useSWR(
@@ -31,4 +31,4 @@ const LessonOverview: FC = () => {
   );
 };
 
-export default LessonOverview;
+export default EditLesson;

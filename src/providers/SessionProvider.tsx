@@ -2,13 +2,7 @@ import React, { FC, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { API_URL } from "../config";
 import { niceFetch } from "../helpers";
-
-export type User = {
-  id: number;
-  name: string;
-  email: string;
-  avatar: string;
-};
+import { User } from "./types";
 
 export type Session = {
   error?: Error;

@@ -10,11 +10,11 @@ const HeroWave: FC<Props> = () => {
       top="0"
       left="0"
       width="100%"
-      height="50vh"
+      height="40vh"
       zIndex="-1"
-      background="radial-gradient(202.15% 198.95% at 85.93% -78.83%, #f9b006 0%,#ffffff 82.16%)"
+      // background="radial-gradient(202.15% 198.95% at 85.93% -78.83%, #f9b006 0%,#ffffff 82.16%)"
       // background="radial-gradient(202.15% 198.95% at 85.93% -78.83%,#F6A89E 0%,#ffffff 82.16%)"
-      // background="radial-gradient(202.15% 198.95% at 85.93% -78.83%,#FCDA8B 0%,#ffffff 82.16%)"
+      background="radial-gradient(202.15% 198.95% at 85.93% -78.83%,#FCDA8B 0%,#ffffff 82.16%)"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

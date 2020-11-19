@@ -29,10 +29,12 @@ function AccountPage() {
     router.push("/account/inloggen");
   }
 
-  // TODO: can we check session and redirect servicer side
+  // TODO: can we check session and redirect server side
   if (!session) return <FullScreenSpinner />;
 
-  if (!session.user) {
+  const user = session.user;
+
+  if (!user) {
     router.push("/account/inloggen");
     return null;
   }
@@ -40,24 +42,18 @@ function AccountPage() {
   return (
     <DefaultLayout
       pageTitle="Je account"
-      headingText={`Hallo ${session.user.name}!`}
+      headingText={`Hallo ${user.name}!`}
       centered
     >
       <Flex p={8} flexDirection="column" width="100%" alignItems="center">
-        <Avatar
-          size="xl"
-          bgColor="white"
-          name={session.user.name}
-          src={session.user.avatar}
-        />
+        <Avatar size="xl" bgColor="white" name={user.name} src={user.avatar} />
         <Flex maxW="lg" flexDirection="column" width="100%" mt={10}>
           <Text>
-            Je bent ingelogd met het e-mailadres{" "}
-            <Code>{session.user.email}</Code>
+            Je bent ingelogd met het e-mailadres <Code>{user.email}</Code>
           </Text>
           <Flex flexDirection="column">
             <Flex mt={5} alignItems="center" fontSize="xl" textColor="gray.600">
-              <Text>{session.user.points}</Text>
+              <Text>{user.points}</Text>
               <Box ml={2} mr={5} as={GiLightBulb} color="yellow.400" />
             </Flex>
             <Text>lampjes</Text>

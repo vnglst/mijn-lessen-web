@@ -9,7 +9,7 @@ import {
   IconButton,
   Text,
 } from "@chakra-ui/core";
-import { EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 import React from "react";
@@ -19,6 +19,7 @@ import DefaultLayout from "../../components/DefaultLayout";
 import LoginAlert from "../../components/quiz/LoginAlert";
 import YouTube from "../../components/ui/YouTube";
 import { API_URL } from "../../config";
+import { niceFetch } from "../../helpers";
 import { useSession } from "../../providers";
 
 function LessonOverview({
@@ -70,8 +71,25 @@ function LessonOverview({
             {isAuthor && (
               <Flex ml="auto">
                 <IconButton
-                  onClick={(e) => {
-                    e.preventDefault();
+                  mr={4}
+                  onClick={async () => {
+                    const sure = confirm(
+                      "Weet je zeker dat je deze wilt verwijderen?"
+                    );
+                    if (!sure) return;
+
+                    await niceFetch(
+                      `${API_URL}/protected/lesson/${lesson.slug}`,
+                      { method: "DELETE" }
+                    );
+
+                    router.push(`/mijn-lessen/`);
+                  }}
+                  aria-label="Verwijderen"
+                  icon={<DeleteIcon />}
+                />
+                <IconButton
+                  onClick={() => {
                     router.push(`/mijn-lessen/${lesson.slug}/bewerken`);
                   }}
                   aria-label="Bewerken"
