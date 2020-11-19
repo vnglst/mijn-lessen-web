@@ -6,7 +6,6 @@ import {
   Flex,
   FormControl,
   FormHelperText,
-  FormLabel,
   HStack,
   Image,
   Input,
@@ -15,14 +14,14 @@ import {
   VStack,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import React, { FC, useState, MouseEvent } from "react";
+import React, { FC, MouseEvent, useState } from "react";
 import { API_URL } from "../../config";
 import { niceFetch } from "../../helpers";
 import { Lesson } from "../../providers/types";
+import MyFormLabel from "../ui/MyFormLabel";
 import RichTextEditor from "../ui/RichTextEditor";
 import SaveButton from "../ui/SaveButton";
 import TextLink from "../ui/TextLink";
-import MyFormLabel from "../ui/MyFormLabel";
 import QuestionModal from "./QuestionModal";
 
 export interface LessonEditorProps {
