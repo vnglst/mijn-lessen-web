@@ -15,7 +15,7 @@ import {
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { nanoid } from "nanoid";
 import React, { FC } from "react";
-import { Question } from "../../providers/types";
+import { Question } from "../../types";
 import MyFormLabel from "../ui/MyFormLabel";
 
 export interface QuestionEditorProps {

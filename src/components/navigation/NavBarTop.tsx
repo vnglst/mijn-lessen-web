@@ -8,7 +8,7 @@ import CreateMenu from "./CreateMenu";
 import LoginMenu from "./LoginMenu";
 
 const NavBarTop: FC = ({ children }) => {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
 
   const user = session?.user;

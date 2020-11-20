@@ -6,10 +6,10 @@ import LessonList from "../components/LessonList";
 import { API_URL } from "../config";
 import { niceFetch } from "../helpers";
 import { useSession } from "../providers";
-import { Lesson } from "../providers/types";
+import { Lesson } from "../types";
 
 const Index = () => {
-  const session = useSession();
+  const { session } = useSession();
   const { data } = useSWR(`${API_URL}/lessons`, niceFetch);
   const lessons: Lesson[] | undefined = data?.lessons;
 

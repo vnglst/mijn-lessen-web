@@ -4,7 +4,7 @@ import React, { FC } from "react";
 import { mutate } from "swr";
 import { API_URL } from "../../config";
 import { niceFetch } from "../../helpers";
-import { User } from "../../providers/types";
+import { User } from "../../types";
 import MyMenuButton from "./MyMenuButton";
 import UserStats from "./UserStats";
 

@@ -1,6 +1,6 @@
 import { Heading, Skeleton, Wrap, WrapItem } from "@chakra-ui/core";
 import React, { FC } from "react";
-import { Lesson } from "../providers/types";
+import { Lesson } from "../types";
 import LessonCard from "./LessonCard";
 
 export interface LessonListProps {

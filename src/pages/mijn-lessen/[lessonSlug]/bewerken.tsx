@@ -6,7 +6,7 @@ import LessonEditor from "../../../components/editor/LessonEditor";
 import FullScreenSpinner from "../../../components/ui/FullScreenSpinner";
 import { API_URL } from "../../../config";
 import { niceFetch } from "../../../helpers";
-import { Lesson } from "../../../providers/types";
+import { Lesson } from "../../../types";
 
 const EditLesson: FC = () => {
   const router = useRouter();

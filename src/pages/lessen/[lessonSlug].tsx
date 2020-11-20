@@ -25,7 +25,7 @@ import { useSession } from "../../providers";
 function LessonOverview({
   lesson,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const isAuthor = lesson.author.name === session?.user.name;
 

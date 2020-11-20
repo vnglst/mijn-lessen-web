@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from "@chakra-ui/core";
 import React, { FC } from "react";
 import { GiLightBulb } from "react-icons/gi";
-import { User } from "../../providers/types";
+import { User } from "../../types";
 
 export interface UserStatsProps {
   user: User;

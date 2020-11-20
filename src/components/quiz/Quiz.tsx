@@ -16,33 +16,22 @@ import { useRouter } from "next/router";
 import React, { FC, useState } from "react";
 import useSound from "use-sound";
 import { API_URL } from "../../config";
-import { niceFetch, shuffle } from "../../helpers";
+import { niceFetch } from "../../helpers";
 import { useSessionStore } from "../../hooks";
 import { useSession } from "../../providers";
-import { Lesson, Option, Question } from "../../providers/types";
+import { Lesson, Option, Question, ActivityTypes } from "../../types";
 
 type Answer = null | "correct" | "incorrect";
-
-function shuffleQuestions(questions: Question[]) {
-  const newQuestions = questions.map((q) => {
-    return { ...q, options: shuffle(q.options) };
-  });
-  return shuffle(newQuestions);
-}
 
 interface Props {
   lesson: Lesson;
 }
 
 const Quiz: FC<Props> = ({ lesson }) => {
-  const initialQuestions = lesson.shuffle
-    ? shuffleQuestions(lesson.questions)
-    : lesson.questions;
-
   const { id: lessonId } = lesson;
 
   const router = useRouter();
-  const session = useSession();
+  const { session, mutate: mutateSession } = useSession();
 
   const [playCorrectFx] = useSound("/sounds/pepSound5.mp3", { volume: 1 });
   const [playMistakeFx] = useSound("/sounds/pepSound4.mp3", { volume: 1 });
@@ -50,14 +39,11 @@ const Quiz: FC<Props> = ({ lesson }) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [questions, setQuestions] = useSessionStore(
-    `questions-${lessonId}`,
-    initialQuestions
+    `q-${lessonId}`,
+    lesson.questions
   );
-  const [optionId, setOptionId] = useSessionStore(`optionId-${lessonId}`, "");
-  const [answer, setAnswer] = useSessionStore(
-    `answer-${lessonId}`,
-    null as Answer
-  );
+  const [optionId, setOptionId] = useSessionStore(`o-${lessonId}`, "");
+  const [answer, setAnswer] = useSessionStore(`a-${lessonId}`, null as Answer);
 
   const isAnswered = !!answer;
   const current: Question = questions[0];
@@ -79,11 +65,12 @@ const Quiz: FC<Props> = ({ lesson }) => {
 
     if (session?.user) {
       setIsSubmitting(true);
-      const json = await niceFetch(`${API_URL}/protected/result`, {
+      const json = await niceFetch(`${API_URL}/protected/activity`, {
         method: "PUT",
-        body: JSON.stringify({ lessonId }),
+        body: JSON.stringify({ lessonId, type: ActivityTypes.LESSON_COMPLETE }),
       });
       pointsEarned = json.pointsEarned;
+      mutateSession?.();
       setIsSubmitting(false);
       if (pointsEarned) playLevelUp();
     }
@@ -101,19 +88,6 @@ const Quiz: FC<Props> = ({ lesson }) => {
     else playMistakeFx();
 
     setAnswer(isCorrect ? "correct" : "incorrect");
-
-    if (session?.user) {
-      setIsSubmitting(true);
-      await niceFetch(`${API_URL}/protected/answers/`, {
-        method: "PUT",
-        body: JSON.stringify({
-          optionId: optionId,
-          questionId: current.id,
-        }),
-      });
-    }
-
-    setIsSubmitting(false);
   }
 
   return (
@@ -184,7 +158,7 @@ const Quiz: FC<Props> = ({ lesson }) => {
       <Progress
         mt="auto"
         value={
-          100 - Math.round((questions.length / initialQuestions.length) * 100)
+          100 - Math.round((questions.length / lesson.questions.length) * 100)
         }
         size="xs"
       />

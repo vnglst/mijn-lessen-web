@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import React, { FC, MouseEvent, useState } from "react";
 import { API_URL } from "../../config";
 import { niceFetch } from "../../helpers";
-import { Lesson } from "../../providers/types";
+import { Lesson } from "../../types";
 import MyFormLabel from "../ui/MyFormLabel";
 import RichTextEditor from "../ui/RichTextEditor";
 import SaveButton from "../ui/SaveButton";

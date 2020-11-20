@@ -9,8 +9,15 @@ import Quiz from "../../../components/quiz/Quiz";
 import FullScreenSpinner from "../../../components/ui/FullScreenSpinner";
 import HeroWave from "../../../components/ui/HeroWave";
 import { API_URL } from "../../../config";
-import { niceFetch } from "../../../helpers";
-import { Lesson } from "../../../providers/types";
+import { Lesson, Question } from "../../../types";
+import { niceFetch, shuffle } from "../../../helpers";
+
+function shuffleQuestions(questions: Question[]) {
+  const newQuestions = questions.map((q) => {
+    return { ...q, options: shuffle(q.options) };
+  });
+  return shuffle(newQuestions);
+}
 
 function LessonApp() {
   const router = useRouter();
@@ -43,7 +50,18 @@ function LessonApp() {
         </ButtonGroup>
       </NavBarTop>
       <HeroWave />
-      {lesson ? <Quiz lesson={lesson} /> : <FullScreenSpinner />}
+      {lesson ? (
+        <Quiz
+          lesson={{
+            ...lesson,
+            questions: lesson.shuffle
+              ? shuffleQuestions(lesson.questions)
+              : lesson.questions,
+          }}
+        />
+      ) : (
+        <FullScreenSpinner />
+      )}
     </>
   );
 }

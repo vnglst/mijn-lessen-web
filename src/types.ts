@@ -45,3 +45,12 @@ export type User = {
   avatar: string;
   points: number;
 };
+
+export const ActivityTypes = {
+  LESSON_COMPLETE: "LESSON_COMPLETE",
+  LOGIN: "LOGIN",
+  STREAK: "STREAK",
+  DAILY_REPS: "DAILY_REPS",
+};
+
+export type ActivityTypes = typeof ActivityTypes;

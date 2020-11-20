@@ -9,7 +9,7 @@ import { useSession } from "../../providers";
 import TextLink from "../ui/TextLink";
 
 const LoginAlert: FC = () => {
-  const session = useSession();
+  const { session } = useSession();
 
   if (!session || session?.user) return null;
 
