@@ -5,25 +5,25 @@ export type Option = {
 };
 
 export type Question = {
-  id?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
   title: string;
-  subtitle: string;
-  explanation?: string | null;
-  points?: number;
-  shuffle?: boolean;
+  subtitle: string | null;
+  explanation: string | null;
+  points: number;
   lessonId: string;
+  draft: boolean;
   options: Option[];
-  draft?: boolean;
+  repetitions: Repetition[];
 };
 
 export type Lesson = {
   id: string;
   createdAt: Date;
   updatedAt: Date;
+  authorId: string;
   slug: string;
-  authorId: number;
   title: string;
   subtitle: string | null;
   intro: string | null;
@@ -33,9 +33,9 @@ export type Lesson = {
   viewCount: number;
   likeCount: number;
   points: number;
+  draft: boolean;
   questions: Question[];
   author: { name: string | null; avatar: string | null };
-  draft?: boolean;
 };
 
 export type User = {
@@ -44,6 +44,16 @@ export type User = {
   email: string;
   avatar: string;
   points: number;
+  role: typeof Role;
+  lessonsCreated: Lesson[];
+  repetitions: Repetition[];
+  activities: Activity[];
+};
+
+export const Role = {
+  STUDENT: "STUDENT",
+  EDITOR: "EDITOR",
+  ADMIN: "ADMIN",
 };
 
 export const ActivityTypes = {
@@ -53,4 +63,25 @@ export const ActivityTypes = {
   DAILY_REPS: "DAILY_REPS",
 };
 
+export type Activity = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  pointsEarned: number;
+  type: ActivityTypes;
+  userId: string;
+};
+
 export type ActivityTypes = typeof ActivityTypes;
+
+export type Repetition = {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  questionId: string;
+  userId: string;
+  previous: number | null;
+  next: number | null;
+  progress: number;
+  question: Question;
+};

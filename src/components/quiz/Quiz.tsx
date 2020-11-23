@@ -12,38 +12,32 @@ import {
   Text,
 } from "@chakra-ui/core";
 import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
-import { useRouter } from "next/router";
-import React, { FC, useState } from "react";
+import React, { FC, FormEvent, useState } from "react";
 import useSound from "use-sound";
 import { API_URL } from "../../config";
 import { niceFetch } from "../../helpers";
 import { useSessionStore } from "../../hooks";
-import { useSession } from "../../providers";
-import { Lesson, Option, Question, ActivityTypes } from "../../types";
+import { Option, Question } from "../../types";
 
 type Answer = null | "correct" | "incorrect";
 
 interface Props {
-  lesson: Lesson;
+  questions: Question[];
+  id: string;
+  onComplete: () => Promise<void>;
 }
 
-const Quiz: FC<Props> = ({ lesson }) => {
-  const { id: lessonId } = lesson;
-
-  const router = useRouter();
-  const { session, mutate: mutateSession } = useSession();
-
+const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
   const [playCorrectFx] = useSound("/sounds/pepSound5.mp3", { volume: 1 });
   const [playMistakeFx] = useSound("/sounds/pepSound4.mp3", { volume: 1 });
-  const [playLevelUp] = useSound("/sounds/blessing.mp3", { volume: 1 });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [questions, setQuestions] = useSessionStore(
-    `q-${lessonId}`,
-    lesson.questions
+    `q-${id}`,
+    initialQuestions
   );
-  const [optionId, setOptionId] = useSessionStore(`o-${lessonId}`, "");
-  const [answer, setAnswer] = useSessionStore(`a-${lessonId}`, null as Answer);
+  const [optionId, setOptionId] = useSessionStore(`o-${id}`, "");
+  const [answer, setAnswer] = useSessionStore(`a-${id}`, null as Answer);
 
   const isAnswered = !!answer;
   const current: Question = questions[0];
@@ -54,6 +48,7 @@ const Quiz: FC<Props> = ({ lesson }) => {
     let newQuestions = [...questions.slice(1)];
     if (answer === "incorrect") newQuestions.push(current);
 
+    // still questions left, continue
     if (newQuestions.length > 0) {
       setQuestions(newQuestions);
       setOptionId("");
@@ -61,26 +56,13 @@ const Quiz: FC<Props> = ({ lesson }) => {
       return;
     }
 
-    let pointsEarned = 0;
-
-    if (session?.user) {
-      setIsSubmitting(true);
-      const json = await niceFetch(`${API_URL}/protected/activity`, {
-        method: "PUT",
-        body: JSON.stringify({ lessonId, type: ActivityTypes.LESSON_COMPLETE }),
-      });
-      pointsEarned = json.pointsEarned;
-      mutateSession?.();
-      setIsSubmitting(false);
-      if (pointsEarned) playLevelUp();
-    }
-
-    router.push(
-      `/lessen/${lesson.slug}/resultaat?pointsEarned=${pointsEarned}`
-    );
+    // end of questions
+    setIsSubmitting(true);
+    await onComplete();
+    setIsSubmitting(false);
   };
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
     const isCorrect = correctOption?.id == optionId;
@@ -88,6 +70,15 @@ const Quiz: FC<Props> = ({ lesson }) => {
     else playMistakeFx();
 
     setAnswer(isCorrect ? "correct" : "incorrect");
+
+    setIsSubmitting(true);
+
+    await niceFetch(`${API_URL}/protected/repetitions`, {
+      method: "POST",
+      body: JSON.stringify({ questionId: current.id, correct: isCorrect }),
+    });
+
+    setIsSubmitting(false);
   }
 
   return (
@@ -158,7 +149,7 @@ const Quiz: FC<Props> = ({ lesson }) => {
       <Progress
         mt="auto"
         value={
-          100 - Math.round((questions.length / lesson.questions.length) * 100)
+          100 - Math.round((questions.length / initialQuestions.length) * 100)
         }
         size="xs"
       />

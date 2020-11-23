@@ -7,7 +7,7 @@ import {
   Input,
   useToast,
 } from "@chakra-ui/core";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import DefaultLayout from "../../components/DefaultLayout";
 import TextLink from "../../components/ui/TextLink";
 import { API_URL } from "../../config";
@@ -17,7 +17,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const toast = useToast();
 
-  async function handleLogin(e: any) {
+  async function handleLogin(e: FormEvent) {
     e.preventDefault();
     await niceFetch(`${API_URL}/login`, {
       method: "POST",

@@ -6,7 +6,7 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/core";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import DefaultLayout from "../../components/DefaultLayout";
 import TextLink from "../../components/ui/TextLink";
 import { API_URL } from "../../config";
@@ -16,7 +16,7 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
 
-  async function handleRegister(e: any) {
+  async function handleRegister(e: FormEvent) {
     e.preventDefault();
     await niceFetch(`${API_URL}/register`, {
       method: "POST",

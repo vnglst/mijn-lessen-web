@@ -36,9 +36,9 @@ const NavBarTop: FC = ({ children }) => {
                   <NextLink href="/" passHref>
                     <Heading
                       as="a"
-                      fontSize="xl"
+                      fontSize="lg"
                       noOfLines={2}
-                      // fontWeight="900"
+                      fontWeight="900"
                       lineHeight={1}
                       style={{ fontVariant: "all-small-caps" }}
                       // textTransform="uppercase"

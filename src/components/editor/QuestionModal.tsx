@@ -135,6 +135,7 @@ const QuestionModal: FC<QuestionModalProps> = ({
 
       <Modal isOpen={isOpen} onClose={handleClose} size="xl">
         <ModalOverlay />
+        {/* TODO: refactors modals using this tip https://twitter.com/thesegunadebayo/status/1330866834636201987/photo/1 */}
         <ModalContent as="form">
           <ModalHeader>Vraag bewerken</ModalHeader>
           <ModalCloseButton />

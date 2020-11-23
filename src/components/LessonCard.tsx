@@ -9,9 +9,9 @@ interface Props {
   title: string;
   subtitle: string | null;
   imageUrl: string | null;
-  hearts: number;
-  views: number;
-  lightbulbs: number;
+  hearts?: number;
+  views?: number;
+  lightbulbs?: number;
   authorAvatar: string | null;
   showStats?: boolean;
 }
@@ -21,7 +21,7 @@ const LessonCard: FC<Props> = ({
   title,
   subtitle,
   hearts = 0,
-  views,
+  views = 0,
   lightbulbs,
   imageUrl,
   authorAvatar,
@@ -91,7 +91,12 @@ const LessonCard: FC<Props> = ({
                 textColor="gray.600"
                 width="100%"
               >
-                <Avatar mr="auto" size="xs" src={authorAvatar || ""} />
+                <Avatar
+                  mr="auto"
+                  size="xs"
+                  backgroundColor="transparent"
+                  src={authorAvatar || ""}
+                />
                 <Text>{lightbulbs}</Text>
                 <Box ml={2} mr={5} as={GiLightBulb} color="yellow.400" />
                 <Text>{views}</Text>

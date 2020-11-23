@@ -6,19 +6,20 @@ import LessonCard from "./LessonCard";
 export interface LessonListProps {
   lessons?: Lesson[];
   heading: string;
+  showStats?: boolean;
 }
 
-const LessonList: FC<LessonListProps> = ({ lessons, heading }) => {
+const LessonList: FC<LessonListProps> = ({ lessons, heading, showStats }) => {
   return (
     <>
-      <Heading as="h2" size="lg" marginBottom={10} textColor="gray.800">
+      <Heading as="h2" size="lg" mb={10} textColor="gray.800">
         {heading}
       </Heading>
       <Wrap spacing={["20px", "30px"]}>
         {lessons ? (
           lessons.map((lesson) => {
             return (
-              <WrapItem key={lesson.id}>
+              <WrapItem key={lesson.slug}>
                 <LessonCard
                   slug={lesson.slug}
                   title={lesson.title}
@@ -28,6 +29,7 @@ const LessonList: FC<LessonListProps> = ({ lessons, heading }) => {
                   hearts={lesson.likeCount}
                   lightbulbs={lesson.points}
                   authorAvatar={lesson.author.avatar}
+                  showStats={showStats}
                 />
               </WrapItem>
             );
