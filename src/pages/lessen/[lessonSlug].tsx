@@ -64,7 +64,11 @@ function LessonOverview({
                 Les gemaakt door:
               </Text>
               <Flex mt={2}>
-                <Avatar size="xs" src={lesson.author.avatar} />
+                <Avatar
+                  size="xs"
+                  src={lesson.author.avatar}
+                  backgroundColor="transparent"
+                />
                 <Text ml={2}>{lesson.author.name}</Text>
               </Flex>
             </Flex>

@@ -36,14 +36,15 @@ const NavBarTop: FC = ({ children }) => {
                   <NextLink href="/" passHref>
                     <Heading
                       as="a"
-                      fontSize="md"
+                      fontSize="xl"
                       noOfLines={2}
-                      fontWeight="900"
-                      lineHeight={1.4}
+                      // fontWeight="900"
+                      lineHeight={1}
+                      style={{ fontVariant: "all-small-caps" }}
+                      // textTransform="uppercase"
                     >
-                      Wizer.
-                      <br />
-                      Today
+                      mijn
+                      <br /> lessen.nl
                     </Heading>
                   </NextLink>
                 </Box>
