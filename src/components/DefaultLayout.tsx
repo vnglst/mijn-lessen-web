@@ -28,8 +28,13 @@ const DefaultLayout: FC<Props> = ({
       </AppHead>
       <NavBarTop />
       <HeroWave />
-      <Container display="flex" mt="25vh" justify="space-between">
-        <Flex flexDirection="column" width="100%">
+      <Container
+        display="flex"
+        mt="25vh"
+        justify="space-between"
+        maxWidth="2xl"
+      >
+        <Flex flexDirection="column" width="100%" mb={4}>
           <Heading
             as="h1"
             size="xl"
@@ -43,7 +48,12 @@ const DefaultLayout: FC<Props> = ({
             {headingText}
           </Heading>
           {subtitle && (
-            <Text mt={2} fontSize="lg" textAlign={centered ? "center" : "left"}>
+            <Text
+              mt={1}
+              fontSize="lg"
+              color="gray.700"
+              textAlign={centered ? "center" : "left"}
+            >
               {subtitle}
             </Text>
           )}

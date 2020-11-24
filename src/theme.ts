@@ -4,6 +4,21 @@ export const theme = extendTheme({
   fonts: {
     heading: `'Montserrat', sans-serif;`,
   },
+  colors: {
+    brand: {
+      50: "hsl(174deg 61% 96%);",
+      100: "hsl(174deg 61% 94%);",
+      200: "hsl(174deg 61% 92%);",
+      300: "hsl(174deg 61% 90%);",
+      400: "hsl(174deg 61% 88%);",
+      500: "hsl(174deg 61% 86%);",
+      600: "hsl(174deg 61% 85%);",
+      700: "hsl(174deg 61% 83%);",
+      800: "hsl(174deg 61% 81%);",
+      900: "hsl(174deg 61% 80%);",
+      // TODO: other colors
+    },
+  },
   components: {
     Link: {
       baseStyle: {
@@ -33,9 +48,9 @@ export const theme = extendTheme({
       },
       variants: {
         primary: {
-          bg: "hsl(174deg 61% 88%);",
+          bg: "brand.400",
           _hover: {
-            bg: "hsl(174deg 61% 85%);",
+            bg: "brand.600",
           },
         },
       },

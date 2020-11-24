@@ -60,7 +60,7 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
 
   return (
     <>
-      <Container display="flex" mt={14}>
+      <Container display="flex" mt={14} maxWidth="2xl">
         <VStack as="form" spacing={10} width="100%">
           <FormControl id="title" isRequired>
             <MyFormLabel>Naam les</MyFormLabel>

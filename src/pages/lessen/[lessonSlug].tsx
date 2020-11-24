@@ -38,7 +38,7 @@ function LessonOverview({
         subtitle={lesson.subtitle}
         imageUrl={lesson.imageUrl}
       >
-        <Container>
+        <Container maxWidth="2xl">
           <Flex
             my={1}
             ml="auto"

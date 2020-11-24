@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/core";
+import { Box, Divider } from "@chakra-ui/core";
 import React from "react";
 import useSWR from "swr";
 import DefaultLayout from "../components/DefaultLayout";
@@ -36,17 +36,18 @@ const Index = () => {
       centered
     >
       {totalReps > 0 && (
-        <Box p={10} mt={5} width="100%">
-          <LessonList
-            lessons={[todaysLesson]}
-            showStats
-            heading="Voor vandaag"
-          />
+        <Box px={[5, 10]} my={10} width="100%">
+          <LessonList lessons={[todaysLesson]} heading="Voor vandaag" />
         </Box>
       )}
-      <Box p={10} mt={5} width="100%">
-        <LessonList lessons={lessons} showStats heading="Lessen voor jou" />
+      <Box my={10} />
+      <Box px={[5, 10]}>
+        <LessonList lessons={lessons} heading="Rekenen" />
       </Box>
+      {/* <Box my={10} />
+      <Box px={[5, 10]}>
+        <LessonList lessons={lessons} heading="Taal" />
+      </Box> */}
     </DefaultLayout>
   );
 };

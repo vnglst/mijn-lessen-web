@@ -1,10 +1,12 @@
 import {
+  Box,
   Button,
   ButtonGroup,
   Container,
   Flex,
   FormControl,
   Heading,
+  HStack,
   Progress,
   Radio,
   RadioGroup,
@@ -92,7 +94,7 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
         display="flex"
         flexDirection="column"
         marginTop="auto"
-        pt={["15px", "30px"]}
+        pt="60px"
       >
         <Heading
           id="question"
@@ -166,18 +168,25 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
             : "white"
         }
       >
-        <Flex
-          mt={5}
-          mb={[10, 20]}
-          maxW="lg"
+        <HStack
+          my={4}
+          maxW="xl"
           width="100%"
-          justifyContent="space-between"
+          justifyContent={["space-around", "space-between"]}
+          flexWrap="wrap"
         >
-          <Flex width="100%" flexDirection="row">
+          <Flex
+            flexDirection="row"
+            flexWrap="wrap"
+            mb={[6, 0]}
+            alignItems="center"
+          >
             {answer === "incorrect" && (
               <>
-                <WarningIcon mt={2} mr={5} boxSize={8} />
-                <Flex flexDirection="column">
+                <Box>
+                  <WarningIcon boxSize={8} ml={3} />
+                </Box>
+                <Flex flexDirection="column" ml={3}>
                   <Heading as="h2" size="md">
                     Juiste antwoord:
                   </Heading>
@@ -187,8 +196,10 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
             )}
             {answer === "correct" && (
               <>
-                <CheckIcon mt={2} mr={5} boxSize={8} />
-                <Flex flexDirection="column">
+                <Box>
+                  <CheckIcon boxSize={8} ml={3} />
+                </Box>
+                <Flex flexDirection="column" ml={3}>
                   <Heading as="h2" size="md">
                     Juiste antwoord:
                   </Heading>
@@ -197,37 +208,31 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
               </>
             )}
           </Flex>
-          <FormControl>
-            <ButtonGroup
-              display="flex"
-              width="100%"
-              justifyContent="space-between"
-            >
-              {isAnswered ? (
-                <Button
-                  marginLeft="auto"
-                  bg="white"
-                  onClick={handleNext}
-                  isLoading={isSubmitting}
-                >
-                  {hasNextQuestion ? "Volgende" : "Bekijk resultaat"}
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  marginLeft="auto"
-                  variant="primary"
-                  onClick={handleSubmit}
-                  isLoading={isSubmitting}
-                  disabled={!optionId}
-                  alignSelf="flex-end"
-                >
-                  Controleren
-                </Button>
-              )}
-            </ButtonGroup>
-          </FormControl>
-        </Flex>
+          <ButtonGroup>
+            {isAnswered ? (
+              <Button
+                marginLeft="auto"
+                bg="white"
+                onClick={handleNext}
+                isLoading={isSubmitting}
+              >
+                {hasNextQuestion ? "Volgende" : "Bekijk resultaat"}
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                marginLeft="auto"
+                variant="primary"
+                onClick={handleSubmit}
+                isLoading={isSubmitting}
+                disabled={!optionId}
+                alignSelf="flex-end"
+              >
+                Controleren
+              </Button>
+            )}
+          </ButtonGroup>
+        </HStack>
       </Flex>
     </Flex>
   );
