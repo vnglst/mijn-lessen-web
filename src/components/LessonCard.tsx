@@ -11,14 +11,13 @@ interface Props {
 
 const LessonCard: FC<Props> = ({ slug, title, subtitle, imageUrl }) => {
   return (
-    <Flex width="100%" height="100%">
+    <Flex width="100%" height="100%" alignItems="flex-start">
       <Image
         objectFit="contain"
         src={imageUrl || ""}
-        height={["50px", "75px"]}
-        width={["50px", "75px"]}
-        borderRadius="20px"
-        p={[1, 2]}
+        width={["50px", "70px"]}
+        borderRadius={10}
+        m={[0, 2]}
       />
       <Flex ml={4} width="100%" flexWrap="wrap" height="100%">
         <Flex flexDir="column" flex={1} height="100%">
