@@ -67,7 +67,7 @@ const QuestionModal: FC<QuestionModalProps> = ({
     });
     setSaving("saved");
     mutate();
-    onClose();
+    handleClose();
   }
 
   async function handleDelete() {

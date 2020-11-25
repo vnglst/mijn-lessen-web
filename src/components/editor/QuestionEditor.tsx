@@ -37,6 +37,7 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
           name={`question-${question.id}`}
           fontWeight="bold"
           fontSize="xl"
+          autoComplete="off"
           value={question.title || ""}
           onChange={(e) =>
             updateQuestion({ ...question, title: e.target.value })
@@ -48,6 +49,7 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
         <Input
           name={`subquestion-${question.id}`}
           fontStyle="italic"
+          autoComplete="off"
           value={question.subtitle || ""}
           onChange={(e) =>
             updateQuestion({ ...question, subtitle: e.target.value })
@@ -96,6 +98,7 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
                   <Input
                     name={`option-${option.id}`}
                     value={option.title || ""}
+                    autoComplete="off"
                     onChange={(e) => {
                       const updated = question.options.map((option, index) =>
                         index === idx

@@ -62,10 +62,7 @@ const NewLessonModal: FC<NewLessonModalProps> = ({ onClose, isOpen }) => {
                 py={6}
                 autoComplete="off"
                 value={title}
-                onChange={(e) => {
-                  console.log(e);
-                  setTitle(e.target.value);
-                }}
+                onChange={(e) => setTitle(e.target.value)}
               />
               <FormHelperText>
                 Geef je les een leuke en unieke naam

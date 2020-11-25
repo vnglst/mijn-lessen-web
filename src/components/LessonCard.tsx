@@ -1,4 +1,4 @@
-import { Button, Flex, Image, Text, VStack } from "@chakra-ui/core";
+import { Button, Flex, Image, Text } from "@chakra-ui/core";
 import React, { FC } from "react";
 import TextLink from "./ui/TextLink";
 
@@ -11,24 +11,17 @@ interface Props {
 
 const LessonCard: FC<Props> = ({ slug, title, subtitle, imageUrl }) => {
   return (
-    <Flex minWidth={["90vw", "550px"]} maxWidth="550px" height="100%">
+    <Flex width="100%" height="100%">
       <Image
         objectFit="contain"
         src={imageUrl || ""}
-        height="75px"
-        width="75px"
+        height={["50px", "75px"]}
+        width={["50px", "75px"]}
         borderRadius="20px"
-        p={[1, 3]}
+        p={[1, 2]}
       />
-      <Flex
-        ml={4}
-        pb={5}
-        borderBottom="1px solid"
-        borderColor="gray.200"
-        width="100%"
-        height="100%"
-      >
-        <VStack align="left" flex={1} height="100%" spacing={0}>
+      <Flex ml={4} width="100%" flexWrap="wrap" height="100%">
+        <Flex flexDir="column" flex={1} height="100%">
           <Text
             fontSize="lg"
             noOfLines={2}
@@ -39,24 +32,31 @@ const LessonCard: FC<Props> = ({ slug, title, subtitle, imageUrl }) => {
             {title}
           </Text>
           {subtitle && (
-            <Text fontSize="md" noOfLines={2} isTruncated color="gray.600">
+            <Text
+              mb={3}
+              fontSize="md"
+              noOfLines={2}
+              isTruncated
+              color="gray.600"
+            >
               {subtitle}
             </Text>
           )}
-        </VStack>
-        <VStack justify="center" ml={4}>
-          <Button
-            as={TextLink}
-            href={`/lessen/${slug}`}
-            textDecoration="none"
-            size="sm"
-            _hover={{
-              textDecoration: "none",
-            }}
-          >
-            Open
-          </Button>
-        </VStack>
+          <Flex mt="auto" width="100%">
+            <Button
+              ml="auto"
+              as={TextLink}
+              href={`/lessen/${slug}`}
+              textDecoration="none"
+              size="sm"
+              _hover={{
+                textDecoration: "none",
+              }}
+            >
+              Open
+            </Button>
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   );

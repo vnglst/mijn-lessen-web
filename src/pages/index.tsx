@@ -1,4 +1,4 @@
-import { Box, Divider } from "@chakra-ui/core";
+import { Box } from "@chakra-ui/core";
 import React from "react";
 import useSWR from "swr";
 import DefaultLayout from "../components/DefaultLayout";
@@ -6,7 +6,8 @@ import LessonList from "../components/LessonList";
 import { API_URL } from "../config";
 import { niceFetch } from "../helpers";
 import { useSession } from "../providers";
-import { Lesson, Repetition } from "../types";
+import { Category, Lesson, Repetition } from "../types";
+import uniqBy from "lodash/uniqBy";
 
 const Index = () => {
   const { session } = useSession();
@@ -15,6 +16,14 @@ const Index = () => {
 
   const totalReps = (reps as Repetition[] | undefined)?.length || 0;
   const lessons: Lesson[] | undefined = data?.lessons;
+
+  let categories: Category[] = [];
+  if (lessons) {
+    lessons.forEach((l) => {
+      categories = [...categories, ...l.categories];
+    });
+    categories = uniqBy(categories, "id");
+  }
 
   const todaysLesson = {
     id: "todays-lessons",
@@ -40,14 +49,16 @@ const Index = () => {
           <LessonList lessons={[todaysLesson]} heading="Voor vandaag" />
         </Box>
       )}
-      <Box my={10} />
-      <Box px={[5, 10]}>
-        <LessonList lessons={lessons} heading="Rekenen" />
-      </Box>
-      {/* <Box my={10} />
-      <Box px={[5, 10]}>
-        <LessonList lessons={lessons} heading="Taal" />
-      </Box> */}
+      {categories.map((cat) => {
+        const l = lessons?.filter((lesson) =>
+          lesson.categories.some((c) => c.id === cat.id)
+        );
+        return (
+          <Box key={cat.id} px={[5, 10]} my={8} width="100%">
+            <LessonList lessons={l} heading={cat.title} />
+          </Box>
+        );
+      })}
     </DefaultLayout>
   );
 };

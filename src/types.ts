@@ -5,23 +5,23 @@ export type Option = {
 };
 
 export type Question = {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
+  id?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
   title: string;
   subtitle: string | null;
-  explanation: string | null;
+  explanation?: string | null;
   points: number;
   lessonId: string;
   draft: boolean;
   options: Option[];
-  repetitions: Repetition[];
+  repetitions?: Repetition[];
 };
 
 export type Lesson = {
   id: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   authorId: string;
   slug: string;
   title: string;
@@ -36,6 +36,13 @@ export type Lesson = {
   draft: boolean;
   questions: Question[];
   author: { name: string | null; avatar: string | null };
+  categories: Category[];
+};
+
+export type Category = {
+  title: string;
+  slug: string;
+  id: string;
 };
 
 export type User = {

@@ -19,7 +19,16 @@ const LessonList: FC<LessonListProps> = ({ lessons, heading }) => {
         {lessons ? (
           lessons.map((lesson) => {
             return (
-              <WrapItem key={lesson.slug}>
+              <WrapItem
+                key={lesson.slug}
+                border="1px solid"
+                borderColor="gray.200"
+                borderRadius="0 20px 20px 20px"
+                px={5}
+                py={5}
+                width="100%"
+                maxWidth="375px"
+              >
                 <LessonCard
                   slug={lesson.slug}
                   title={lesson.title}

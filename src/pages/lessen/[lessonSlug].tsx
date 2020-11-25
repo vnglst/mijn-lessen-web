@@ -27,7 +27,7 @@ function LessonOverview({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { session } = useSession();
   const router = useRouter();
-  const isAuthor = lesson.author.name === session?.user.name;
+  const isAuthor = lesson.author.name === session?.user?.name;
 
   return (
     <>

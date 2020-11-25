@@ -14,7 +14,7 @@ const LoginAlert: FC = () => {
   if (!session || session?.user) return null;
 
   return (
-    <Alert status="error">
+    <Alert status="error" p={8}>
       <AlertIcon />
       <AlertTitle mr={2}>Je bent niet ingelogd.</AlertTitle>
       <AlertDescription>

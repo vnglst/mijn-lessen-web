@@ -114,7 +114,7 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
             )}
           </HStack>
 
-          <FormControl id="afbeelding" isRequired>
+          <FormControl id="intro" isRequired>
             <MyFormLabel>Uitleg</MyFormLabel>
             <RichTextEditor
               value={intro || ""}
@@ -159,6 +159,7 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
                 mutate={mutate}
                 question={{
                   lessonId: lesson.id,
+                  points: 1,
                   title: "",
                   subtitle: "",
                   draft: true,
@@ -193,7 +194,11 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
               mb={[8, 2]}
               mr={2}
               marginLeft="auto"
-              onClick={() => router.push(`/lessen/${lesson.slug}`)}
+              onClick={() =>
+                router
+                  .push(`/lessen/${lesson.slug}`)
+                  .then(() => window.scrollTo(0, 0))
+              }
             >
               Bekijken
             </Button>
