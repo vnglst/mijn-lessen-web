@@ -1,11 +1,10 @@
-import { Box, Container, Flex, Heading, Image, Text } from "@chakra-ui/core";
-import { useRouter } from "next/router";
+import { Box, Container, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import { default as React, FC } from "react";
 import AppHead from "../components/Head";
 import Footer from "./Footer";
 import NavBarTop from "./navigation/NavBarTop";
 import HeroWave from "./ui/HeroWave";
-import { motion } from "framer-motion";
 
 interface Props {
   pageTitle: string;

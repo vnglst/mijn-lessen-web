@@ -1,4 +1,4 @@
-import { Code, Flex, Text } from "@chakra-ui/core";
+import { Code, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import useSWR, { mutate } from "swr";

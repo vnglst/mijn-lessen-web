@@ -11,7 +11,7 @@ import {
   RadioGroup,
   Text,
   VisuallyHidden,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { nanoid } from "nanoid";
 import React, { FC } from "react";

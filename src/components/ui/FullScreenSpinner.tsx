@@ -1,4 +1,4 @@
-import { Center, Spinner } from "@chakra-ui/core";
+import { Center, Spinner } from "@chakra-ui/react";
 import React from "react";
 
 export default function FullScreenSpinner() {

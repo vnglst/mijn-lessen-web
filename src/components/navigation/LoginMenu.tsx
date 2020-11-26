@@ -1,4 +1,4 @@
-import { Menu, MenuGroup, MenuItem, MenuList } from "@chakra-ui/core";
+import { Menu, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react";
 import { NextRouter } from "next/router";
 import React, { FC } from "react";
 import MyMenuButton from "./MyMenuButton";

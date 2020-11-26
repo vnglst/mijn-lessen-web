@@ -1,4 +1,4 @@
-import { AspectRatio, AspectRatioProps } from "@chakra-ui/core";
+import { AspectRatio, AspectRatioProps } from "@chakra-ui/react";
 import React, { FC } from "react";
 
 interface Props extends AspectRatioProps {

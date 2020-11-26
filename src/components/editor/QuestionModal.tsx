@@ -12,7 +12,7 @@ import {
   ModalOverlay,
   Text,
   useDisclosure,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import React, { FC, MouseEvent, useState } from "react";
 import { API_URL } from "../../config";

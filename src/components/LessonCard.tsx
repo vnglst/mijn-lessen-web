@@ -1,4 +1,4 @@
-import { Button, Flex, Image, Text } from "@chakra-ui/core";
+import { Button, Flex, Image, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import TextLink from "./ui/TextLink";
 

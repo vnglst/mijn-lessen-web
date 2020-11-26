@@ -6,7 +6,7 @@ import {
   FormLabel,
   Input,
   useToast,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import React, { FormEvent, useState } from "react";
 import DefaultLayout from "../../components/DefaultLayout";
 import TextLink from "../../components/ui/TextLink";

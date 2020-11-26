@@ -4,7 +4,7 @@ import {
   MenuItem,
   MenuList,
   useDisclosure,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { NextRouter } from "next/router";
 import { default as React, FC } from "react";

@@ -12,7 +12,7 @@ import {
   RadioGroup,
   Stack,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
 import React, { FC, FormEvent, useState } from "react";
 import useSound from "use-sound";

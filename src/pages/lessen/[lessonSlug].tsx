@@ -8,7 +8,7 @@ import {
   Flex,
   IconButton,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";

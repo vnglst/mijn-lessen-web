@@ -1,4 +1,4 @@
-import { Flex, Text, FlexProps } from "@chakra-ui/core";
+import { Flex, Text, FlexProps } from "@chakra-ui/react";
 import React, { FC } from "react";
 import TextLink from "./ui/TextLink";
 

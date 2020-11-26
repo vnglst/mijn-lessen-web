@@ -1,4 +1,4 @@
-import { Heading, Skeleton, Wrap, WrapItem } from "@chakra-ui/core";
+import { Heading, Skeleton, Wrap, WrapItem } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { Lesson } from "../types";
 import LessonCard from "./LessonCard";

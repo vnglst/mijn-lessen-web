@@ -1,4 +1,4 @@
-import { ButtonGroup, CloseButton } from "@chakra-ui/core";
+import { ButtonGroup, CloseButton } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";

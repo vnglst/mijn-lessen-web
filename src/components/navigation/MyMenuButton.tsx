@@ -1,4 +1,4 @@
-import { Button, MenuButton as ChakraMenuButton } from "@chakra-ui/core";
+import { Button, MenuButton as ChakraMenuButton } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { FC } from "react";
 

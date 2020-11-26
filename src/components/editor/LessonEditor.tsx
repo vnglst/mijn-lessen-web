@@ -12,7 +12,7 @@ import {
   ListItem,
   UnorderedList,
   VStack,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { FC, MouseEvent, useState } from "react";
 import { API_URL } from "../../config";

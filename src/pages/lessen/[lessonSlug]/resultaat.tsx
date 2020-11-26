@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Flex, Text } from "@chakra-ui/core";
+import { Box, Button, ButtonGroup, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 import { GiLightBulb } from "react-icons/gi";

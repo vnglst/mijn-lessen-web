@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/core";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { GiLightBulb } from "react-icons/gi";
 import { User } from "../../types";

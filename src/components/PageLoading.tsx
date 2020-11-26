@@ -1,4 +1,4 @@
-import { Progress } from "@chakra-ui/core";
+import { Progress } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 

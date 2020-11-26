@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/core";
+import { ChakraProvider } from "@chakra-ui/react";
 import GoogleFonts from "next-google-fonts";
 import { AppProps } from "next/app";
 import React from "react";
