@@ -3,9 +3,11 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { default as React, FC } from "react";
 import { useSession } from "../../providers";
-import UserMenu from "./UserMenu";
-import CreateMenu from "./CreateMenu";
-import LoginMenu from "./LoginMenu";
+import dynamic from "next/dynamic";
+
+const LoginMenu = dynamic(() => import("./LoginMenu"));
+const CreateMenu = dynamic(() => import("./CreateMenu"));
+const UserMenu = dynamic(() => import("./UserMenu"));
 
 const NavBarTop: FC = ({ children }) => {
   const { session } = useSession();

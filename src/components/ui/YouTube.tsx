@@ -10,7 +10,7 @@ const YouTube: FC<Props> = ({ videoUrl, ...rest }) => {
   const embedId = new URL(videoUrl).searchParams.get("v");
 
   return (
-    <AspectRatio maxW="560px" ratio={1.6} width="100%" my={4} {...rest}>
+    <AspectRatio ratio={1.6} width="100%" my={4} {...rest}>
       <iframe
         style={{ border: "5px solid black" }}
         title="Youtube video"
