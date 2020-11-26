@@ -2,7 +2,7 @@ import { Heading, Skeleton, Wrap, WrapItem } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { Lesson } from "../types";
 import LessonCard from "./LessonCard";
-import { Underline } from "./ui";
+import Underline from "./ui/Underline";
 
 export interface LessonListProps {
   lessons?: Lesson[];
