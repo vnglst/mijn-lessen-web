@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
 import React, { FC } from "react";
 import useSWR from "swr";
-import DefaultLayout from "../../../components/DefaultLayout";
-import LessonEditor from "../../../components/editor/LessonEditor";
-import FullScreenSpinner from "../../../components/ui/FullScreenSpinner";
-import { API_URL } from "../../../config";
-import { niceFetch } from "../../../helpers";
+import DefaultLayout from "@components/DefaultLayout";
+import LessonEditor from "@components/editor/LessonEditor";
+import FullScreenSpinner from "@components/ui/FullScreenSpinner";
+import { API_URL } from "@config/services";
+import { niceFetch } from "@helpers/niceFetch";
 import { Lesson } from "../../../types";
 
 const EditLesson: FC = () => {

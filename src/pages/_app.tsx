@@ -2,10 +2,10 @@ import { ChakraProvider } from "@chakra-ui/react";
 import GoogleFonts from "next-google-fonts";
 import { AppProps } from "next/app";
 import React from "react";
-import PageLoading from "../components/PageLoading";
-import { SessionProvider } from "../providers";
+import PageLoading from "@components/PageLoading";
+import { SessionProvider } from "../providers/SessionProvider";
 import { theme } from "../theme";
-import "../components/ui/quill.snow.css";
+import "@components/ui/quill.snow.css";
 
 function WizerApp({ Component, pageProps }: AppProps) {
   return (

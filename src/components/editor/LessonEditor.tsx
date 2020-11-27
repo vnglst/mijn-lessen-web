@@ -15,8 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { FC, MouseEvent, useState } from "react";
-import { API_URL } from "../../config";
-import { niceFetch } from "../../helpers/niceFetch";
+import { API_URL } from "@config/services";
+import { niceFetch } from "@helpers/niceFetch";
 import { Lesson } from "../../types";
 import MyFormLabel from "../ui/MyFormLabel";
 import RichTextEditor from "../ui/RichTextEditor";

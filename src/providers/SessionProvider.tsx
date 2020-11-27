@@ -1,7 +1,7 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import { API_URL } from "@config/services";
+import { niceFetch } from "@helpers/niceFetch";
+import React, { FC, useEffect, useState } from "react";
 import useSWR from "swr";
-import { API_URL } from "../config";
-import { niceFetch } from "../helpers";
 import { User } from "../types";
 
 export type Session = {
@@ -27,5 +27,3 @@ export const SessionProvider: FC = ({ children }) => {
     </SessionContext.Provider>
   );
 };
-
-export const useSession = () => useContext(SessionContext);

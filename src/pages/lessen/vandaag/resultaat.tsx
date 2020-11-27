@@ -2,8 +2,8 @@ import { Box, Button, ButtonGroup, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 import { GiLightBulb } from "react-icons/gi";
-import DefaultLayout from "../../../components/DefaultLayout";
-import LoginAlert from "../../../components/quiz/LoginAlert";
+import DefaultLayout from "@components/DefaultLayout";
+import LoginAlert from "@components/quiz/LoginAlert";
 
 function ResultPage() {
   const router = useRouter();

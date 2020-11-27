@@ -15,12 +15,12 @@ import { useRouter } from "next/router";
 import React from "react";
 import { GiHearts, GiLightBulb } from "react-icons/gi";
 import { GrView } from "react-icons/gr";
-import DefaultLayout from "../../components/DefaultLayout";
-import LoginAlert from "../../components/quiz/LoginAlert";
-import YouTube from "../../components/ui/YouTube";
-import { API_URL } from "../../config";
-import { niceFetch } from "../../helpers";
-import { useSession } from "../../providers";
+import DefaultLayout from "@components/DefaultLayout";
+import LoginAlert from "@components/quiz/LoginAlert";
+import YouTube from "@components/ui/YouTube";
+import { API_URL } from "@config/services";
+import { niceFetch } from "@helpers/niceFetch";
+import { useSession } from "@hooks/useSession";
 
 function LessonOverview({
   lesson,

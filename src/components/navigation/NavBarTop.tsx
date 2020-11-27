@@ -2,7 +2,7 @@ import { Box, Flex, Heading } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { default as React, FC } from "react";
-import { useSession } from "../../providers";
+import { useSession } from "@hooks/useSession";
 import dynamic from "next/dynamic";
 
 const LoginMenu = dynamic(() => import("./LoginMenu"));

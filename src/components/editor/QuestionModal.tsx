@@ -15,8 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import React, { FC, MouseEvent, useState } from "react";
-import { API_URL } from "../../config";
-import { niceFetch } from "../../helpers";
+import { API_URL } from "@config/services";
+import { niceFetch } from "@helpers/niceFetch";
 import { Question } from "../../types";
 import SaveButton from "../ui/SaveButton";
 import QuestionEditor from "./QuestionEditor";

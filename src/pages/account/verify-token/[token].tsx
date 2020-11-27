@@ -2,11 +2,11 @@ import { Code, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import useSWR, { mutate } from "swr";
-import DefaultLayout from "../../../components/DefaultLayout";
-import FullScreenSpinner from "../../../components/ui/FullScreenSpinner";
-import TextLink from "../../../components/ui/TextLink";
-import { API_URL } from "../../../config";
-import { niceFetch } from "../../../helpers";
+import DefaultLayout from "@components/DefaultLayout";
+import FullScreenSpinner from "@components/ui/FullScreenSpinner";
+import TextLink from "@components/ui/TextLink";
+import { API_URL } from "@config/services";
+import { niceFetch } from "@helpers/niceFetch";
 
 function TokenPage() {
   const router = useRouter();

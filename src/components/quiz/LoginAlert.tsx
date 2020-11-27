@@ -6,7 +6,7 @@ import {
   CloseButton,
 } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
-import { useSession } from "../../providers";
+import { useSession } from "@hooks/useSession";
 import TextLink from "../ui/TextLink";
 
 const LoginAlert: FC = () => {

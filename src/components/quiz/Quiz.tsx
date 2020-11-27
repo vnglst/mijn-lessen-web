@@ -16,9 +16,9 @@ import {
 import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
 import React, { FC, FormEvent, useState } from "react";
 import useSound from "use-sound";
-import { API_URL } from "../../config";
-import { niceFetch } from "../../helpers";
-import { useSessionStore } from "../../hooks";
+import { API_URL } from "@config/services";
+import { niceFetch } from "@helpers/niceFetch";
+import { useSessionStore } from "@hooks/useSessionStore";
 import { Option, Question } from "../../types";
 
 type Answer = null | "correct" | "incorrect";

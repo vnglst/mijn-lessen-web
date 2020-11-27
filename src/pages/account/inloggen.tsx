@@ -8,10 +8,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { FormEvent, useState } from "react";
-import DefaultLayout from "../../components/DefaultLayout";
-import TextLink from "../../components/ui/TextLink";
-import { API_URL } from "../../config";
-import { niceFetch } from "../../helpers";
+import DefaultLayout from "@components/DefaultLayout";
+import TextLink from "@components/ui/TextLink";
+import { API_URL } from "@config/services";
+import { niceFetch } from "@helpers/niceFetch";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");

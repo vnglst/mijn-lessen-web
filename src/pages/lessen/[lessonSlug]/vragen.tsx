@@ -2,16 +2,17 @@ import { ButtonGroup, CloseButton } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
-import AppHead from "../../../components/Head";
-import NavBarTop from "../../../components/navigation/NavBarTop";
-import LoginAlert from "../../../components/quiz/LoginAlert";
-import Quiz from "../../../components/quiz/Quiz";
-import FullScreenSpinner from "../../../components/ui/FullScreenSpinner";
-import HeroWave from "../../../components/ui/HeroWave";
-import { API_URL } from "../../../config";
+import AppHead from "@components/Head";
+import NavBarTop from "@components/navigation/NavBarTop";
+import LoginAlert from "@components/quiz/LoginAlert";
+import Quiz from "@components/quiz/Quiz";
+import FullScreenSpinner from "@components/ui/FullScreenSpinner";
+import HeroWave from "@components/ui/HeroWave";
+import { API_URL } from "@config/services";
 import { ActivityTypes, Lesson, Question } from "../../../types";
-import { niceFetch, shuffle } from "../../../helpers";
-import { useSession } from "../../../providers";
+import { shuffle } from "@helpers/random";
+import { niceFetch } from "@helpers/niceFetch";
+import { useSession } from "@hooks/useSession";
 import useSound from "use-sound";
 
 function shuffleQuestions(questions: Question[]) {

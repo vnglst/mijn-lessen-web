@@ -1,11 +1,11 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
 import useSWR from "swr";
-import DefaultLayout from "../components/DefaultLayout";
-import LessonList from "../components/LessonList";
-import { API_URL } from "../config";
-import { niceFetch } from "../helpers";
-import { useSession } from "../providers";
+import DefaultLayout from "@components/DefaultLayout";
+import LessonList from "@components/LessonList";
+import { API_URL } from "../config/services";
+import { niceFetch } from "@helpers/niceFetch";
+import { useSession } from "@hooks/useSession";
 import { Category, Lesson, Repetition } from "../types";
 import uniqBy from "lodash/uniqBy";
 
