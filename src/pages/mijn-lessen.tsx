@@ -1,12 +1,12 @@
 import { Box } from "@chakra-ui/react";
 import React, { FC } from "react";
 import useSWR from "swr";
-import DefaultLayout from "../../components/DefaultLayout";
-import LessonList from "../../components/LessonList";
-import { API_URL } from "../../config";
-import { niceFetch } from "../../helpers";
-import { useSession } from "../../providers";
-import { Lesson } from "../../types";
+import DefaultLayout from "../components/DefaultLayout";
+import LessonList from "../components/LessonList";
+import { API_URL } from "../config";
+import { niceFetch } from "../helpers";
+import { useSession } from "../providers";
+import { Lesson } from "../types";
 
 const MyLessons: FC = () => {
   const { session } = useSession();

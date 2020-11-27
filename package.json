@@ -21,7 +21,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.11.5",
-    "react-icons": "^3.11.0",
+    "react-icons": "^4.1.0",
     "react-quill": "^2.0.0-beta.2",
     "swr": "^0.3.9",
     "use-sound": "^2.0.1"

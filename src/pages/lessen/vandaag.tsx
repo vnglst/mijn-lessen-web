@@ -2,15 +2,15 @@ import { ButtonGroup, Center, CloseButton, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
-import AppHead from "../../../components/Head";
-import NavBarTop from "../../../components/navigation/NavBarTop";
-import LoginAlert from "../../../components/quiz/LoginAlert";
-import Quiz from "../../../components/quiz/Quiz";
-import FullScreenSpinner from "../../../components/ui/FullScreenSpinner";
-import HeroWave from "../../../components/ui/HeroWave";
-import { API_URL } from "../../../config";
-import { niceFetch } from "../../../helpers";
-import { Repetition } from "../../../types";
+import AppHead from "../../components/Head";
+import NavBarTop from "../../components/navigation/NavBarTop";
+import LoginAlert from "../../components/quiz/LoginAlert";
+import Quiz from "../../components/quiz/Quiz";
+import FullScreenSpinner from "../../components/ui/FullScreenSpinner";
+import HeroWave from "../../components/ui/HeroWave";
+import { API_URL } from "../../config";
+import { niceFetch } from "../../helpers";
+import { Repetition } from "../../types";
 
 function TodaysQuiz() {
   const router = useRouter();
