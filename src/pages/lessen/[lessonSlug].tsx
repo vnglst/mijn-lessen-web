@@ -12,7 +12,7 @@ import {
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { GiHearts, GiLightBulb } from "react-icons/gi";
 import { GrView } from "react-icons/gr";
 import DefaultLayout from "@components/DefaultLayout";
@@ -26,8 +26,24 @@ function LessonOverview({
   lesson,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { session } = useSession();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const isAuthor = lesson.author.name === session?.user?.name;
+
+  const handleStart = async () => {
+    sessionStorage.clear();
+    setLoading(true);
+    await niceFetch(`${API_URL}/protected/stats`, {
+      method: "POST",
+      body: JSON.stringify({
+        lessonId: lesson.id,
+        viewed: true,
+        status: "STARTED",
+      }),
+    });
+    setLoading(false);
+    router.push(`/lessen/${lesson.slug}/vragen`);
+  };
 
   return (
     <>
@@ -114,11 +130,9 @@ function LessonOverview({
           <ButtonGroup mt={10}>
             <Button
               mx="auto"
-              onClick={async () => {
-                sessionStorage.clear();
-                router.push(`/lessen/${lesson.slug}/vragen`);
-              }}
+              onClick={handleStart}
               variant="primary"
+              isLoading={loading}
             >
               Start les
             </Button>

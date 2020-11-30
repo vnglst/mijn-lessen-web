@@ -1,4 +1,4 @@
-import { Button, Flex, Image, Text } from "@chakra-ui/react";
+import { Badge, Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import TextLink from "./ui/TextLink";
 
@@ -7,9 +7,10 @@ interface Props {
   title: string;
   subtitle: string | null;
   imageUrl: string | null;
+  status?: string;
 }
 
-const LessonCard: FC<Props> = ({ slug, title, subtitle, imageUrl }) => {
+const LessonCard: FC<Props> = ({ slug, title, subtitle, imageUrl, status }) => {
   return (
     <Flex width="100%" height="100%" alignItems="flex-start">
       <Image
@@ -21,15 +22,25 @@ const LessonCard: FC<Props> = ({ slug, title, subtitle, imageUrl }) => {
       />
       <Flex ml={4} width="100%" flexWrap="wrap" height="100%">
         <Flex flexDir="column" flex={1} height="100%">
-          <Text
-            fontSize="lg"
-            noOfLines={2}
-            isTruncated
-            fontWeight="semibold"
-            textColor="gray.700"
-          >
-            {title}
-          </Text>
+          <Flex mb={2}>
+            <Text
+              fontSize="lg"
+              noOfLines={2}
+              isTruncated
+              fontWeight="semibold"
+              textColor="gray.700"
+            >
+              {title}
+            </Text>
+            <Box ml="auto">
+              {status === "STARTED" && (
+                <Badge colorScheme="blue">gestart</Badge>
+              )}
+              {status === "COMPLETED" && (
+                <Badge colorScheme="green">gedaan</Badge>
+              )}
+            </Box>
+          </Flex>
           {subtitle && (
             <Text
               mb={3}

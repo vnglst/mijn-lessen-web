@@ -48,14 +48,23 @@ function QuestionsPage() {
     let pointsEarned = 0;
 
     if (session?.user) {
-      const json = await niceFetch(`${API_URL}/protected/activity`, {
+      const activity = await niceFetch(`${API_URL}/protected/activity`, {
         method: "PUT",
         body: JSON.stringify({
           lessonId: lesson!.id,
           type: ActivityTypes.LESSON_COMPLETE,
         }),
       });
-      pointsEarned = json.pointsEarned;
+
+      await niceFetch(`${API_URL}/protected/stats`, {
+        method: "POST",
+        body: JSON.stringify({
+          lessonId: lesson!.id,
+          status: "COMPLETED",
+        }),
+      });
+
+      pointsEarned = activity.pointsEarned;
       if (pointsEarned) playLevelUp();
       mutateSession?.();
     }

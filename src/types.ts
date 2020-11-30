@@ -37,6 +37,7 @@ export type Lesson = {
   questions: Question[];
   author: { name: string | null; avatar: string | null };
   categories: Category[];
+  status?: string;
 };
 
 export type Category = {

@@ -8,14 +8,26 @@ import { niceFetch } from "@helpers/niceFetch";
 import { useSession } from "@hooks/useSession";
 import { Category, Lesson, Repetition } from "../types";
 import uniqBy from "lodash/uniqBy";
+import keyBy from "lodash/keyBy";
 
 const Index = () => {
   const { session } = useSession();
   const { data } = useSWR(`${API_URL}/lessons`, niceFetch);
   const { data: reps } = useSWR(`${API_URL}/protected/repetitions`, niceFetch);
+  const { data: stats } = useSWR(`${API_URL}/protected/stats`, niceFetch);
 
   const totalReps = (reps as Repetition[] | undefined)?.length || 0;
   const lessons: Lesson[] | undefined = data?.lessons;
+
+  const dict = keyBy(stats, "lessonId");
+
+  const lessonsWithStats = lessons?.map((l) => {
+    const status = dict ? dict[l.id]?.status : undefined;
+    return {
+      status,
+      ...l,
+    };
+  });
 
   let categories: Category[] = [];
   if (lessons) {
@@ -50,7 +62,7 @@ const Index = () => {
         </Box>
       )}
       {categories.map((cat) => {
-        const l = lessons?.filter((lesson) =>
+        const l = lessonsWithStats?.filter((lesson) =>
           lesson.categories.some((c) => c.id === cat.id)
         );
         return (

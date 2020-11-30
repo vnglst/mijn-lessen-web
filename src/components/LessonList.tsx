@@ -34,6 +34,7 @@ const LessonList: FC<LessonListProps> = ({ lessons, heading }) => {
                   title={lesson.title}
                   subtitle={lesson.subtitle}
                   imageUrl={lesson.imageUrl}
+                  status={lesson.status}
                 />
               </WrapItem>
             );
