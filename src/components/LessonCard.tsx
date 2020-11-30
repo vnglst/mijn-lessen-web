@@ -34,10 +34,14 @@ const LessonCard: FC<Props> = ({ slug, title, subtitle, imageUrl, status }) => {
             </Text>
             <Box ml="auto">
               {status === "STARTED" && (
-                <Badge colorScheme="blue">gestart</Badge>
+                <Badge variant="solid" colorScheme="blue">
+                  gestart
+                </Badge>
               )}
               {status === "COMPLETED" && (
-                <Badge colorScheme="green">gedaan</Badge>
+                <Badge variant="solid" colorScheme="green">
+                  gedaan
+                </Badge>
               )}
             </Box>
           </Flex>
