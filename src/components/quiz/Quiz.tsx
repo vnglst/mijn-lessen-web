@@ -1,3 +1,4 @@
+import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -8,18 +9,15 @@ import {
   Heading,
   HStack,
   Progress,
-  Radio,
-  RadioGroup,
-  Stack,
   Text,
 } from "@chakra-ui/react";
-import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
-import React, { FC, FormEvent, useState } from "react";
-import useSound from "use-sound";
 import { API_URL } from "@config/services";
 import { niceFetch } from "@helpers/niceFetch";
 import { useSessionStore } from "@hooks/useSessionStore";
+import React, { FC, FormEvent, useState } from "react";
+import useSound from "use-sound";
 import { Option, Question } from "../../types";
+import QuizOptions from "./QuizOptions";
 
 type Answer = null | "correct" | "incorrect";
 
@@ -38,8 +36,8 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
     `q-${id}`,
     initialQuestions
   );
-  const [optionId, setOptionId] = useSessionStore(`o-${id}`, "");
   const [answer, setAnswer] = useSessionStore(`a-${id}`, null as Answer);
+  const [optionId, setOptionId] = useSessionStore(`o-${id}`, "");
 
   const isAnswered = !!answer;
   const current: Question = questions[0];
@@ -113,40 +111,22 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
             {current.subtitle}
           </Text>
         )}
-        <Flex flexDirection="column">
-          <FormControl
-            id="answer"
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            marginTop="60px"
-            isRequired
-          >
-            <RadioGroup
-              aria-labelledby="question"
-              onChange={setOptionId}
-              value={optionId.toString()}
-              name="answer"
-            >
-              <Stack direction="column">
-                {current.options.map(({ title, id }) => {
-                  return (
-                    <Radio
-                      marginY="10px"
-                      key={id}
-                      colorScheme="blue"
-                      size="lg"
-                      value={id.toString()}
-                      isDisabled={isAnswered}
-                    >
-                      {title}
-                    </Radio>
-                  );
-                })}
-              </Stack>
-            </RadioGroup>
-          </FormControl>
-        </Flex>
+        <FormControl
+          id="answer"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          mt={16}
+          isRequired
+        >
+          <QuizOptions
+            key={current.id}
+            value={optionId}
+            onChange={setOptionId}
+            options={current.options}
+            isAnswered={isAnswered}
+          />
+        </FormControl>
       </Container>
       <Progress
         mt="auto"
@@ -175,12 +155,7 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
           justifyContent={["space-around", "space-between"]}
           flexWrap="wrap"
         >
-          <Flex
-            flexDirection="row"
-            flexWrap="wrap"
-            mb={[6, 0]}
-            alignItems="center"
-          >
+          <Flex flexDirection="row" flexWrap="wrap" mb={6} alignItems="center">
             {answer === "incorrect" && (
               <>
                 <Box>

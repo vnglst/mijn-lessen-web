@@ -19,7 +19,7 @@ const MyLessons: FC = () => {
   return (
     <DefaultLayout pageTitle="Mijn lessen" headingText="Jouw lessen" centered>
       <Box p={10} mt={5}>
-        <LessonList lessons={lessons} heading="Net gewijzigde lessen" />
+        <LessonList lessons={lessons} heading="Door jou gemaakte lessen" />
       </Box>
     </DefaultLayout>
   );
