@@ -137,7 +137,9 @@ const QuestionModal: FC<QuestionModalProps> = ({
         <ModalOverlay />
         {/* TODO: refactors modals using this tip https://twitter.com/thesegunadebayo/status/1330866834636201987/photo/1 */}
         <ModalContent as="form">
-          <ModalHeader>Vraag bewerken</ModalHeader>
+          <ModalHeader>
+            {initialQuestion.draft ? "Nieuwe vraag" : "Vraag bewerken"}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <QuestionEditor

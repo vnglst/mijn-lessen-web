@@ -116,7 +116,7 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
           display="flex"
           flexDirection="column"
           alignItems="center"
-          mt={16}
+          my={16}
           isRequired
         >
           <QuizOptions
@@ -183,7 +183,7 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
               </>
             )}
           </Flex>
-          <ButtonGroup>
+          <ButtonGroup mb={6}>
             {isAnswered ? (
               <Button
                 marginLeft="auto"
