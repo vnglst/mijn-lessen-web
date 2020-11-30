@@ -37,13 +37,13 @@ export const theme = extendTheme({
         fontWeight: "bold",
         borderRadius: "0 20px 20px 20px",
         _hover: {
-          boxShadow: "4px 4px 0px #000000;",
+          boxShadow: "4px 4px 0px #333;",
         },
         _active: {
-          boxShadow: "1px 1px 0px #000000;",
+          boxShadow: "1px 1px 0px #333;",
         },
         _focus: {
-          boxShadow: "2px 2px 0px #000000;",
+          boxShadow: "2px 2px 0px #333;",
         },
       },
       variants: {

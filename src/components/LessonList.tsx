@@ -1,4 +1,4 @@
-import { Heading, Skeleton, Wrap, WrapItem } from "@chakra-ui/react";
+import { Divider, Heading, Skeleton, Wrap, WrapItem } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { Lesson } from "../types";
 import LessonCard from "./LessonCard";
@@ -19,22 +19,14 @@ const LessonList: FC<LessonListProps> = ({ lessons, heading }) => {
         {lessons ? (
           lessons.map((lesson) => {
             return (
-              <WrapItem
-                key={lesson.slug}
-                border="1px solid"
-                borderColor="gray.200"
-                borderRadius="0 20px 20px 20px"
-                px={5}
-                py={5}
-                width="100%"
-                maxWidth="375px"
-              >
+              <WrapItem key={lesson.slug}>
                 <LessonCard
                   slug={lesson.slug}
                   title={lesson.title}
                   subtitle={lesson.subtitle}
                   imageUrl={lesson.imageUrl}
                   status={lesson.status}
+                  lesson={lesson}
                 />
               </WrapItem>
             );
@@ -45,6 +37,7 @@ const LessonList: FC<LessonListProps> = ({ lessons, heading }) => {
           </WrapItem>
         )}
       </Wrap>
+      <Divider my={8} />
     </>
   );
 };
