@@ -9,7 +9,7 @@ module.exports = {
     "<rootDir>/src/jest.setup.ts",
   ],
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-  testPathIgnorePatterns: ["/lib/", "/node_modules/"],
+  testPathIgnorePatterns: ["/node_modules/"],
   collectCoverageFrom: ["src/**/*.{ts,tsx}"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 };
