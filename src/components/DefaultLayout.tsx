@@ -37,7 +37,7 @@ const DefaultLayout: FC<Props> = ({
     >
       <Box minHeight="100vh" display="flex" flexDirection="column">
         <AppHead>
-          <title>{pageTitle} | Wizer.Today</title>
+          <title>{pageTitle} | mijn-lessen.nl</title>
         </AppHead>
         <NavBarTop />
         <HeroWave />

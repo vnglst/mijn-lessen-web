@@ -75,7 +75,7 @@ function QuestionsPage() {
   return (
     <>
       <AppHead>
-        <title>Oefenen {data?.lesson?.title} | Wizer.Today</title>
+        <title>Oefenen {data?.lesson?.title} | mijn-lessen.nl</title>
       </AppHead>
       <LoginAlert />
       <HeroWave />

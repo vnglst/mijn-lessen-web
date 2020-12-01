@@ -24,7 +24,7 @@ const Footer: FC<FooterProps> = ({ ...rest }) => {
         </TextLink>{" "}
         |{" "}
         <TextLink textDecoration="none" href="/#">
-          Over Wizer.Today
+          Over mijn-lessen.nl
         </TextLink>{" "}
         |{" "}
         <TextLink textDecoration="none" href="/#">

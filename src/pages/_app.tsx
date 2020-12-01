@@ -7,7 +7,7 @@ import { SessionProvider } from "../providers/SessionProvider";
 import { theme } from "../theme";
 import "@components/ui/quill.snow.css";
 
-function WizerApp({ Component, pageProps }: AppProps) {
+function MijnLessenApp({ Component, pageProps }: AppProps) {
   return (
     <SessionProvider>
       <ChakraProvider theme={theme}>
@@ -19,4 +19,4 @@ function WizerApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default WizerApp;
+export default MijnLessenApp;

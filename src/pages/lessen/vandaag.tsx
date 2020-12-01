@@ -37,7 +37,7 @@ function TodaysQuiz() {
   return (
     <>
       <AppHead>
-        <title>Vragen voor vandaag | Wizer.Today</title>
+        <title>Vragen voor vandaag | mijn-lessen.nl</title>
       </AppHead>
       <LoginAlert />
       <HeroWave />
