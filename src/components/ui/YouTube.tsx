@@ -1,8 +1,8 @@
 import { AspectRatio, AspectRatioProps } from "@chakra-ui/react";
-import React, { FC } from "react";
+import { FC } from "react";
 
 interface Props extends AspectRatioProps {
-  videoUrl: string;
+  videoUrl: string | null;
 }
 
 const YouTube: FC<Props> = ({ videoUrl, ...rest }) => {
@@ -13,7 +13,7 @@ const YouTube: FC<Props> = ({ videoUrl, ...rest }) => {
     <AspectRatio ratio={1.6} width="100%" my={4} {...rest}>
       <iframe
         style={{ border: "5px solid black" }}
-        title="Youtube video"
+        title="Youtube-video"
         src={`https://www.youtube.com/embed/${embedId}`}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
