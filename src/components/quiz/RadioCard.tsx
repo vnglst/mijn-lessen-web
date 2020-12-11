@@ -16,6 +16,8 @@ const RadioCard: FC<RadioCardProps> = ({ children, ...rest }) => {
       <input {...input} />
       <Flex
         {...checkbox}
+        disabled={rest.isDisabled}
+        checked={rest.isChecked}
         cursor="pointer"
         borderWidth="1px"
         borderRadius="md"
@@ -36,7 +38,6 @@ const RadioCard: FC<RadioCardProps> = ({ children, ...rest }) => {
         px={5}
         py={3}
         width="100%"
-        {...rest}
       >
         {children}
       </Flex>

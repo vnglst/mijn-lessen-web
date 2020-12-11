@@ -41,7 +41,7 @@ const PageLoading: FC = () => {
         position="absolute"
         zIndex={10}
         size="xs"
-        bg="transparent"
+        bg="white"
         isIndeterminate
         width="100%"
       />

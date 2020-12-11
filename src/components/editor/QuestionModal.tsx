@@ -1,3 +1,4 @@
+import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Button,
   ButtonGroup,
@@ -13,10 +14,8 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { api } from "@helpers/api";
 import React, { FC, MouseEvent, useState } from "react";
-import { API_URL } from "@config/services";
-import { niceFetch } from "@helpers/niceFetch";
 import { Question } from "../../types";
 import SaveButton from "../ui/SaveButton";
 import QuestionEditor from "./QuestionEditor";
@@ -39,43 +38,43 @@ const QuestionModal: FC<QuestionModalProps> = ({
   async function handleSave(e: MouseEvent) {
     e.preventDefault();
     setSaving("saving");
-    await niceFetch(`${API_URL}/protected/questions/${question.id}`, {
-      method: "POST",
-      body: JSON.stringify({
+
+    await api.post(`protected/questions/${question.id}`, {
+      json: {
         title: question.title,
         subtitle: question.subtitle,
         options: question.options,
         lessonId: question.lessonId,
-      }),
+      },
     });
-    setSaving("saved");
+
     mutate();
     onClose();
+    setSaving("saved");
   }
 
   async function handleCreate(e: MouseEvent) {
     e.preventDefault();
     setSaving("saving");
-    await niceFetch(`${API_URL}/protected/questions/`, {
-      method: "PUT",
-      body: JSON.stringify({
+
+    await api.put(`protected/questions/`, {
+      json: {
         title: question.title,
         subtitle: question.subtitle,
         options: question.options,
         lessonId: question.lessonId,
-      }),
+      },
     });
-    setSaving("saved");
+
     mutate();
     handleClose();
+    setSaving("saved");
   }
 
   async function handleDelete() {
     const sure = confirm("Weet je zeker dat je deze wil verwijderen?");
     if (!sure) return;
-    await niceFetch(`${API_URL}/protected/questions/${question.id}`, {
-      method: "DELETE",
-    });
+    await api.delete(`protected/questions/${question.id}`);
     mutate();
   }
 
@@ -91,7 +90,7 @@ const QuestionModal: FC<QuestionModalProps> = ({
 
   return (
     <>
-      <Flex flexDir="column">
+      <Flex flexDir="column" overflow="hidden">
         {initialQuestion.title && (
           <Text isTruncated fontWeight="bold">
             {initialQuestion.title}
@@ -105,33 +104,34 @@ const QuestionModal: FC<QuestionModalProps> = ({
         )}
       </Flex>
 
-      {!initialQuestion.draft && (
-        <IconButton
-          icon={<DeleteIcon />}
-          aria-label="Verwijderen"
-          onClick={handleDelete}
-          ml="auto"
-          variant="outline"
-        />
-      )}
+      <ButtonGroup ml="auto">
+        {!initialQuestion.draft && (
+          <IconButton
+            icon={<DeleteIcon />}
+            aria-label="Verwijderen"
+            onClick={handleDelete}
+            variant="outline"
+          />
+        )}
 
-      {initialQuestion.draft ? (
-        <IconButton
-          icon={<AddIcon />}
-          size="lg"
-          aria-label="Toevoegen"
-          onClick={onOpen}
-        />
-      ) : (
-        <IconButton
-          ml={4}
-          variant="outline"
-          icon={<EditIcon />}
-          size="md"
-          aria-label="Bewerken"
-          onClick={onOpen}
-        />
-      )}
+        {initialQuestion.draft ? (
+          <IconButton
+            icon={<AddIcon />}
+            size="lg"
+            aria-label="Toevoegen"
+            onClick={onOpen}
+          />
+        ) : (
+          <IconButton
+            ml={4}
+            variant="outline"
+            icon={<EditIcon />}
+            size="md"
+            aria-label="Bewerken"
+            onClick={onOpen}
+          />
+        )}
+      </ButtonGroup>
 
       <Modal isOpen={isOpen} onClose={handleClose} size="xl">
         <ModalOverlay />
@@ -148,31 +148,29 @@ const QuestionModal: FC<QuestionModalProps> = ({
             />
           </ModalBody>
           <ModalFooter
-            mt={4}
+            my={2}
             display="flex"
             flexWrap="wrap"
-            justifyContent="flex-end"
+            justifyContent="space-between"
           >
-            <ButtonGroup>
-              {initialQuestion.draft ? (
-                <SaveButton
-                  onClick={handleCreate}
-                  type="submit"
-                  isLoading={saving === "saving"}
-                >
-                  Toevoegen
-                </SaveButton>
-              ) : (
-                <SaveButton
-                  onClick={handleSave}
-                  type="submit"
-                  isLoading={saving === "saving"}
-                />
-              )}
-              <Button ml={4} onClick={handleClose}>
-                Sluiten
-              </Button>
-            </ButtonGroup>
+            <Button variant="link" onClick={handleClose}>
+              Annuleren
+            </Button>
+            {initialQuestion.draft ? (
+              <SaveButton
+                onClick={handleCreate}
+                type="submit"
+                isLoading={saving === "saving"}
+              >
+                Toevoegen
+              </SaveButton>
+            ) : (
+              <SaveButton
+                onClick={handleSave}
+                type="submit"
+                isLoading={saving === "saving"}
+              />
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>

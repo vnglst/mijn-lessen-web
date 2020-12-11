@@ -10,8 +10,9 @@ interface Props {
   pageTitle: string;
   headingText: string;
   centered?: boolean;
-  subtitle?: string;
-  imageUrl?: string;
+  subtitle?: string | null;
+  imageUrl?: string | null;
+  showFooter?: boolean;
 }
 
 const DefaultLayout: FC<Props> = ({
@@ -19,6 +20,7 @@ const DefaultLayout: FC<Props> = ({
   headingText,
   children,
   centered = false,
+  showFooter = true,
   subtitle,
   imageUrl,
 }) => {
@@ -36,9 +38,7 @@ const DefaultLayout: FC<Props> = ({
       }}
     >
       <Box minHeight="100vh" display="flex" flexDirection="column">
-        <AppHead>
-          <title>{pageTitle} | mijn-lessen.nl</title>
-        </AppHead>
+        <AppHead title={pageTitle} />
         <NavBarTop />
         <HeroWave />
         <Container
@@ -47,15 +47,14 @@ const DefaultLayout: FC<Props> = ({
           justify="space-between"
           maxWidth="2xl"
         >
-          <Flex flexDirection="column" width="100%" mb={4}>
+          <Flex flexDirection="column" width="100%">
             <Heading
               as="h1"
-              size="xl"
+              size="2xl"
               mt="auto"
               fontWeight="900"
               noOfLines={3}
               textColor="gray.800"
-              lineHeight={1.6}
               textAlign={centered ? "center" : "left"}
             >
               {headingText}
@@ -89,10 +88,11 @@ const DefaultLayout: FC<Props> = ({
           alignItems="center"
           mt={6}
           minHeight="100vh"
+          backgroundImage="url('/images/background.png')"
         >
           {children}
         </Flex>
-        <Footer pt="10vh" p={8} justifyContent="flex-end" />
+        {showFooter && <Footer pt="10vh" p={8} justifyContent="flex-end" />}
       </Box>
     </motion.div>
   );

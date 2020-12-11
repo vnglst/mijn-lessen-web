@@ -12,10 +12,10 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
+import { api } from "@helpers/api";
 import { useRouter } from "next/router";
 import { default as React, FC, MouseEvent, useState } from "react";
-import { API_URL } from "@config/services";
-import { niceFetch } from "@helpers/niceFetch";
+import { Lesson } from "types";
 import MyFormLabel from "../ui/MyFormLabel";
 import SaveButton from "../ui/SaveButton";
 
@@ -32,17 +32,15 @@ const NewLessonModal: FC<NewLessonModalProps> = ({ onClose, isOpen }) => {
   async function handleCreate(e: MouseEvent) {
     e.preventDefault();
     setLoading(true);
-    const { lesson: newLesson } = await niceFetch(
-      `${API_URL}/protected/lessons/`,
-      {
-        method: "PUT",
-        body: JSON.stringify({ title }),
-      }
-    );
-    setLoading(false);
+    const newLesson: Lesson = await api
+      .put("protected/lessons/", { json: { title } })
+      .json();
+
     setTitle("");
     onClose();
-    router.push(`/mijn-lessen/${newLesson.slug}/bewerken`);
+    router
+      .push(`/mijn-lessen/${newLesson.slug}/bewerken`)
+      .then(() => setLoading(false));
   }
 
   return (

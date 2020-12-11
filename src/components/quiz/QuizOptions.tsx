@@ -89,6 +89,7 @@ const QuizOptions: FC<QuizOptionsProps> = ({
           >
             <RadioCard
               {...radio}
+              isChecked={isSelected}
               isDisabled={isAnswered}
               _checked={getCheckedProps(displayCorrect, displayWrong)}
             >

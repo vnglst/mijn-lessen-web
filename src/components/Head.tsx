@@ -1,14 +1,16 @@
-import { FC } from "react";
+import { NextSeo } from "next-seo";
 import Head from "next/head";
-import { DefaultSeo } from "next-seo";
-import config from "@config/next-seo.config";
+import React, { FC } from "react";
 
-interface Props {}
+interface Props {
+  title: string;
+  description?: string;
+}
 
-const AppHead: FC<Props> = ({ children }) => {
+const AppHead: FC<Props> = ({ title, description, children }) => {
   return (
     <>
-      <DefaultSeo {...config} />
+      <NextSeo title={title} description={description} />
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />

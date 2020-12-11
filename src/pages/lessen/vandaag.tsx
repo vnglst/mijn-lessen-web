@@ -1,24 +1,26 @@
-import { ButtonGroup, Center, CloseButton, Text } from "@chakra-ui/react";
+import { Center, Text } from "@chakra-ui/react";
+import Quiz from "@components/quiz/Quiz";
+import QuizContainer from "@components/quiz/QuizContainer";
+import { levelUp } from "@components/quiz/QuizSounds";
+import FullScreenSpinner from "@components/ui/FullScreenSpinner";
+import { api } from "@helpers/api";
+import { niceApi } from "@helpers/niceFetch";
+import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
-import AppHead from "@components/Head";
-import NavBarTop from "@components/navigation/NavBarTop";
-import LoginAlert from "@components/quiz/LoginAlert";
-import Quiz from "@components/quiz/Quiz";
-import FullScreenSpinner from "@components/ui/FullScreenSpinner";
-import HeroWave from "@components/ui/HeroWave";
-import { API_URL } from "@config/services";
-import { niceFetch } from "@helpers/niceFetch";
-import { Repetition } from "../../types";
+import { Activity, ActivityTypes, RepSWR } from "../../types";
 
 function TodaysQuiz() {
   const router = useRouter();
+  const { mutate: mutateSession } = useSession();
 
-  const { data } = useSWR(`${API_URL}/protected/repetitions`, niceFetch);
-  const questions = (data as Repetition[] | undefined)?.map(
-    (rep) => rep.question
-  );
+  const { data: reps }: RepSWR = useSWR(`protected/repetitions`, niceApi, {
+    revalidateOnFocus: false,
+    refreshWhenHidden: false,
+    refreshInterval: 0,
+  });
+  const questions = reps?.map((rep) => rep.question);
 
   const handleClose = () => {
     const reallyClose = confirm(
@@ -30,22 +32,26 @@ function TodaysQuiz() {
   };
 
   const handleComplete = async () => {
-    alert("Goed gedaan")!;
-    router.push("/lessen/vandaag/resultaat");
+    const activity: Activity | null = await api
+      .put(`protected/activities`, {
+        json: {
+          points: questions?.length,
+          type: "DAILY_REPS" as ActivityTypes,
+        },
+      })
+      .json();
+
+    const pointsEarned = activity?.pointsEarned || 0;
+    if (pointsEarned) levelUp.play();
+    mutateSession?.();
+
+    return router.push(
+      `/lessen/vandaag/resultaat?pointsEarned=${pointsEarned}`
+    );
   };
 
   return (
-    <>
-      <AppHead>
-        <title>Vragen voor vandaag | mijn-lessen.nl</title>
-      </AppHead>
-      <LoginAlert />
-      <HeroWave />
-      <NavBarTop>
-        <ButtonGroup>
-          <CloseButton onClick={handleClose} size="md" />
-        </ButtonGroup>
-      </NavBarTop>
+    <QuizContainer onClose={handleClose}>
       {!questions && <FullScreenSpinner />}
       {questions && questions.length !== 0 && (
         <Quiz
@@ -62,7 +68,7 @@ function TodaysQuiz() {
           </Text>
         </Center>
       )}
-    </>
+    </QuizContainer>
   );
 }
 

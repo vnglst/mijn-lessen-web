@@ -12,7 +12,11 @@ function ResultPage() {
   return (
     <>
       <LoginAlert />
-      <DefaultLayout pageTitle="Resultaat" headingText="Goed gedaan!" centered>
+      <DefaultLayout
+        pageTitle="Lesresultaat"
+        headingText="Goed gedaan!"
+        centered
+      >
         <Flex p={8} flexDirection="column" width="100%" alignItems="center">
           <Flex
             maxW="lg"
@@ -32,9 +36,8 @@ function ResultPage() {
               justifyContent="space-between"
             >
               <Button
-                onClick={() => {
-                  router.push(`/`);
-                }}
+                ml="auto"
+                onClick={() => router.push(`/`)}
                 variant="primary"
               >
                 Meer lessen

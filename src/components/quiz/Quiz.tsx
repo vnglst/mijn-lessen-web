@@ -11,25 +11,26 @@ import {
   Progress,
   Text,
 } from "@chakra-ui/react";
-import { API_URL } from "@config/services";
-import { niceFetch } from "@helpers/niceFetch";
+import { api } from "@helpers/api";
+import { useSession } from "@hooks/useSession";
 import { useSessionStore } from "@hooks/useSessionStore";
+import { useTitle } from "@hooks/useTitle";
 import React, { FC, FormEvent, useState } from "react";
-import useSound from "use-sound";
 import { Option, Question } from "../../types";
 import QuizOptions from "./QuizOptions";
+import { correct, wrong } from "./QuizSounds";
 
 type Answer = null | "correct" | "incorrect";
 
 interface Props {
   questions: Question[];
   id: string;
-  onComplete: () => Promise<void>;
+  onComplete: () => Promise<boolean>;
 }
 
 const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
-  const [playCorrectFx] = useSound("/sounds/pepSound5.mp3", { volume: 1 });
-  const [playMistakeFx] = useSound("/sounds/pepSound4.mp3", { volume: 1 });
+  const { session } = useSession();
+  const user = session?.user;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [questions, setQuestions] = useSessionStore(
@@ -40,7 +41,10 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
   const [optionId, setOptionId] = useSessionStore(`o-${id}`, "");
 
   const isAnswered = !!answer;
+
   const current: Question = questions[0];
+  useTitle(current.title);
+
   const hasNextQuestion = questions.length > 1 || answer === "incorrect";
   const correctOption = current.options.find((o) => o.correct) as Option;
 
@@ -58,24 +62,24 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
 
     // end of questions
     setIsSubmitting(true);
-    await onComplete();
-    setIsSubmitting(false);
+    onComplete();
   };
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
     const isCorrect = correctOption?.id == optionId;
-    if (isCorrect) playCorrectFx();
-    else playMistakeFx();
+    if (isCorrect) correct.play();
+    else wrong.play();
 
     setAnswer(isCorrect ? "correct" : "incorrect");
 
+    if (!user) return;
+
     setIsSubmitting(true);
 
-    await niceFetch(`${API_URL}/protected/repetitions`, {
-      method: "POST",
-      body: JSON.stringify({ questionId: current.id, correct: isCorrect }),
+    await api.post("protected/repetitions", {
+      json: { questionId: current.id, correct: isCorrect },
     });
 
     setIsSubmitting(false);
@@ -88,16 +92,11 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
       minHeight="100vh"
       flexDirection="column"
     >
-      <Container
-        display="flex"
-        flexDirection="column"
-        marginTop="auto"
-        pt="60px"
-      >
+      <Container display="flex" flexDirection="column" marginTop="auto">
         <Heading
           id="question"
           as="h1"
-          size="xl"
+          size="2xl"
           fontWeight="900"
           noOfLines={3}
           lineHeight={1.6}
@@ -107,7 +106,7 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
           {current.title}
         </Heading>
         {current.title && (
-          <Text mt={2} fontSize="lg" textAlign="center">
+          <Text mt={2} fontSize="xl" textAlign="center">
             {current.subtitle}
           </Text>
         )}
@@ -120,7 +119,6 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
           isRequired
         >
           <QuizOptions
-            key={current.id}
             value={optionId}
             onChange={setOptionId}
             options={current.options}

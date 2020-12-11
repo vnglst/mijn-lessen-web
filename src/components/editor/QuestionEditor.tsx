@@ -31,7 +31,7 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
 
   return (
     <>
-      <FormControl my={4}>
+      <FormControl isRequired my={4}>
         <MyFormLabel mb={2}>Vraag</MyFormLabel>
         <Input
           name={`question-${question.id}`}
@@ -87,14 +87,12 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
                   aria-label="Optie verwijdern"
                 />
                 <InputGroup>
-                  <InputLeftAddon
-                    children={
-                      <Text>
-                        {idx + 1}
-                        <sup>e</sup>
-                      </Text>
-                    }
-                  />
+                  <InputLeftAddon>
+                    <Text>
+                      {idx + 1}
+                      <sup>e</sup>
+                    </Text>
+                  </InputLeftAddon>
                   <Input
                     name={`option-${option.id}`}
                     value={option.title || ""}

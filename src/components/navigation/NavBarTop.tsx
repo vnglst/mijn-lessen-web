@@ -1,66 +1,65 @@
-import { Box, Flex, Heading } from "@chakra-ui/react";
-import NextLink from "next/link";
-import { useRouter } from "next/router";
-import { default as React, FC } from "react";
+import { Box, Flex, Image } from "@chakra-ui/react";
 import { useSession } from "@hooks/useSession";
 import dynamic from "next/dynamic";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
+import { Session } from "providers/SessionProvider";
+import { default as React } from "react";
 
 const LoginMenu = dynamic(() => import("./LoginMenu"));
 const CreateMenu = dynamic(() => import("./CreateMenu"));
 const UserMenu = dynamic(() => import("./UserMenu"));
 
-const NavBarTop: FC = ({ children }) => {
-  const { session } = useSession();
+const NavBarTop = () => {
+  const { session }: Session = useSession();
   const router = useRouter();
 
   const user = session?.user;
+  const canEdit = user && (user.role === "ADMIN" || user.role === "EDITOR");
 
   return (
-    <header>
+    <header
+      style={{
+        position: "sticky",
+        top: 0,
+        backgroundColor: "white",
+        zIndex: 1,
+      }}
+    >
       <nav>
         <Flex
           w="100%"
           justifyContent="space-between"
           alignItems="center"
-          position="absolute"
-          zIndex="1"
           py={3}
           px={4}
         >
-          {children || (
-            <>
-              <Flex
-                flexDirection="row"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Box _hover={{ cursor: "pointer" }}>
-                  <NextLink href="/" passHref>
-                    <Heading
-                      as="a"
-                      fontSize="lg"
-                      noOfLines={2}
-                      fontWeight="900"
-                      lineHeight={1}
-                      style={{ fontVariant: "all-small-caps" }}
-                      // textTransform="uppercase"
-                    >
-                      mijn
-                      <br /> lessen.nl
-                    </Heading>
-                  </NextLink>
-                </Box>
-              </Flex>
-              <Box>
-                {user && <CreateMenu router={router} />}
-                {user ? (
-                  <UserMenu user={user} router={router} />
-                ) : (
-                  <LoginMenu router={router} />
-                )}
-              </Box>
-            </>
-          )}
+          <Flex flexDirection="row" justifyContent="center" alignItems="center">
+            <Box
+              _hover={{ cursor: "pointer" }}
+              _active={{ transform: "scale(0.95)" }}
+              transition="all 0.75s ease"
+            >
+              <NextLink href="/" passHref>
+                <a>
+                  <Image
+                    height="35px"
+                    objectFit="scale-down"
+                    src="/images/mijn-lessen-logo.png"
+                    alt="mijn-lessen.nl logo"
+                  />
+                </a>
+              </NextLink>
+            </Box>
+          </Flex>
+          <Box>
+            {canEdit && <CreateMenu router={router} />}
+            {user ? (
+              <UserMenu user={user} router={router} />
+            ) : (
+              <LoginMenu router={router} />
+            )}
+          </Box>
         </Flex>
       </nav>
     </header>

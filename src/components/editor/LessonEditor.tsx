@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Container,
   Flex,
   FormControl,
@@ -13,15 +12,14 @@ import {
   UnorderedList,
   VStack,
 } from "@chakra-ui/react";
+import { api } from "@helpers/api";
+import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React, { FC, MouseEvent, useState } from "react";
-import { API_URL } from "@config/services";
-import { niceFetch } from "@helpers/niceFetch";
 import { Lesson } from "../../types";
 import MyFormLabel from "../ui/MyFormLabel";
 import RichTextEditor from "../ui/RichTextEditor";
 import SaveButton from "../ui/SaveButton";
-import TextLink from "../ui/TextLink";
 import QuestionModal from "./QuestionModal";
 
 export interface LessonEditorProps {
@@ -33,35 +31,43 @@ type SaveState = "unsaved" | "saving" | "saved";
 
 const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
   const router = useRouter();
+  const { session } = useSession();
   const [intro, setIntro] = useState(lesson.intro);
   const [title, setTitle] = useState(lesson.title);
   const [subtitle, setSubtitle] = useState(lesson.subtitle || "");
-  const [image, setImage] = useState(lesson.imageUrl || "");
+  const [slug, setSlug] = useState(lesson.slug);
+  const [imageUrl, setImageUrl] = useState(lesson.imageUrl || "");
   const [saving, setSaving] = useState("saved" as SaveState);
+
+  const isAdmin = session?.user.role === "ADMIN";
 
   async function handleSave(e: MouseEvent) {
     e.preventDefault();
     setSaving("saving");
-    const updatedLesson: Lesson = await niceFetch(
-      `${API_URL}/protected/lessons/${lesson.slug}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
+    const updatedLesson: Lesson = await api
+      .post(`protected/lessons/${lesson.slug}`, {
+        json: {
           intro,
           title,
+          slug,
           subtitle,
-          imageUrl: image,
-        }),
-      }
-    );
-    mutate(updatedLesson);
-    setSaving("saved");
+          imageUrl,
+        },
+      })
+      .json();
+
+    // only update cache when slug is unchanged
+    if (lesson.slug === slug) mutate(updatedLesson);
+
+    router
+      .push(`/lessen/${updatedLesson.slug}`)
+      .then(() => window.scrollTo(0, 0));
   }
 
   return (
     <>
       <Container display="flex" mt={14} maxWidth="2xl">
-        <VStack as="form" spacing={10} width="100%">
+        <VStack as="form" spacing={10} width="100%" bgColor="white">
           <FormControl id="title" isRequired>
             <MyFormLabel>Naam les</MyFormLabel>
             <Input
@@ -90,26 +96,43 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
             <FormHelperText>Korte beschrijving van je les</FormHelperText>
           </FormControl>
 
+          {isAdmin && (
+            <FormControl id="slug">
+              <MyFormLabel>Slug</MyFormLabel>
+              <Input
+                type="text"
+                autoComplete="off"
+                value={slug}
+                onChange={(e) => setSlug(e.target.value)}
+              />
+              <FormHelperText>
+                Slug (mini url) van je les. Deze is verplicht en moet uniek
+                zijn.
+              </FormHelperText>
+            </FormControl>
+          )}
+
           <HStack spacing={10} width="100%">
             <FormControl id="afbeelding">
               <MyFormLabel>Afbeelding</MyFormLabel>
               <Input
                 type="url"
                 autoComplete="off"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
               />
               <FormHelperText>
                 De link naar de afbeelding van je les
               </FormHelperText>
             </FormControl>
-            {image && (
+            {imageUrl && (
               <Image
                 display={["none", "flex"]}
                 objectFit="contain"
-                src={image}
+                src={imageUrl}
                 maxHeight="100px"
                 style={{ transform: "rotate(5deg)" }}
+                borderRadius="20px"
               />
             )}
           </HStack>
@@ -170,7 +193,6 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
           </FormControl>
         </VStack>
       </Container>
-
       <Flex
         position={["sticky"]}
         bottom="0"
@@ -184,30 +206,26 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
           alignItems="center"
           justifyContent="center"
           display="flex"
-          flexWrap="wrap-reverse"
+          maxWidth="2xl"
         >
-          <TextLink mb={[8, 2]} mr={[0, "auto"]} href="/mijn-lessen">
-            Terug naar mijn lessen
-          </TextLink>
-          <ButtonGroup>
-            <Button
-              mb={[8, 2]}
-              mr={2}
-              marginLeft="auto"
-              onClick={() =>
-                router
-                  .push(`/lessen/${lesson.slug}`)
-                  .then(() => window.scrollTo(0, 0))
-              }
-            >
-              Bekijken
-            </Button>
-            <SaveButton
-              onClick={handleSave}
-              type="submit"
-              isLoading={saving === "saving"}
-            />
-          </ButtonGroup>
+          <Button
+            mr="auto"
+            variant="link"
+            onClick={() =>
+              router
+                .push(`/lessen/${lesson.slug}`)
+                .then(() => window.scrollTo(0, 0))
+            }
+          >
+            Annuleren
+          </Button>
+          <SaveButton
+            onClick={handleSave}
+            type="submit"
+            isLoading={saving === "saving"}
+          >
+            Opslaan
+          </SaveButton>
         </Container>
       </Flex>
     </>

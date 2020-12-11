@@ -1,43 +1,51 @@
-import { Code, Flex, Text } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import useSWR, { mutate } from "swr";
+import { Button, ButtonGroup, Code, Text } from "@chakra-ui/react";
+import CenteredLayout from "@components/account/CenteredLayout";
 import DefaultLayout from "@components/DefaultLayout";
 import FullScreenSpinner from "@components/ui/FullScreenSpinner";
 import TextLink from "@components/ui/TextLink";
-import { API_URL } from "@config/services";
-import { niceFetch } from "@helpers/niceFetch";
+import { apiFetcher } from "@helpers/api";
+import { useSession } from "@hooks/useSession";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
+import useSWR from "swr";
+import { UserSWR } from "types";
 
 function TokenPage() {
+  const { mutate } = useSession();
   const router = useRouter();
   const { token } = router.query;
-
-  const { data: session } = useSWR(
-    token ? `${API_URL}/login/${token}` : null,
-    niceFetch
+  const { data, error }: UserSWR = useSWR(
+    token ? `login/${token}` : null,
+    apiFetcher
   );
 
   useEffect(() => {
-    mutate(`${API_URL}/session`);
-  }, session);
+    if (!data || !mutate) return;
+    mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
-  if (!session) return <FullScreenSpinner />;
+  if (error) router.push("link-ongeldig");
+
+  if (!data) return <FullScreenSpinner />;
 
   return (
     <DefaultLayout
-      pageTitle="Ingelogd met magische link"
-      headingText="Ingelogd met magisch link"
+      pageTitle="Je bent ingelogd"
+      headingText="Je bent ingelogd"
       centered
     >
-      <Flex p={8} flexDirection="column" width="100%" alignItems="center">
-        <Flex maxW="lg" textAlign="center">
-          <Text>
-            Je bent ingelogd met het e-mailadres{" "}
-            <Code>{session?.user.email}</Code>. Je kunt dit venster sluiten of
-            naar <TextLink href="/">onze homepage</TextLink>.
-          </Text>
-        </Flex>
-      </Flex>
+      <CenteredLayout>
+        <Text>
+          Je bent ingelogd met het e-mailadres <Code>{data.email}</Code>! Je
+          kunt nu beginnen met <TextLink href="/">een eerste les</TextLink>.
+        </Text>
+        <ButtonGroup mt={12} justifyContent="center" display="flex">
+          <Button variant="primary" onClick={() => router.push("/")}>
+            Starten
+          </Button>
+        </ButtonGroup>
+      </CenteredLayout>
     </DefaultLayout>
   );
 }

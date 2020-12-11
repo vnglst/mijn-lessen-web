@@ -1,9 +1,8 @@
 import { Avatar, Menu, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react";
+import { api } from "@helpers/api";
+import { useSession } from "@hooks/useSession";
 import { NextRouter } from "next/router";
 import React, { FC } from "react";
-import { mutate } from "swr";
-import { API_URL } from "@config/services";
-import { niceFetch } from "@helpers/niceFetch";
 import { User } from "../../types";
 import MyMenuButton from "./MyMenuButton";
 import UserStats from "./UserStats";
@@ -14,6 +13,8 @@ export interface AccountMenuProps {
 }
 
 const AccountMenu: FC<AccountMenuProps> = ({ router, user }) => {
+  const { mutate } = useSession();
+
   return (
     <Menu>
       <MyMenuButton>
@@ -30,8 +31,8 @@ const AccountMenu: FC<AccountMenuProps> = ({ router, user }) => {
           </MenuItem>
           <MenuItem
             onClick={async () => {
-              await niceFetch(`${API_URL}/logout`);
-              mutate(`${API_URL}/session`, {});
+              await api.post("logout");
+              mutate!();
               router.push("/account/inloggen");
             }}
           >

@@ -40,18 +40,12 @@ function ResultPage() {
               justifyContent="space-between"
             >
               <Button
-                onClick={() => {
-                  router.push(`/lessen/${lessonSlug}/`);
-                }}
+                variant="link"
+                onClick={() => router.push(`/lessen/${lessonSlug}/`)}
               >
                 Nog een keer
               </Button>
-              <Button
-                onClick={() => {
-                  router.push(`/`);
-                }}
-                variant="primary"
-              >
+              <Button onClick={() => router.push(`/`)} variant="primary">
                 Meer lessen
               </Button>
             </ButtonGroup>

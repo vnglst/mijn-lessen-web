@@ -1,11 +1,10 @@
 import { AspectRatio, AspectRatioProps } from "@chakra-ui/react";
-import { FC } from "react";
 
 interface Props extends AspectRatioProps {
   videoUrl: string | null;
 }
 
-const YouTube: FC<Props> = ({ videoUrl, ...rest }) => {
+const YouTube = ({ videoUrl, ...rest }: Props): JSX.Element | null => {
   if (!videoUrl) return null;
   const embedId = new URL(videoUrl).searchParams.get("v");
 

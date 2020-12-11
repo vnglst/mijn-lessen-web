@@ -1,3 +1,5 @@
+import { mutate } from "swr";
+
 export type Option = {
   id: string;
   title: string;
@@ -35,10 +37,15 @@ export type Lesson = {
   points: number;
   draft: boolean;
   questions: Question[];
-  author: { name: string | null; avatar: string | null };
+  author: User;
   categories: Category[];
-  status?: string;
+  status?: Status;
 };
+
+export type Status = "INITIAL" | "STARTED" | "COMPLETED";
+
+export type LessonsSWR = { data?: Lesson[] };
+export type LessonSWR = { data?: Lesson; mutate: typeof mutate };
 
 export type Category = {
   title: string;
@@ -46,30 +53,31 @@ export type Category = {
   id: string;
 };
 
+export type Role = "STUDENT" | "EDITOR" | "ADMIN";
+
 export type User = {
   id: string;
   name: string;
   email: string;
   avatar: string;
   points: number;
-  role: typeof Role;
+  role: Role;
   lessonsCreated: Lesson[];
   repetitions: Repetition[];
   activities: Activity[];
 };
 
-export const Role = {
-  STUDENT: "STUDENT",
-  EDITOR: "EDITOR",
-  ADMIN: "ADMIN",
+export type UserSWR = {
+  data?: User;
+  mutate: typeof mutate;
+  error?: { message: string };
 };
 
-export const ActivityTypes = {
-  LESSON_COMPLETE: "LESSON_COMPLETE",
-  LOGIN: "LOGIN",
-  STREAK: "STREAK",
-  DAILY_REPS: "DAILY_REPS",
-};
+export type ActivityTypes =
+  | "LESSON_COMPLETE"
+  | "LOGIN"
+  | "STREAK"
+  | "DAILY_REPS";
 
 export type Activity = {
   id: string;
@@ -79,8 +87,6 @@ export type Activity = {
   type: ActivityTypes;
   userId: string;
 };
-
-export type ActivityTypes = typeof ActivityTypes;
 
 export type Repetition = {
   id: number;
@@ -93,3 +99,18 @@ export type Repetition = {
   progress: number;
   question: Question;
 };
+
+export type RepSWR = { data?: Repetition[] };
+
+export type Stats = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: Status;
+  liked: boolean;
+  viewed: boolean;
+  userId: string;
+  lessonId: string;
+};
+
+export type StatsSWR = { data?: Stats[] };

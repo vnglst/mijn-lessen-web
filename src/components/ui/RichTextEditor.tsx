@@ -23,6 +23,7 @@ const formats = [
 
 const ReactQuill = dynamic(() => import("react-quill"), {
   ssr: false,
+  // eslint-disable-next-line react/display-name
   loading: () => <Skeleton />,
 });
 

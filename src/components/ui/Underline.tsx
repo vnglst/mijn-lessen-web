@@ -8,9 +8,6 @@ export interface UnderlineProps {
 const Underline: FC<UnderlineProps> = ({ color = "brand.200", children }) => {
   return (
     <Box as={"span"} position="relative">
-      <Box as={"span"} position="relative" zIndex="10">
-        {children}
-      </Box>
       <Box
         as={"span"}
         position="absolute"
@@ -19,7 +16,11 @@ const Underline: FC<UnderlineProps> = ({ color = "brand.200", children }) => {
         bg={color}
         left={0}
         bottom={0}
+        zIndex="0"
       ></Box>
+      <Box as={"span"} position="relative">
+        {children}
+      </Box>
     </Box>
   );
 };

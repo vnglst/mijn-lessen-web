@@ -1,3 +1,4 @@
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Avatar,
   Box,
@@ -9,18 +10,17 @@ import {
   IconButton,
   Text,
 } from "@chakra-ui/react";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import DefaultLayout from "@components/DefaultLayout";
+import LoginAlert from "@components/quiz/LoginAlert";
+import YouTube from "@components/ui/YouTube";
+import { api } from "@helpers/api";
+import { useSession } from "@hooks/useSession";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { GiHearts, GiLightBulb } from "react-icons/gi";
 import { GrView } from "react-icons/gr";
-import DefaultLayout from "@components/DefaultLayout";
-import LoginAlert from "@components/quiz/LoginAlert";
-import YouTube from "@components/ui/YouTube";
-import { API_URL } from "@config/services";
-import { niceFetch } from "@helpers/niceFetch";
-import { useSession } from "@hooks/useSession";
+import { Lesson } from "types";
 
 function LessonOverview({
   lesson,
@@ -28,28 +28,34 @@ function LessonOverview({
   const { session } = useSession();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const isAuthor = lesson.author.name === session?.user?.name;
+  const user = session?.user;
+  const isAuthor = lesson.author.name === user?.name;
+  const canEdit = isAuthor || user?.role === "ADMIN";
 
   const handleStart = async () => {
     sessionStorage.clear();
     setLoading(true);
-    await niceFetch(`${API_URL}/protected/stats`, {
-      method: "POST",
-      body: JSON.stringify({
-        lessonId: lesson.id,
-        viewed: true,
-        status: "STARTED",
-      }),
-    });
-    setLoading(false);
+
+    if (user) {
+      await api.post(`protected/stats`, {
+        json: { lessonId: lesson.id, viewed: true, status: "STARTED" },
+      });
+    }
     router.push(`/lessen/${lesson.slug}/vragen`);
+  };
+
+  const handleDelete = async () => {
+    const sure = confirm("Weet je zeker dat je deze les wilt verwijderen?");
+    if (!sure) return;
+    await api.delete(`protected/lessons/${lesson.slug}`);
+    router.push(`/mijn-lessen/`);
   };
 
   return (
     <>
       <LoginAlert />
       <DefaultLayout
-        pageTitle={`Les ${lesson.title}`}
+        pageTitle={lesson.title}
         headingText={lesson.title}
         subtitle={lesson.subtitle}
         imageUrl={lesson.imageUrl}
@@ -82,36 +88,24 @@ function LessonOverview({
               <Flex mt={2}>
                 <Avatar
                   size="xs"
-                  src={lesson.author.avatar}
+                  src={lesson.author.avatar || ""}
                   backgroundColor="transparent"
                 />
                 <Text ml={2}>{lesson.author.name}</Text>
               </Flex>
             </Flex>
-            {isAuthor && (
+            {canEdit && (
               <Flex ml="auto">
                 <IconButton
                   mr={4}
-                  onClick={async () => {
-                    const sure = confirm(
-                      "Weet je zeker dat je deze wilt verwijderen?"
-                    );
-                    if (!sure) return;
-
-                    await niceFetch(
-                      `${API_URL}/protected/lesson/${lesson.slug}`,
-                      { method: "DELETE" }
-                    );
-
-                    router.push(`/mijn-lessen/`);
-                  }}
+                  onClick={handleDelete}
                   aria-label="Verwijderen"
                   icon={<DeleteIcon />}
                 />
                 <IconButton
-                  onClick={() => {
-                    router.push(`/mijn-lessen/${lesson.slug}/bewerken`);
-                  }}
+                  onClick={() =>
+                    router.push(`/mijn-lessen/${lesson.slug}/bewerken`)
+                  }
                   aria-label="Bewerken"
                   icon={<EditIcon />}
                 />
@@ -144,8 +138,9 @@ function LessonOverview({
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const res = await fetch(`${API_URL}/lessons/${context.params?.lessonSlug}`);
-  const { lesson } = await res.json();
+  const lesson: Lesson = await api(
+    `lessons/${context.params?.lessonSlug}`
+  ).json();
   return { props: { lesson } };
 }
 

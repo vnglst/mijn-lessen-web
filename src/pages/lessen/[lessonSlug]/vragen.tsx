@@ -1,19 +1,21 @@
-import { ButtonGroup, CloseButton } from "@chakra-ui/react";
+import Quiz from "@components/quiz/Quiz";
+import QuizContainer from "@components/quiz/QuizContainer";
+import { levelUp } from "@components/quiz/QuizSounds";
+import FullScreenSpinner from "@components/ui/FullScreenSpinner";
+import { api } from "@helpers/api";
+import { niceApi } from "@helpers/niceFetch";
+import { shuffle } from "@helpers/random";
+import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
-import AppHead from "@components/Head";
-import NavBarTop from "@components/navigation/NavBarTop";
-import LoginAlert from "@components/quiz/LoginAlert";
-import Quiz from "@components/quiz/Quiz";
-import FullScreenSpinner from "@components/ui/FullScreenSpinner";
-import HeroWave from "@components/ui/HeroWave";
-import { API_URL } from "@config/services";
-import { ActivityTypes, Lesson, Question } from "../../../types";
-import { shuffle } from "@helpers/random";
-import { niceFetch } from "@helpers/niceFetch";
-import { useSession } from "@hooks/useSession";
-import useSound from "use-sound";
+import {
+  Activity,
+  ActivityTypes,
+  LessonSWR,
+  Question,
+  Status,
+} from "../../../types";
 
 function shuffleQuestions(questions: Question[]) {
   const newQuestions = questions.map((q) => {
@@ -24,16 +26,13 @@ function shuffleQuestions(questions: Question[]) {
 
 function QuestionsPage() {
   const router = useRouter();
-  const [playLevelUp] = useSound("/sounds/blessing.mp3", { volume: 1 });
   const { session, mutate: mutateSession } = useSession();
   const slug = router.query.lessonSlug as string;
 
-  const { data } = useSWR(
-    () => (slug ? `${API_URL}/lessons/${slug}` : null),
-    niceFetch
+  const { data: lesson }: LessonSWR = useSWR(
+    () => (slug ? `lessons/${slug}` : null),
+    niceApi
   );
-
-  const lesson: Lesson | null = data?.lesson;
 
   const handleClose = () => {
     const reallyClose = confirm(
@@ -41,49 +40,41 @@ function QuestionsPage() {
     );
     if (!reallyClose) return;
     sessionStorage.clear();
-    router.push(`/lessen/${data.lesson.slug}/`);
+    router.push(`/lessen/${slug}/`);
   };
 
   const handleComplete = async () => {
     let pointsEarned = 0;
 
     if (session?.user) {
-      const activity = await niceFetch(`${API_URL}/protected/activity`, {
-        method: "PUT",
-        body: JSON.stringify({
+      const activity: Activity | null = await api
+        .put("protected/activities", {
+          json: {
+            lessonId: lesson!.id,
+            type: "LESSON_COMPLETE" as ActivityTypes,
+          },
+        })
+        .json();
+
+      await api.post("protected/stats", {
+        json: {
           lessonId: lesson!.id,
-          type: ActivityTypes.LESSON_COMPLETE,
-        }),
+          status: "COMPLETED" as Status,
+        },
       });
 
-      await niceFetch(`${API_URL}/protected/stats`, {
-        method: "POST",
-        body: JSON.stringify({
-          lessonId: lesson!.id,
-          status: "COMPLETED",
-        }),
-      });
-
-      pointsEarned = activity.pointsEarned;
-      if (pointsEarned) playLevelUp();
-      mutateSession?.();
+      pointsEarned = activity?.pointsEarned || 0;
+      if (pointsEarned) levelUp.play();
+      mutateSession!();
     }
 
-    router.push(`/lessen/${slug}/resultaat?pointsEarned=${pointsEarned}`);
+    return router.push(
+      `/lessen/${slug}/resultaat?pointsEarned=${pointsEarned}`
+    );
   };
 
   return (
-    <>
-      <AppHead>
-        <title>Oefenen {data?.lesson?.title} | mijn-lessen.nl</title>
-      </AppHead>
-      <LoginAlert />
-      <HeroWave />
-      <NavBarTop>
-        <ButtonGroup>
-          <CloseButton onClick={handleClose} size="md" />
-        </ButtonGroup>
-      </NavBarTop>
+    <QuizContainer onClose={handleClose}>
       {lesson ? (
         <Quiz
           id={slug}
@@ -97,7 +88,7 @@ function QuestionsPage() {
       ) : (
         <FullScreenSpinner />
       )}
-    </>
+    </QuizContainer>
   );
 }
 

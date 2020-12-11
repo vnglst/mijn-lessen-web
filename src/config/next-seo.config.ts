@@ -1,6 +1,6 @@
 export default {
-  title: "Mijn Lessen | mijn-lessen.nl",
-  titleTemplate: "%s | mijn-lessen.nl",
+  title: "Maak je eigen lessen | Mijn-lessen.nl",
+  titleTemplate: "%s | Mijn-lessen.nl",
   description: "",
   openGraph: {
     type: "website",

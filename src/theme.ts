@@ -2,7 +2,7 @@ import { extendTheme } from "@chakra-ui/react";
 
 export const theme = extendTheme({
   fonts: {
-    heading: `'Montserrat', sans-serif;`,
+    heading: `'Baloo 2', sans-serif;`,
   },
   colors: {
     brand: {
@@ -34,7 +34,8 @@ export const theme = extendTheme({
         },
       },
       baseStyle: {
-        fontWeight: "bold",
+        fontFamily: `'Baloo 2', sans-serif;`,
+        fontWeight: "900",
         borderRadius: "0 20px 20px 20px",
         _hover: {
           boxShadow: "4px 4px 0px #333;",
@@ -47,6 +48,18 @@ export const theme = extendTheme({
         },
       },
       variants: {
+        link: {
+          padding: 4,
+          _hover: {
+            boxShadow: "none",
+          },
+          _active: {
+            boxShadow: "none",
+          },
+          _focus: {
+            boxShadow: "none",
+          },
+        },
         primary: {
           bg: "brand.400",
           _hover: {

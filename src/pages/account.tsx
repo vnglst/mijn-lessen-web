@@ -7,26 +7,26 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
+import DefaultLayout from "@components/DefaultLayout";
+import FullScreenSpinner from "@components/ui/FullScreenSpinner";
+import { api } from "@helpers/api";
+import { niceApi } from "@helpers/niceFetch";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { GiLightBulb } from "react-icons/gi";
 import useSWR from "swr";
-import DefaultLayout from "@components/DefaultLayout";
-import FullScreenSpinner from "@components/ui/FullScreenSpinner";
-import { API_URL } from "../config/services";
-import { niceFetch } from "@helpers/niceFetch";
 
 function AccountPage() {
   const [loadingLogout, setLoadingLogout] = useState(false);
   const router = useRouter();
-  const { data: session, mutate } = useSWR(`${API_URL}/session`, niceFetch);
+  const { data: session, mutate } = useSWR(`session`, niceApi);
 
   async function handleLogout() {
     setLoadingLogout(true);
-    await niceFetch(`${API_URL}/logout`);
+    await api.post(`logout`);
     mutate({});
-    setLoadingLogout(false);
     router.push("/account/inloggen");
+    setLoadingLogout(false);
   }
 
   // TODO: can we check session and redirect server side
@@ -58,9 +58,16 @@ function AccountPage() {
             </Flex>
             <Text>lampjes</Text>
           </Flex>
-          <ButtonGroup mt={10} mx="auto">
-            <Button onClick={handleLogout} isLoading={loadingLogout}>
+          <ButtonGroup mt={12} justifyContent="space-between" display="flex">
+            <Button
+              variant="link"
+              onClick={handleLogout}
+              isLoading={loadingLogout}
+            >
               Uitloggen
+            </Button>
+            <Button variant="primary" onClick={() => router.push("/")}>
+              Naar lessen
             </Button>
           </ButtonGroup>
         </Flex>

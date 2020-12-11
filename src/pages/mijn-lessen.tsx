@@ -1,26 +1,24 @@
-import { Box } from "@chakra-ui/react";
-import React, { FC } from "react";
-import useSWR from "swr";
+import { Flex } from "@chakra-ui/react";
 import DefaultLayout from "@components/DefaultLayout";
 import LessonList from "@components/LessonList";
-import { API_URL } from "../config/services";
-import { niceFetch } from "@helpers/niceFetch";
+import { niceApi } from "@helpers/niceFetch";
 import { useSession } from "@hooks/useSession";
-import { Lesson } from "../types";
+import React, { FC } from "react";
+import useSWR from "swr";
+import { LessonsSWR } from "../types";
 
 const MyLessons: FC = () => {
   const { session } = useSession();
-  const { data } = useSWR(
-    `${API_URL}/lessons/?userName=${session?.user.name}`,
-    niceFetch
+  const { data: lessons }: LessonsSWR = useSWR(
+    `lessons/?userName=${session?.user.name}`,
+    niceApi
   );
-  const lessons: Lesson[] | undefined = data?.lessons;
 
   return (
     <DefaultLayout pageTitle="Mijn lessen" headingText="Jouw lessen" centered>
-      <Box p={10} mt={5}>
+      <Flex p={10} mt={5} flexDir="column" width="100%">
         <LessonList lessons={lessons} heading="Door jou gemaakte lessen" />
-      </Box>
+      </Flex>
     </DefaultLayout>
   );
 };
