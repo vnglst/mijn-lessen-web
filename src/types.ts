@@ -111,6 +111,7 @@ export type Stats = {
   viewed: boolean;
   userId: string;
   lessonId: string;
+  lesson: Lesson;
 };
 
 export type StatsSWR = { data?: Stats[] };

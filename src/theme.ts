@@ -28,7 +28,7 @@ export const theme = extendTheme({
     Button: {
       sizes: {
         md: {
-          lineHeight: 0, // fix for Safari
+          lineHeight: 1.6, // fix for Safari
           fontSize: "16px",
           padding: 8,
         },

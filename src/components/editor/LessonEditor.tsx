@@ -13,6 +13,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { api } from "@helpers/api";
+import { zIndexes } from "@helpers/constants";
 import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React, { FC, MouseEvent, useState } from "react";
@@ -195,6 +196,7 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
       </Container>
       <Flex
         position={["sticky"]}
+        zIndex={zIndexes.justAboveBase}
         bottom="0"
         bg="white"
         width="100%"

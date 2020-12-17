@@ -1,4 +1,5 @@
 import { Progress } from "@chakra-ui/react";
+import { zIndexes } from "@helpers/constants";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 
@@ -39,7 +40,7 @@ const PageLoading: FC = () => {
     return (
       <Progress
         position="absolute"
-        zIndex={10}
+        zIndex={zIndexes.pageLoading}
         size="xs"
         bg="white"
         isIndeterminate
