@@ -10,7 +10,7 @@ export interface QuizContainerProps {
 const QuizContainer: FC<QuizContainerProps> = ({ onClose, children }) => {
   return (
     <>
-      <Box position="absolute" top={0} left={0} right={0}>
+      <Box>
         <LoginAlert />
         <CloseButton onClick={onClose} size="md" m={2} p={2} />
       </Box>

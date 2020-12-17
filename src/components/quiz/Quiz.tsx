@@ -102,6 +102,7 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
           lineHeight={1.6}
           textAlign="center"
           width="100%"
+          mt={24}
         >
           {current.title}
         </Heading>

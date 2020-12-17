@@ -1,5 +1,6 @@
 import { Box, Flex, Image } from "@chakra-ui/react";
 import { useSession } from "@hooks/useSession";
+import { zIndexes } from "@helpers/constants";
 import dynamic from "next/dynamic";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
@@ -23,7 +24,7 @@ const NavBarTop = () => {
         position: "sticky",
         top: 0,
         backgroundColor: "white",
-        zIndex: 1,
+        zIndex: zIndexes.base,
       }}
     >
       <nav>

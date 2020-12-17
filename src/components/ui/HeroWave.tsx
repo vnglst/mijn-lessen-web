@@ -1,4 +1,5 @@
 import { Box } from "@chakra-ui/react";
+import { zIndexes } from "@helpers/constants";
 import React from "react";
 
 const HeroWave = () => {
@@ -10,7 +11,7 @@ const HeroWave = () => {
         left="0"
         width="100%"
         height="40vh"
-        zIndex="-1"
+        zIndex={zIndexes.justBelowBase}
         background="radial-gradient(202.15% 198.95% at 85.93% -78.83%, #fcd787 0%,#ffffff 85.16%)"
       >
         <svg
