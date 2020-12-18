@@ -37,7 +37,9 @@ function ResultPage() {
             >
               <Button
                 ml="auto"
-                onClick={() => router.push(`/`)}
+                onClick={() =>
+                  router.push(`/`).then(() => window.scrollTo(0, 0))
+                }
                 variant="primary"
               >
                 Meer lessen

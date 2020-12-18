@@ -41,14 +41,16 @@ function LessonOverview({
         json: { lessonId: lesson.id, viewed: true, status: "STARTED" },
       });
     }
-    router.push(`/lessen/${lesson.slug}/vragen`);
+    router
+      .push(`/lessen/${lesson.slug}/vragen`)
+      .then(() => window.scrollTo(0, 0));
   };
 
   const handleDelete = async () => {
     const sure = confirm("Weet je zeker dat je deze les wilt verwijderen?");
     if (!sure) return;
     await api.delete(`protected/lessons/${lesson.slug}`);
-    router.push(`/mijn-lessen/`);
+    router.push(`/mijn-lessen/`).then(() => window.scrollTo(0, 0));
   };
 
   return (
@@ -104,7 +106,9 @@ function LessonOverview({
                 />
                 <IconButton
                   onClick={() =>
-                    router.push(`/mijn-lessen/${lesson.slug}/bewerken`)
+                    router
+                      .push(`/mijn-lessen/${lesson.slug}/bewerken`)
+                      .then(() => window.scrollTo(0, 0))
                   }
                   aria-label="Bewerken"
                   icon={<EditIcon />}

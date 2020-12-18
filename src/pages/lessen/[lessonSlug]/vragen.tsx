@@ -40,7 +40,7 @@ function QuestionsPage() {
     );
     if (!reallyClose) return;
     sessionStorage.clear();
-    router.push(`/lessen/${slug}/`);
+    router.push(`/lessen/${slug}/`).then(() => window.scrollTo(0, 0));
   };
 
   const handleComplete = async () => {
@@ -68,9 +68,9 @@ function QuestionsPage() {
       mutateSession!();
     }
 
-    return router.push(
-      `/lessen/${slug}/resultaat?pointsEarned=${pointsEarned}`
-    );
+    return router
+      .push(`/lessen/${slug}/resultaat?pointsEarned=${pointsEarned}`)
+      .then(() => window.scrollTo(0, 0));
   };
 
   return (

@@ -28,7 +28,7 @@ function TodaysQuiz() {
     );
     if (!reallyClose) return;
     sessionStorage.clear();
-    router.push(`/`);
+    router.push(`/`).then(() => window.scrollTo(0, 0));
   };
 
   const handleComplete = async () => {
@@ -45,9 +45,9 @@ function TodaysQuiz() {
     if (pointsEarned) levelUp.play();
     mutateSession?.();
 
-    return router.push(
-      `/lessen/vandaag/resultaat?pointsEarned=${pointsEarned}`
-    );
+    return router
+      .push(`/lessen/vandaag/resultaat?pointsEarned=${pointsEarned}`)
+      .then(() => window.scrollTo(0, 0));
   };
 
   return (

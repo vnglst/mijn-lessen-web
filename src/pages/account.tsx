@@ -25,7 +25,7 @@ function AccountPage() {
     setLoadingLogout(true);
     await api.post(`logout`);
     mutate({});
-    router.push("/account/inloggen");
+    router.push("/account/inloggen").then(() => window.scrollTo(0, 0));
     setLoadingLogout(false);
   }
 
@@ -35,7 +35,7 @@ function AccountPage() {
   const user = session.user;
 
   if (!user) {
-    router.push("/account/inloggen");
+    router.push("/account/inloggen").then(() => window.scrollTo(0, 0));
     return null;
   }
 
@@ -66,7 +66,10 @@ function AccountPage() {
             >
               Uitloggen
             </Button>
-            <Button variant="primary" onClick={() => router.push("/")}>
+            <Button
+              variant="primary"
+              onClick={() => router.push("/").then(() => window.scrollTo(0, 0))}
+            >
               Naar lessen
             </Button>
           </ButtonGroup>

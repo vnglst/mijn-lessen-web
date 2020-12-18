@@ -25,7 +25,7 @@ function TokenPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  if (error) router.push("link-ongeldig");
+  if (error) router.push("link-ongeldig").then(() => window.scrollTo(0, 0));
 
   if (!data) return <FullScreenSpinner />;
 
@@ -41,7 +41,10 @@ function TokenPage() {
           kunt nu beginnen met <TextLink href="/">een eerste les</TextLink>.
         </Text>
         <ButtonGroup mt={12} justifyContent="center" display="flex">
-          <Button variant="primary" onClick={() => router.push("/")}>
+          <Button
+            variant="primary"
+            onClick={() => router.push("/").then(() => window.scrollTo(0, 0))}
+          >
             Starten
           </Button>
         </ButtonGroup>

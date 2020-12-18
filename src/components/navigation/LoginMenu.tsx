@@ -13,10 +13,20 @@ const LoginMenu: FC<LoginMenuProps> = ({ router }) => {
       <MyMenuButton>Inloggen</MyMenuButton>
       <MenuList>
         <MenuGroup title="Account">
-          <MenuItem onClick={() => router.push("/account/inloggen")}>
+          <MenuItem
+            onClick={() =>
+              router.push("/account/inloggen").then(() => window.scrollTo(0, 0))
+            }
+          >
             Inloggen
           </MenuItem>
-          <MenuItem onClick={() => router.push("/account/registreren")}>
+          <MenuItem
+            onClick={() =>
+              router
+                .push("/account/registreren")
+                .then(() => window.scrollTo(0, 0))
+            }
+          >
             Nieuw account
           </MenuItem>
         </MenuGroup>

@@ -29,7 +29,7 @@ const CreateMenu: FC<CreateMenuProps> = ({ router }) => {
             <MenuItem onClick={onOpen}>Nieuwe les maken</MenuItem>
             <MenuItem
               onClick={() => {
-                router.push("/mijn-lessen/");
+                router.push("/mijn-lessen/").then(() => window.scrollTo(0, 0));
               }}
             >
               Al mijn lessen

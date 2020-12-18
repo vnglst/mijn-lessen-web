@@ -29,7 +29,9 @@ const LoginPage = () => {
 
     try {
       await api.post(`login`, { json: { email } });
-      router.push(`inloggen/magische-link-verstuurd/?email=${email}`);
+      router
+        .push(`inloggen/magische-link-verstuurd/?email=${email}`)
+        .then(() => window.scrollTo(0, 0));
     } catch (err) {
       const errorData = await err.response.json();
       if (errorData.name === "ValidationError") {

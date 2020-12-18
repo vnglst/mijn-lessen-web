@@ -41,11 +41,20 @@ function ResultPage() {
             >
               <Button
                 variant="link"
-                onClick={() => router.push(`/lessen/${lessonSlug}/`)}
+                onClick={() =>
+                  router
+                    .push(`/lessen/${lessonSlug}/`)
+                    .then(() => window.scrollTo(0, 0))
+                }
               >
                 Nog een keer
               </Button>
-              <Button onClick={() => router.push(`/`)} variant="primary">
+              <Button
+                onClick={() =>
+                  router.push(`/`).then(() => window.scrollTo(0, 0))
+                }
+                variant="primary"
+              >
                 Meer lessen
               </Button>
             </ButtonGroup>

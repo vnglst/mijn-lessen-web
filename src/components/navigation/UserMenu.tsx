@@ -25,7 +25,9 @@ const AccountMenu: FC<AccountMenuProps> = ({ router, user }) => {
           <MenuItem
             display="flex"
             justifyContent="space-between"
-            onClick={() => router.push("/account")}
+            onClick={() =>
+              router.push("/account").then(() => window.scrollTo(0, 0))
+            }
           >
             Je profiel <UserStats user={user} />
           </MenuItem>
@@ -33,7 +35,9 @@ const AccountMenu: FC<AccountMenuProps> = ({ router, user }) => {
             onClick={async () => {
               await api.post("logout");
               mutate!();
-              router.push("/account/inloggen");
+              router
+                .push("/account/inloggen")
+                .then(() => window.scrollTo(0, 0));
             }}
           >
             Uitloggen

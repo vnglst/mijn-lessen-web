@@ -31,7 +31,9 @@ const RegisterPage = () => {
     try {
       await api.post(`register`, { json: { email, name } });
       setLoading(false);
-      router.push(`registreren/gelukt?email=${email}`);
+      router
+        .push(`registreren/gelukt?email=${email}`)
+        .then(() => window.scrollTo(0, 0));
     } catch (err) {
       const errorData = await err.response.json();
       if (errorData.name === "ValidationError") {
