@@ -70,7 +70,10 @@ function QuestionsPage() {
 
     return router
       .push(`/lessen/${slug}/resultaat?pointsEarned=${pointsEarned}`)
-      .then(() => window.scrollTo(0, 0));
+      .then(() => {
+        window.scrollTo(0, 0);
+        return true;
+      });
   };
 
   return (

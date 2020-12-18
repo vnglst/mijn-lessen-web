@@ -47,7 +47,10 @@ function TodaysQuiz() {
 
     return router
       .push(`/lessen/vandaag/resultaat?pointsEarned=${pointsEarned}`)
-      .then(() => window.scrollTo(0, 0));
+      .then(() => {
+        window.scrollTo(0, 0);
+        return true;
+      });
   };
 
   return (
