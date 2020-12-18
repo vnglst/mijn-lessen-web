@@ -88,7 +88,7 @@ function Index({
             points: totalReps,
           },
         ] as Lesson[])
-      : [];
+      : null;
 
   return (
     <DefaultLayout
