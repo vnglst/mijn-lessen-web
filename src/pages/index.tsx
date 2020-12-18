@@ -58,9 +58,8 @@ function Index({
   const { session } = useSession();
   const user = session?.user;
 
-  const { data, isValidating } = useSWR(
-    user ? `protected/stats` : null,
-    async () => asyncStuff(lessons)
+  const { data } = useSWR(user ? `protected/stats` : null, async () =>
+    asyncStuff(lessons)
   );
 
   const reps = data?.reps || [];
@@ -96,7 +95,7 @@ function Index({
       headingText={`Hallo ${user?.name || ""}`}
       centered
     >
-      {isValidating ? (
+      {!data ? (
         <Stack spacing={5} width="100%" px={[5, 10]} my={10}>
           <Skeleton borderRadius="10px" height="40px" width="200px" />
           <Skeleton borderRadius="20px" width="320px" height="450px" />
