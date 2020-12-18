@@ -44,7 +44,7 @@ export type Lesson = {
 
 export type Status = "INITIAL" | "STARTED" | "COMPLETED";
 
-export type LessonsSWR = { data?: Lesson[] };
+export type LessonsSWR = { data?: Lesson[]; isValidating: boolean };
 export type LessonSWR = { data?: Lesson; mutate: typeof mutate };
 
 export type Category = {
