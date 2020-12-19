@@ -2,15 +2,28 @@ import { Box, Skeleton, Stack } from "@chakra-ui/react";
 import DefaultLayout from "@components/DefaultLayout";
 import LessonList from "@components/LessonList";
 import { api } from "@helpers/api";
-import { useSession } from "@hooks/useSession";
 import keyBy from "lodash/keyBy";
 import uniqBy from "lodash/uniqBy";
-import { InferGetServerSidePropsType } from "next";
 import React from "react";
 import useSWR from "swr";
-import { Category, Lesson, Repetition, Stats, Status } from "../types";
+import { Category, Lesson, Repetition, Stats, Status, User } from "../types";
 
-const asyncStuff = async (lessons: Lesson[]) => {
+const asyncStuff = async () => {
+  const lessons: Lesson[] = await api.get(`lessons/`).json();
+
+  // FIXME: ugly, fix this
+  let categories: Category[] = [];
+  lessons.forEach((l) => {
+    categories = [...categories, ...l.categories];
+  });
+
+  categories = uniqBy(categories, "id");
+
+  const session: { user?: User } = await api.get("session").json();
+  const user = session?.user;
+
+  if (!user) return { lessons, categories, user: null };
+
   const reps: Repetition[] = await api.get(`protected/repetitions`).json();
   const stats: Stats[] = await api.get(`protected/stats`).json();
 
@@ -48,24 +61,25 @@ const asyncStuff = async (lessons: Lesson[]) => {
   const started = withStats?.filter((stat) => stat.status === "STARTED");
   const completed = withStats?.filter((stat) => stat.status === "COMPLETED");
 
-  return { lessons: lessonsWithStats, started, completed, reps };
+  return {
+    lessons: lessonsWithStats,
+    started,
+    completed,
+    reps,
+    categories: uniqBy(categories, "id"),
+    user,
+  };
 };
 
-function Index({
-  lessons,
-  categories,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { session } = useSession();
-  const user = session?.user;
-
-  const { data } = useSWR(user ? `protected/stats` : null, async () =>
-    asyncStuff(lessons)
-  );
+function Index() {
+  const { data } = useSWR(`protected/stats`, asyncStuff);
 
   const reps = data?.reps || [];
   const started = data?.started || null;
   const completed = data?.completed || null;
-  const lessonWithStats = data?.lessons || lessons;
+  const lessons = data?.lessons || [];
+  const categories = data?.categories || [];
+  const user = data?.user;
 
   const totalReps = reps?.length || 0;
 
@@ -110,7 +124,7 @@ function Index({
           </Box>
           {categories.map((category) => {
             // FIXME: ugly, fix/test
-            const lessonsForCategory = lessonWithStats.filter((lesson) =>
+            const lessonsForCategory = lessons.filter((lesson) =>
               lesson.categories.some((cat) => cat.id === category.id)
             );
             if (lessonsForCategory.length > 0)
@@ -131,22 +145,5 @@ function Index({
     </DefaultLayout>
   );
 }
-
-export const getServerSideProps = async () => {
-  const lessons: Lesson[] = await api.get(`lessons/`).json();
-
-  // FIXME: ugly, fix this
-  let categories: Category[] = [];
-  lessons.forEach((l) => {
-    categories = [...categories, ...l.categories];
-  });
-
-  return {
-    props: {
-      lessons,
-      categories: uniqBy(categories, "id"),
-    },
-  };
-};
 
 export default Index;
