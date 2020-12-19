@@ -60,6 +60,8 @@ const LessonCard: FC<Props> = ({
         width="100%"
         height="200px"
         bgColor="white"
+        htmlHeight="200"
+        htmlWidth="270"
         src={imageUrl || ""}
       />
       <Flex align="baseline" mt={5}>
