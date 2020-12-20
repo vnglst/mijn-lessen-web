@@ -39,7 +39,7 @@ export interface LessonListProps {
 }
 
 const LessonList: FC<LessonListProps> = ({ lessons, heading }) => {
-  if (!lessons) return null;
+  if (!lessons || lessons.length === 0) return null;
 
   return (
     <>
