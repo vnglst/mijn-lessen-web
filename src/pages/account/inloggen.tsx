@@ -70,7 +70,7 @@ const LoginPage = () => {
             <FormLabel>E-mailadres</FormLabel>
             <Input
               type="email"
-              placeholder="koen@mijn-lessen.nl"
+              placeholder="voorbeeld@gmail.com"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />

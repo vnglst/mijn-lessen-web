@@ -71,7 +71,7 @@ const RegisterPage = () => {
           <FormControl isDisabled={loading} isInvalid={!!errors.name}>
             <FormLabel>Naam</FormLabel>
             <Input
-              placeholder="vnglst"
+              placeholder="Je naam"
               onChange={(e) => setName(e.target.value)}
               value={name}
             />
@@ -81,7 +81,7 @@ const RegisterPage = () => {
             <FormLabel>E-mailadres</FormLabel>
             <Input
               type="email"
-              placeholder="koen@mijn-lessen.nl"
+              placeholder="voorbeeld@gmail.com"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
