@@ -39,7 +39,7 @@ const PageLoading: FC = () => {
   if (loading)
     return (
       <Progress
-        position="absolute"
+        position="fixed"
         zIndex={zIndexes.pageLoading}
         size="xs"
         bg="white"
