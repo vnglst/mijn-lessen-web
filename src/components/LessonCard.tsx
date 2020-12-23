@@ -1,4 +1,5 @@
-import { Badge, Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import { Badge, Box, Flex, Heading, Text } from "@chakra-ui/react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { FC } from "react";
 import { GiHearts, GiLightBulb } from "react-icons/gi";
@@ -54,15 +55,16 @@ const LessonCard: FC<Props> = ({
       onClick={() => router.push(lessonLink).then(() => window.scrollTo(0, 0))}
     >
       <Image
-        objectFit="contain"
-        objectPosition="50% 0%"
-        borderRadius="0 20px 0px 0px"
-        width="100%"
-        height="200px"
-        bgColor="white"
-        htmlHeight="200"
-        htmlWidth="270"
-        src={imageUrl || ""}
+        objectFit="scale-down"
+        objectPosition="50% 50%"
+        // borderRadius="0 20px 0px 0px"
+        width="320"
+        height="200"
+        layout="fixed"
+        // bgColor="white"
+        // htmlHeight="200"
+        // htmlWidth="270"
+        src={imageUrl?.startsWith("/") ? imageUrl || "" : "/" + imageUrl || ""}
       />
       <Flex align="baseline" mt={5}>
         {status === "STARTED" && (
