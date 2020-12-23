@@ -1,9 +1,10 @@
-import { Box, Flex, Image } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { useSession } from "@hooks/useSession";
 import { zIndexes } from "@helpers/constants";
 import dynamic from "next/dynamic";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
+import NextImage from "next/image";
 import { Session } from "providers/SessionProvider";
 import { default as React } from "react";
 
@@ -44,11 +45,11 @@ const NavBarTop = () => {
           >
             <NextLink href="/" passHref>
               <a>
-                <Image
-                  height="35px"
-                  objectFit="scale-down"
+                <NextImage
+                  height="35"
+                  width="95"
                   src="/images/mijn-lessen-logo.png"
-                  alt="mijn-lessen.nl logo"
+                  alt="logo"
                 />
               </a>
             </NextLink>
