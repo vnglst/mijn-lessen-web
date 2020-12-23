@@ -1,5 +1,4 @@
 import { Box, Container, Flex, Heading, Image, Text } from "@chakra-ui/react";
-import { motion } from "framer-motion";
 import { default as React, FC } from "react";
 import AppHead from "./Head";
 import Footer from "./Footer";
@@ -25,76 +24,63 @@ const DefaultLayout: FC<Props> = ({
   imageUrl,
 }) => {
   return (
-    <motion.div
-      initial="pageInitial"
-      animate="pageAnimate"
-      variants={{
-        pageInitial: {
-          opacity: 0,
-        },
-        pageAnimate: {
-          opacity: 1,
-        },
-      }}
-    >
-      <Box minHeight="100vh" display="flex" flexDirection="column">
-        <AppHead title={pageTitle} />
-        <NavBarTop />
-        <HeroWave />
-        <Container
-          display="flex"
-          mt="25vh"
-          justify="space-between"
-          maxWidth="2xl"
-        >
-          <Flex flexDirection="column" width="100%">
-            <Heading
-              as="h1"
-              size="2xl"
-              mt="auto"
-              fontWeight="900"
-              noOfLines={3}
-              textColor="gray.800"
+    <Box minHeight="100vh" display="flex" flexDirection="column">
+      <AppHead title={pageTitle} />
+      <NavBarTop />
+      <HeroWave />
+      <Container
+        display="flex"
+        mt="25vh"
+        justify="space-between"
+        maxWidth="2xl"
+      >
+        <Flex flexDirection="column" width="100%">
+          <Heading
+            as="h1"
+            size="2xl"
+            mt="auto"
+            fontWeight="900"
+            noOfLines={3}
+            textColor="gray.800"
+            textAlign={centered ? "center" : "left"}
+          >
+            {headingText}
+          </Heading>
+          {subtitle && (
+            <Text
+              mt={1}
+              fontSize="lg"
+              color="gray.700"
               textAlign={centered ? "center" : "left"}
             >
-              {headingText}
-            </Heading>
-            {subtitle && (
-              <Text
-                mt={1}
-                fontSize="lg"
-                color="gray.700"
-                textAlign={centered ? "center" : "left"}
-              >
-                {subtitle}
-              </Text>
-            )}
-          </Flex>
-          {imageUrl && (
-            <Image
-              display={["none", "flex"]}
-              objectFit="contain"
-              src={imageUrl}
-              maxHeight="100px"
-              borderRadius={10}
-              style={{ transform: "rotate(5deg)" }}
-            />
+              {subtitle}
+            </Text>
           )}
-        </Container>
-        <Flex
-          as="main"
-          width="100%"
-          flexDirection="column"
-          alignItems="center"
-          mt={6}
-          minHeight="100vh"
-          backgroundImage="url('/images/background.png')"
-        >
-          {children}
         </Flex>
-        {showFooter && <Footer pt="10vh" p={8} justifyContent="flex-end" />}
-      </Box>
-    </motion.div>
+        {imageUrl && (
+          <Image
+            display={["none", "flex"]}
+            objectFit="contain"
+            src={imageUrl}
+            maxHeight="100px"
+            borderRadius={10}
+            style={{ transform: "rotate(5deg)" }}
+          />
+        )}
+      </Container>
+      <Flex
+        as="main"
+        width="100%"
+        flexDirection="column"
+        alignItems="center"
+        mt={6}
+        minHeight="100vh"
+        backgroundImage="url('/images/background.png')"
+      >
+        {children}
+      </Flex>
+      {showFooter && <Footer pt="10vh" p={8} justifyContent="flex-end" />}
+    </Box>
   );
 };
 

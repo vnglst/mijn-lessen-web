@@ -18,7 +18,7 @@ const LoginAlert: FC = () => {
   if (closed) return null;
 
   return (
-    <Alert status="error" variant="subtle">
+    <Alert status="error" variant="subtle" flexDir={["column", "row"]}>
       <AlertIcon />
       <AlertTitle mr={2}>Je bent niet ingelogd.</AlertTitle>
       <AlertDescription>
