@@ -63,6 +63,7 @@ const LessonCard: FC<Props> = ({
         htmlHeight="200"
         htmlWidth="270"
         src={imageUrl || ""}
+        alt=""
       />
       <Flex align="baseline" mt={5}>
         {status === "STARTED" && (

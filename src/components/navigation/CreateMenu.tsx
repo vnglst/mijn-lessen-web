@@ -5,6 +5,7 @@ import {
   MenuItem,
   MenuList,
   useDisclosure,
+  VisuallyHidden,
 } from "@chakra-ui/react";
 import { NextRouter } from "next/router";
 import { default as React, FC } from "react";
@@ -23,6 +24,7 @@ const CreateMenu: FC<CreateMenuProps> = ({ router }) => {
       <Menu>
         <MyMenuButton>
           <AddIcon fontSize="xs" />
+          <VisuallyHidden>Les toevoegen</VisuallyHidden>
         </MyMenuButton>
         <MenuList>
           <MenuGroup title={`Jouw lessen`}>

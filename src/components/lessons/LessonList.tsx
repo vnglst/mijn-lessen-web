@@ -63,19 +63,17 @@ const LessonList: FC<LessonListProps> = ({ heading, lessons }) => {
       >
         {lessons.map((lesson) => {
           return (
-            <WrapItem
-              key={lesson.slug}
-              as={motion.div}
-              variants={variantsCards}
-            >
-              <LessonCard
-                slug={lesson.slug}
-                title={lesson.title}
-                subtitle={lesson.subtitle}
-                imageUrl={lesson.imageUrl}
-                status={lesson.status}
-                lesson={lesson}
-              />
+            <WrapItem key={lesson.slug}>
+              <motion.div variants={variantsCards}>
+                <LessonCard
+                  slug={lesson.slug}
+                  title={lesson.title}
+                  subtitle={lesson.subtitle}
+                  imageUrl={lesson.imageUrl}
+                  status={lesson.status}
+                  lesson={lesson}
+                />
+              </motion.div>
             </WrapItem>
           );
         })}
