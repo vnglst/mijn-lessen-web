@@ -68,7 +68,7 @@
       },
       {
         "path": ".next/static/chunks/main*.js",
-        "maxSize": "7kB"
+        "maxSize": "10kB"
       },
       {
         "path": ".next/static/chunks/pages/_app*.js",
