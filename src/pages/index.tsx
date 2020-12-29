@@ -38,13 +38,13 @@ const Index: FC = () => {
         >
           {user && (
             <>
-              <LazyLoad height={600}>
+              <LazyLoad height={500}>
                 <TodaysLessons heading="Voor vandaag" />
               </LazyLoad>
-              <LazyLoad height={600}>
+              <LazyLoad height={500}>
                 <StartedLessons heading="Verder met" />
               </LazyLoad>
-              <LazyLoad height={600}>
+              <LazyLoad height={500}>
                 <LessonsByUser
                   userName={user.name}
                   heading="Door jou gemaakte lessen"
@@ -53,7 +53,7 @@ const Index: FC = () => {
             </>
           )}
           {categories.map((category) => (
-            <LazyLoad height={600} key={category.id}>
+            <LazyLoad height={500} key={category.id}>
               <LessonsByCategory
                 heading={category.title}
                 categoryId={category.id}
