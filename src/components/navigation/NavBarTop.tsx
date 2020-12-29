@@ -46,7 +46,7 @@ const NavBarTop = () => {
             <NextLink href="/" passHref>
               <a>
                 <NextImage
-                  height="35"
+                  height="37.4"
                   width="95"
                   src="/images/mijn-lessen-logo.png"
                   alt="logo"
