@@ -4,7 +4,7 @@ import React, { FC } from "react";
 import { GiHearts, GiLightBulb } from "react-icons/gi";
 import { GrView } from "react-icons/gr";
 import { Lesson } from "types";
-import TextLink from "./ui/TextLink";
+import TextLink from "../ui/TextLink";
 
 interface Props {
   slug: string;

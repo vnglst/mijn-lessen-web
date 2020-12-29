@@ -1,7 +1,7 @@
 import DefaultLayout from "@components/DefaultLayout";
 import LessonEditor from "@components/editor/LessonEditor";
 import FullScreenSpinner from "@components/ui/FullScreenSpinner";
-import { niceApi } from "@helpers/niceFetch";
+import { apiFetcher } from "@helpers/api";
 import { useRouter } from "next/router";
 import React, { FC } from "react";
 import useSWR from "swr";
@@ -12,7 +12,7 @@ const EditLesson: FC = () => {
   const { lessonSlug } = router.query;
   const { data: lesson, mutate }: LessonSWR = useSWR(
     () => (lessonSlug ? `lessons/${lessonSlug}` : null),
-    niceApi
+    apiFetcher
   );
 
   return (

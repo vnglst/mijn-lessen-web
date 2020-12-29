@@ -1,9 +1,9 @@
-import { Heading, Wrap, WrapItem } from "@chakra-ui/react";
+import { Heading, Skeleton, Stack, Wrap, WrapItem } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import React, { FC } from "react";
-import { Lesson } from "../types";
+import { Lesson } from "../../types";
 import LessonCard from "./LessonCard";
-import Underline from "./ui/Underline";
+import Underline from "../ui/Underline";
 
 const variantsWrapper = {
   pageInitial: {
@@ -34,12 +34,20 @@ const variantsCards = {
 };
 
 export interface LessonListProps {
-  lessons: Lesson[] | null;
+  lessons?: Lesson[];
   heading: string;
 }
 
-const LessonList: FC<LessonListProps> = ({ lessons, heading }) => {
-  if (!lessons || lessons.length === 0) return null;
+const LessonList: FC<LessonListProps> = ({ heading, lessons }) => {
+  if (!lessons)
+    return (
+      <Stack spacing={5} width="100%">
+        <Skeleton borderRadius="10px" height="40px" width="200px" />
+        <Skeleton borderRadius="20px" width="320px" height="450px" />
+      </Stack>
+    );
+
+  if (lessons.length === 0) return null;
 
   return (
     <>

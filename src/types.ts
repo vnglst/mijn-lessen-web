@@ -50,7 +50,7 @@ export type LessonSWR = { data?: Lesson; mutate: typeof mutate };
 export type Category = {
   title: string;
   slug: string;
-  id: string;
+  id: number;
 };
 
 export type Role = "STUDENT" | "EDITOR" | "ADMIN";
