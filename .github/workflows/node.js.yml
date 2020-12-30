@@ -42,14 +42,12 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
 
       - run: npm ci
-      - run: npm run verify
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_API_MOCKING: disabled
+      - run: npm run test
+      - run: npm run lint
+      - run: npm run bundlewatch
         env:
           BUNDLEWATCH_GITHUB_TOKEN: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
           CI_BRANCH_BASE: main
-          NEXT_PUBLIC_API_MOCKING: disabled
-          NEXT_PUBLIC_API_URL: http://localhost:1999
-
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
