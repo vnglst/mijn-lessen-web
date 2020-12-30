@@ -8,7 +8,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "test": "dotenv -e .env.test.local -- jest --maxWorkers=1 --ci",
+    "test": "dotenv -e .env.test.local -- jest",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
     "bundlewatch": "bundlewatch",
