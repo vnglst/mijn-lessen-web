@@ -74,6 +74,10 @@
         "maxSize": "10kB"
       },
       {
+        "path": ".next/static/chunks/pages/_app*.js",
+        "maxSize": "5kB"
+      },
+      {
         "path": ".next/static/css/*.css",
         "maxSize": "5kB"
       }
