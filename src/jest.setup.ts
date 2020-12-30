@@ -6,6 +6,8 @@ import "@testing-library/jest-dom";
 import "@testing-library/jest-dom/extend-expect";
 import { server } from "./mocks/server";
 
+jest.setTimeout(15000);
+
 beforeAll(() => {
   // Enable the mocking in tests.
   server.listen();
