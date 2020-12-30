@@ -57,11 +57,10 @@ const LessonCard: FC<Props> = ({
         objectFit="contain"
         objectPosition="50% 0%"
         borderRadius="0 20px 0px 0px"
-        width="100%"
         height="200px"
         bgColor="white"
         htmlHeight="200"
-        htmlWidth="270"
+        htmlWidth="277"
         src={imageUrl || ""}
         alt=""
       />

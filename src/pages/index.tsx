@@ -1,5 +1,6 @@
 import { Spinner, VStack } from "@chakra-ui/react";
 import DefaultLayout from "@components/DefaultLayout";
+import { CardSkeleton } from "@components/lessons/LessonList";
 import {
   LessonsByCategory,
   LessonsByUser,
@@ -14,7 +15,7 @@ import useSWR from "swr";
 import { Category, User } from "types";
 
 const MyLazyLoad: FC = ({ children }) => (
-  <LazyLoad height={400} offset={200}>
+  <LazyLoad height={400} offset={200} placeholder={<CardSkeleton />}>
     {children}
   </LazyLoad>
 );

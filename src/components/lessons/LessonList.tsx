@@ -33,6 +33,13 @@ const variantsCards = {
   },
 };
 
+export const CardSkeleton: FC = () => (
+  <>
+    <Skeleton borderRadius="10px" height="40px" width="200px" />
+    <Skeleton borderRadius="20px" height="450px" width="320px" />
+  </>
+);
+
 export interface LessonListProps {
   lessons?: Lesson[];
   heading: string;
@@ -42,8 +49,7 @@ const LessonList: FC<LessonListProps> = ({ heading, lessons }) => {
   if (!lessons)
     return (
       <Stack spacing={5} width="100%">
-        <Skeleton borderRadius="10px" height="40px" width="200px" />
-        <Skeleton borderRadius="20px" width="320px" height="450px" />
+        <CardSkeleton />
       </Stack>
     );
 
