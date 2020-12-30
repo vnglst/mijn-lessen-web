@@ -75,7 +75,7 @@ export const TodaysLessons: FC<TodaysLessonsProps> = ({
             points: totalReps,
           },
         ] as Lesson[])
-      : undefined;
+      : [];
 
   return <LessonList lessons={todaysLesson} heading={heading} />;
 };

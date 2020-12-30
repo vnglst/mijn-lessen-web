@@ -2,8 +2,7 @@ import Quiz from "@components/quiz/Quiz";
 import QuizContainer from "@components/quiz/QuizContainer";
 import { levelUp } from "@components/quiz/QuizSounds";
 import FullScreenSpinner from "@components/ui/FullScreenSpinner";
-import { api } from "@helpers/api";
-import { niceApi } from "@helpers/niceFetch";
+import { api, apiFetcher } from "@helpers/api";
 import { shuffle } from "@helpers/random";
 import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
@@ -31,7 +30,7 @@ function QuestionsPage() {
 
   const { data: lesson }: LessonSWR = useSWR(
     () => (slug ? `lessons/${slug}` : null),
-    niceApi
+    apiFetcher
   );
 
   const handleClose = () => {

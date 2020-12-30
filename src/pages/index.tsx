@@ -13,6 +13,12 @@ import LazyLoad from "react-lazyload";
 import useSWR from "swr";
 import { Category, User } from "types";
 
+const MyLazyLoad: FC = ({ children }) => (
+  <LazyLoad height={400} offset={200}>
+    {children}
+  </LazyLoad>
+);
+
 const Index: FC = () => {
   const { session } = useSession();
   const user: User | undefined = session?.user;
@@ -38,27 +44,27 @@ const Index: FC = () => {
         >
           {user && (
             <>
-              <LazyLoad height={500}>
+              <MyLazyLoad>
                 <TodaysLessons heading="Voor vandaag" />
-              </LazyLoad>
-              <LazyLoad height={500}>
+              </MyLazyLoad>
+              <MyLazyLoad>
                 <StartedLessons heading="Verder met" />
-              </LazyLoad>
-              <LazyLoad height={500}>
+              </MyLazyLoad>
+              <MyLazyLoad>
                 <LessonsByUser
                   userName={user.name}
                   heading="Door jou gemaakte lessen"
                 />
-              </LazyLoad>
+              </MyLazyLoad>
             </>
           )}
           {categories.map((category) => (
-            <LazyLoad height={500} key={category.id}>
+            <MyLazyLoad key={category.id}>
               <LessonsByCategory
                 heading={category.title}
                 categoryId={category.id}
               />
-            </LazyLoad>
+            </MyLazyLoad>
           ))}
         </VStack>
       ) : (

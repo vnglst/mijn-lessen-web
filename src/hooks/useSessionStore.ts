@@ -1,19 +1,35 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type UseSessionStore = <T>(
   key: string,
-  initialState: T
+  initialState: T,
+  opts?: {
+    serialize?: typeof JSON.stringify;
+    deserialize?: typeof JSON.parse;
+    storage?: Storage;
+  }
 ) => [T, (newState: T) => void];
 
-export const useSessionStore: UseSessionStore = (key, initialState) => {
-  const [state, setState] = useState(
-    typeof window === "undefined"
-      ? initialState
-      : JSON.parse(sessionStorage.getItem(key) || "false") || initialState
-  );
+export const useSessionStore: UseSessionStore = (
+  key,
+  initialState,
+  {
+    serialize = JSON.stringify,
+    deserialize = JSON.parse,
+    storage = sessionStorage,
+  } = {}
+) => {
+  const [state, setState] = useState(() => {
+    if (typeof window === "undefined") return initialState;
+    const valueInStorage = storage.getItem(key);
+    if (valueInStorage) return deserialize(valueInStorage);
+    // nothing saved in storage yet, save initialState
+    storage.setItem(key, serialize(initialState));
+    return initialState;
+  });
 
   const setStateWithSession = (newState: typeof initialState) => {
-    sessionStorage.setItem(key, JSON.stringify(newState));
+    storage.setItem(key, serialize(newState));
     setState(newState);
   };
 
