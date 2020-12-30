@@ -48,3 +48,8 @@ jobs:
           CI_BRANCH_BASE: main
           NEXT_PUBLIC_API_MOCKING: disabled
           NEXT_PUBLIC_API_URL: http://localhost:1999
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
