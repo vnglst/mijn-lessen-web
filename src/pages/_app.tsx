@@ -9,6 +9,10 @@ import React from "react";
 import { SessionProvider } from "../providers/SessionProvider";
 import { theme } from "../theme";
 
+if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+  require("../mocks");
+}
+
 function MijnLessenApp({ Component, pageProps }: AppProps) {
   return (
     <SessionProvider>
