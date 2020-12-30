@@ -46,6 +46,7 @@ jobs:
         env:
           NEXT_PUBLIC_API_MOCKING: disabled
       - run: npm run test
+        env:
           NEXT_PUBLIC_API_MOCKING: disabled
       - run: npm run lint
       - run: npm run bundlewatch
