@@ -15,7 +15,7 @@ import useSWR from "swr";
 import { Category, User } from "types";
 
 const MyLazyLoad: FC = ({ children }) => (
-  <LazyLoad offset={500} placeholder={<CardSkeleton />}>
+  <LazyLoad offset={1500} placeholder={<CardSkeleton />}>
     {children}
   </LazyLoad>
 );
