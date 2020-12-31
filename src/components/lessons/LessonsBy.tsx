@@ -73,6 +73,8 @@ export const TodaysLessons: FC<TodaysLessonsProps> = ({
                 "https://avataaars.io/?avatarStyle=Circle&topType=LongHairCurvy&accessoriesType=Blank&hairColor=Black&facialHairType=Blank&clotheType=ShirtScoopNeck&clotheColor=Pink&eyeType=Default&eyebrowType=Default&mouthType=Smile&skinColor=Pale",
             },
             points: totalReps,
+            likeCount: 0,
+            viewCount: 0,
           },
         ] as Lesson[])
       : [];
