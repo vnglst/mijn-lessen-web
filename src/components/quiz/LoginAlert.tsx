@@ -18,19 +18,19 @@ const LoginAlert: FC = () => {
   if (closed) return null;
 
   return (
-    <Alert status="error" variant="subtle" flexDir={["column", "row"]}>
+    <Alert status="error" variant="subtle" flexDir={["column", "row"]} px={10}>
       <AlertIcon />
       <AlertTitle mr={2}>Je bent niet ingelogd.</AlertTitle>
-      <AlertDescription>
+      <AlertDescription textAlign={["center", "left"]}>
         We kunnen je antwoorden niet bewaren en je verdient ook geen lampjes.
         Klik <TextLink href="/account/registreren">hier</TextLink> om te
         registreren.
       </AlertDescription>
       <CloseButton
         onClick={() => setClosed(true)}
-        position="absolute"
-        right="8px"
-        top="8px"
+        position="fixed"
+        right={2}
+        top={2}
       />
     </Alert>
   );

@@ -1,26 +1,16 @@
-import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Container,
-  Flex,
-  FormControl,
-  Heading,
-  HStack,
-  Progress,
-  Text,
-} from "@chakra-ui/react";
+import { Container, Flex, Heading, Progress, Text } from "@chakra-ui/react";
 import { api } from "@helpers/api";
 import { useSession } from "@hooks/useSession";
 import { useSessionStore } from "@hooks/useSessionStore";
-import { useTitle } from "@hooks/useTitle";
-import React, { FC, FormEvent, useState } from "react";
-import { Option, Question } from "../../types";
-import QuizOptions from "./QuizOptions";
+import { NextSeo } from "next-seo";
+import React, { FC } from "react";
+import { Option, Question, QuestionType } from "../../types";
+import QuizOptions from "./MultipleChoice";
+import QuizAnswer from "./OpenQuestion";
+import QuizBottomNav from "./QuizBottomNav";
 import { correct, wrong } from "./QuizSounds";
 
-type Answer = null | "correct" | "incorrect";
+export type AnswerState = null | "correct" | "incorrect";
 
 interface Props {
   questions: Question[];
@@ -32,183 +22,110 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
   const { session } = useSession();
   const user = session?.user;
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [questions, setQuestions] = useSessionStore(
-    `q-${id}`,
-    initialQuestions
-  );
-  const [answer, setAnswer] = useSessionStore(`a-${id}`, null as Answer);
-  const [optionId, setOptionId] = useSessionStore(`o-${id}`, "");
+  const [state, setState] = useSessionStore(id, {
+    questions: initialQuestions,
+    optionId: "",
+    answerState: null as AnswerState,
+  });
 
-  const isAnswered = !!answer;
-
+  const { questions, answerState, optionId } = state;
+  const isAnswered = !!answerState;
   const current: Question = questions[0];
-  useTitle(current.title);
 
-  const hasNextQuestion = questions.length > 1 || answer === "incorrect";
+  const hasNextQuestion = questions.length > 1 || answerState === "incorrect";
   const correctOption = current.options.find((o) => o.correct) as Option;
 
   const handleNext = async () => {
     let newQuestions = [...questions.slice(1)];
-    if (answer === "incorrect") newQuestions.push(current);
+    if (answerState === "incorrect") newQuestions.push(current);
 
     // still questions left, continue
     if (newQuestions.length > 0) {
-      setQuestions(newQuestions);
-      setOptionId("");
-      setAnswer(null);
+      setState({ questions: newQuestions, optionId: "", answerState: null });
       return;
     }
 
     // end of questions
-    setIsSubmitting(true);
     onComplete();
   };
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     const isCorrect = correctOption?.id == optionId;
     if (isCorrect) correct.play();
     else wrong.play();
 
-    setAnswer(isCorrect ? "correct" : "incorrect");
+    setState({ ...state, answerState: isCorrect ? "correct" : "incorrect" });
 
     if (!user) return;
-
-    setIsSubmitting(true);
 
     await api.post("protected/repetitions", {
       json: { questionId: current.id, correct: isCorrect },
     });
-
-    setIsSubmitting(false);
-  }
+  };
 
   return (
-    <Flex
-      as="form"
-      onSubmit={handleSubmit}
-      minHeight="100vh"
-      flexDirection="column"
-    >
-      <Container display="flex" flexDirection="column" marginTop="auto">
-        <Heading
-          id="question"
-          as="h1"
-          size="2xl"
-          fontWeight="900"
-          noOfLines={3}
-          lineHeight={1.6}
-          textAlign="center"
-          width="100%"
-          mt={24}
-        >
-          {current.title}
-        </Heading>
-        {current.title && (
-          <Text mt={2} fontSize="xl" textAlign="center">
-            {current.subtitle}
-          </Text>
-        )}
-        <FormControl
-          id="answer"
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          my={16}
-          isRequired
-        >
-          <QuizOptions
-            value={optionId}
-            onChange={setOptionId}
-            options={current.options}
-            isAnswered={isAnswered}
-          />
-        </FormControl>
-      </Container>
-      <Progress
-        mt="auto"
-        value={
-          100 - Math.round((questions.length / initialQuestions.length) * 100)
-        }
-        size="xs"
-      />
+    <>
+      <NextSeo title={current.title} />
       <Flex
-        height="100%"
-        justifyContent="center"
-        width="100%"
-        p={6}
-        bg={
-          isAnswered
-            ? answer === "correct"
-              ? "green.200"
-              : "red.200"
-            : "white"
-        }
+        as="form"
+        onSubmit={handleSubmit}
+        minHeight="100vh"
+        flexDirection="column"
       >
-        <HStack
-          my={4}
-          maxW="xl"
-          width="100%"
-          justifyContent={["space-around", "space-between"]}
-          flexWrap="wrap"
-        >
-          <Flex flexDirection="row" flexWrap="wrap" mb={6} alignItems="center">
-            {answer === "incorrect" && (
-              <>
-                <Box>
-                  <WarningIcon boxSize={8} ml={3} />
-                </Box>
-                <Flex flexDirection="column" ml={3}>
-                  <Heading as="h2" size="md">
-                    Juiste antwoord:
-                  </Heading>
-                  <Text size="lg">{correctOption.title}</Text>
-                </Flex>
-              </>
-            )}
-            {answer === "correct" && (
-              <>
-                <Box>
-                  <CheckIcon boxSize={8} ml={3} />
-                </Box>
-                <Flex flexDirection="column" ml={3}>
-                  <Heading as="h2" size="md">
-                    Juiste antwoord:
-                  </Heading>
-                  <Text size="lg">{correctOption.title}</Text>
-                </Flex>
-              </>
-            )}
-          </Flex>
-          <ButtonGroup mb={6}>
-            {isAnswered ? (
-              <Button
-                marginLeft="auto"
-                bg="white"
-                onClick={handleNext}
-                isLoading={isSubmitting}
-              >
-                {hasNextQuestion ? "Volgende" : "Bekijk resultaat"}
-              </Button>
-            ) : (
-              <Button
-                type="submit"
-                marginLeft="auto"
-                variant="primary"
-                onClick={handleSubmit}
-                isLoading={isSubmitting}
-                disabled={!optionId}
-                alignSelf="flex-end"
-              >
-                Controleren
-              </Button>
-            )}
-          </ButtonGroup>
-        </HStack>
+        <Container display="flex" flexDirection="column" marginTop="auto">
+          <Heading
+            id="question"
+            as="h1"
+            size="2xl"
+            fontWeight="900"
+            noOfLines={3}
+            lineHeight={1.6}
+            textAlign="center"
+            width="100%"
+            mt={24}
+          >
+            {current.title}
+          </Heading>
+          {current.title && (
+            <Text mt={2} fontSize="xl" textAlign="center">
+              {current.subtitle}
+            </Text>
+          )}
+          {current.type === QuestionType.OPEN ? (
+            <QuizAnswer
+              key={current.id}
+              value={optionId}
+              onChange={(optionId) => setState({ ...state, optionId })}
+              options={current.options}
+              isAnswered={isAnswered}
+            />
+          ) : (
+            <QuizOptions
+              key={current.id}
+              value={optionId}
+              onChange={(optionId) => setState({ ...state, optionId })}
+              options={current.options}
+              isAnswered={isAnswered}
+            />
+          )}
+        </Container>
+        <Progress
+          mt="auto"
+          value={
+            100 - Math.round((questions.length / initialQuestions.length) * 100)
+          }
+          size="xs"
+        />
+        <QuizBottomNav
+          answerState={answerState}
+          correctOption={correctOption}
+          onNext={handleNext}
+          onSubmit={handleSubmit}
+          hasNextQuestion={hasNextQuestion}
+          isValid={!!optionId}
+        />
       </Flex>
-    </Flex>
+    </>
   );
 };
 

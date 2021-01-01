@@ -17,7 +17,7 @@ import { zIndexes } from "@helpers/constants";
 import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React, { FC, MouseEvent, useState } from "react";
-import { Lesson } from "../../types";
+import { Lesson, QuestionType } from "../../types";
 import MyFormLabel from "../ui/MyFormLabel";
 import RichTextEditor from "../ui/RichTextEditor";
 import SaveButton from "../ui/SaveButton";
@@ -188,6 +188,7 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
                   subtitle: "",
                   draft: true,
                   options: [],
+                  type: QuestionType.MULTI,
                 }}
               />
             </Box>

@@ -17,8 +17,16 @@ export type Question = {
   lessonId: string;
   draft: boolean;
   options: Option[];
+  type: QuestionType;
   repetitions?: Repetition[];
 };
+
+export const QuestionType = {
+  OPEN: "OPEN",
+  MULTI: "MULTI",
+};
+
+export type QuestionType = typeof QuestionType[keyof typeof QuestionType];
 
 export type Lesson = {
   id: string;
