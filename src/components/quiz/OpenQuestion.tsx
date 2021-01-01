@@ -1,5 +1,4 @@
 import { FormControl, Input } from "@chakra-ui/react";
-import MyFormLabel from "@components/ui/MyFormLabel";
 import React, { FC, useState } from "react";
 import { Option } from "types";
 

@@ -63,6 +63,13 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
     });
   };
 
+  const mapper = {
+    [QuestionType.OPEN]: QuizAnswer,
+    [QuestionType.MULTI]: QuizOptions,
+  };
+
+  const QuestionCmp = mapper[current.type] || QuizOptions;
+
   return (
     <>
       <NextSeo title={current.title} />
@@ -91,23 +98,13 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
               {current.subtitle}
             </Text>
           )}
-          {current.type === QuestionType.OPEN ? (
-            <QuizAnswer
-              key={current.id}
-              value={optionId}
-              onChange={(optionId) => setState({ ...state, optionId })}
-              options={current.options}
-              isAnswered={isAnswered}
-            />
-          ) : (
-            <QuizOptions
-              key={current.id}
-              value={optionId}
-              onChange={(optionId) => setState({ ...state, optionId })}
-              options={current.options}
-              isAnswered={isAnswered}
-            />
-          )}
+          <QuestionCmp
+            key={current.id}
+            value={optionId}
+            onChange={(optionId) => setState({ ...state, optionId })}
+            options={current.options}
+            isAnswered={isAnswered}
+          />
         </Container>
         <Progress
           mt="auto"
