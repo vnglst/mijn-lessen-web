@@ -18,18 +18,10 @@ const variantsWrapper = {
 
 const variantsCards = {
   pageAnimate: {
-    y: 0,
     opacity: 1,
-    transition: {
-      x: { stiffness: 1000, velocity: -10 },
-    },
   },
   pageInitial: {
-    y: 300,
     opacity: 0,
-    transition: {
-      x: { stiffness: 1000, velocity: -10 },
-    },
   },
 };
 
