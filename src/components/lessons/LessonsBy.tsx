@@ -32,7 +32,7 @@ export interface LessonsByUserProps {
 export const LessonsByUser: FC<LessonsByUserProps> = ({
   heading,
   userName,
-  take = 10,
+  take = 25,
 }) => {
   const { data: lessons }: LessonsSWR = useSWR(
     `lessons/?userName=${userName}&take=${take}`,
