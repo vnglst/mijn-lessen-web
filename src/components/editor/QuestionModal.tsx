@@ -62,6 +62,7 @@ const QuestionModal: FC<QuestionModalProps> = ({
       json: {
         title: question.title,
         subtitle: question.subtitle,
+        type: question.type,
         options: question.options,
         lessonId: question.lessonId,
       },
