@@ -40,7 +40,7 @@ const QuizOptions: FC<QuizOptionsProps> = ({
         onChange={(e) => {
           const newAnswer = e.target.value;
           setAnswer(newAnswer);
-          if (newAnswer === correctOption.title) {
+          if (newAnswer.toLowerCase() === correctOption.title.toLowerCase()) {
             onChange(correctOption.id);
           } else {
             onChange("non-existing-id");

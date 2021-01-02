@@ -98,7 +98,6 @@ const QuestionModal: FC<QuestionModalProps> = ({
               {initialQuestion.title}
             </Text>
           )}
-
           {initialQuestion.subtitle && (
             <Text mt={2} isTruncated fontSize="sm">
               {initialQuestion.subtitle}

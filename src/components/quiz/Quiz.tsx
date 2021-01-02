@@ -108,10 +108,10 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
         </Container>
         <Progress
           mt="auto"
+          size="xs"
           value={
             100 - Math.round((questions.length / initialQuestions.length) * 100)
           }
-          size="xs"
         />
         <QuizBottomNav
           answerState={answerState}
