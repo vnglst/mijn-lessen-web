@@ -46,13 +46,6 @@ function LessonOverview({
       .then(() => window.scrollTo(0, 0));
   };
 
-  const handleDelete = async () => {
-    const sure = confirm("Weet je zeker dat je deze les wilt verwijderen?");
-    if (!sure) return;
-    await api.delete(`protected/lessons/${lesson.slug}`);
-    router.push(`/mijn-lessen/`).then(() => window.scrollTo(0, 0));
-  };
-
   return (
     <>
       <LoginAlert />
@@ -98,12 +91,6 @@ function LessonOverview({
             </Flex>
             {canEdit && (
               <Flex ml="auto">
-                <IconButton
-                  mr={4}
-                  onClick={handleDelete}
-                  aria-label="Verwijderen"
-                  icon={<DeleteIcon />}
-                />
                 <IconButton
                   onClick={() =>
                     router
