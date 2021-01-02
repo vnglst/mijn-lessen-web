@@ -73,13 +73,14 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
   return (
     <>
       <NextSeo title={current.title} />
-      <Flex
-        as="form"
-        onSubmit={handleSubmit}
-        minHeight="100vh"
-        flexDirection="column"
-      >
-        <Container display="flex" flexDirection="column" marginTop="auto">
+      <Flex onSubmit={handleSubmit} minHeight="100vh" flexDirection="column">
+        <Container
+          as="form"
+          id="quiz-form"
+          display="flex"
+          flexDirection="column"
+          marginTop="auto"
+        >
           <Heading
             id="question"
             as="h1"

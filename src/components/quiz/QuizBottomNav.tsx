@@ -100,7 +100,6 @@ const QuizBottomNav: FC<QuizBottomNavProps> = ({
             <Button
               marginLeft="auto"
               bg="white"
-              type="submit"
               onClick={handleNext}
               isLoading={isSubmitting}
             >
@@ -109,6 +108,7 @@ const QuizBottomNav: FC<QuizBottomNavProps> = ({
           ) : (
             <Button
               type="submit"
+              form="quiz-form"
               marginLeft="auto"
               variant="primary"
               onClick={handleSubmit}
