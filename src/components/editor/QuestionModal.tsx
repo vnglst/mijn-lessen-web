@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { api } from "@helpers/api";
 import React, { FC, MouseEvent, useState } from "react";
-import { Question } from "../../types";
+import { Question, QuestionType } from "../../types";
 import SaveButton from "../ui/SaveButton";
 import QuestionEditor from "./QuestionEditor";
 
@@ -38,17 +38,7 @@ const QuestionModal: FC<QuestionModalProps> = ({
   async function handleSave(e: MouseEvent) {
     e.preventDefault();
     setSaving("saving");
-
-    await api.post(`protected/questions/${question.id}`, {
-      json: {
-        title: question.title,
-        subtitle: question.subtitle,
-        type: question.type,
-        options: question.options,
-        lessonId: question.lessonId,
-      },
-    });
-
+    await api.post(`protected/questions/${question.id}`, { json: question });
     mutate();
     onClose();
     setSaving("saved");
@@ -57,17 +47,7 @@ const QuestionModal: FC<QuestionModalProps> = ({
   async function handleCreate(e: MouseEvent) {
     e.preventDefault();
     setSaving("saving");
-
-    await api.put(`protected/questions/`, {
-      json: {
-        title: question.title,
-        subtitle: question.subtitle,
-        type: question.type,
-        options: question.options,
-        lessonId: question.lessonId,
-      },
-    });
-
+    await api.put(`protected/questions/`, { json: question });
     mutate();
     handleClose();
     setSaving("saved");
@@ -78,6 +58,25 @@ const QuestionModal: FC<QuestionModalProps> = ({
     if (!sure) return;
     await api.delete(`protected/questions/${question.id}`);
     mutate();
+  }
+
+  async function handleOpenNew() {
+    const lessonId = initialQuestion.lessonId;
+    const typeKey = `${lessonId}-default-type`;
+    const subtitleKey = `${lessonId}-default-subtitle`;
+
+    const draftQuestion: Question = {
+      draft: true,
+      lessonId: lessonId,
+      points: 1,
+      title: "",
+      subtitle: sessionStorage.getItem(subtitleKey) || "",
+      options: [],
+      type: sessionStorage.getItem(typeKey) || QuestionType.MULTI,
+    };
+
+    setQuestion(draftQuestion);
+    onOpen();
   }
 
   function updateQuestion(newQuestion: Question) {
@@ -92,19 +91,21 @@ const QuestionModal: FC<QuestionModalProps> = ({
 
   return (
     <>
-      <Flex flexDir="column" overflow="hidden">
-        {initialQuestion.title && (
-          <Text isTruncated fontWeight="bold">
-            {initialQuestion.title}
-          </Text>
-        )}
+      {!initialQuestion.draft && (
+        <Flex flexDir="column" overflow="hidden">
+          {initialQuestion.title && (
+            <Text isTruncated fontWeight="bold">
+              {initialQuestion.title}
+            </Text>
+          )}
 
-        {initialQuestion.subtitle && (
-          <Text mt={2} isTruncated fontSize="sm">
-            {initialQuestion.subtitle}
-          </Text>
-        )}
-      </Flex>
+          {initialQuestion.subtitle && (
+            <Text mt={2} isTruncated fontSize="sm">
+              {initialQuestion.subtitle}
+            </Text>
+          )}
+        </Flex>
+      )}
 
       <ButtonGroup ml="auto">
         {!initialQuestion.draft && (
@@ -115,13 +116,12 @@ const QuestionModal: FC<QuestionModalProps> = ({
             variant="outline"
           />
         )}
-
         {initialQuestion.draft ? (
           <IconButton
             icon={<AddIcon />}
             size="lg"
             aria-label="Toevoegen"
-            onClick={onOpen}
+            onClick={handleOpenNew}
           />
         ) : (
           <IconButton

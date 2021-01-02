@@ -132,7 +132,7 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
                 objectFit="contain"
                 src={imageUrl}
                 maxHeight="100px"
-                style={{ transform: "rotate(5deg)" }}
+                transform="rotate(5deg)"
                 borderRadius="20px"
               />
             )}
@@ -182,11 +182,11 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
               <QuestionModal
                 mutate={mutate}
                 question={{
+                  draft: true,
                   lessonId: lesson.id,
                   points: 1,
                   title: "",
-                  subtitle: "",
-                  draft: true,
+                  subtitle: null,
                   options: [],
                   type: QuestionType.MULTI,
                 }}

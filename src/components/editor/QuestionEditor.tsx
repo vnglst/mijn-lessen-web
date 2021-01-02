@@ -14,15 +14,26 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
   question,
   updateQuestion,
 }) => {
+  const typeKey = `${question.lessonId}-default-type`;
+  const subtitleKey = `${question.lessonId}-default-subtitle`;
+
+  const mapper = {
+    [QuestionType.MULTI]: OptionsEditor,
+    [QuestionType.OPEN]: AnswerEditor,
+  };
+
+  const AnswerCmp = mapper[question.type] || OptionsEditor;
+
   return (
     <>
       <FormControl my={4}>
         <MyFormLabel mb={2}>Vraagtype</MyFormLabel>
         <Select
           value={question.type}
-          onChange={(e) =>
-            updateQuestion({ ...question, type: e.target.value })
-          }
+          onChange={(e) => {
+            sessionStorage.setItem(typeKey, e.target.value);
+            updateQuestion({ ...question, type: e.target.value });
+          }}
         >
           <option value={QuestionType.MULTI}>Multiple choice</option>
           <option value={QuestionType.OPEN}>Open vraag</option>
@@ -48,17 +59,13 @@ const QuestionEditor: FC<QuestionEditorProps> = ({
           fontStyle="italic"
           autoComplete="off"
           value={question.subtitle || ""}
-          onChange={(e) =>
-            updateQuestion({ ...question, subtitle: e.target.value })
-          }
+          onChange={(e) => {
+            sessionStorage.setItem(subtitleKey, e.target.value);
+            updateQuestion({ ...question, subtitle: e.target.value });
+          }}
         />
       </FormControl>
-
-      {question.type === QuestionType.OPEN ? (
-        <AnswerEditor question={question} updateQuestion={updateQuestion} />
-      ) : (
-        <OptionsEditor question={question} updateQuestion={updateQuestion} />
-      )}
+      <AnswerCmp question={question} updateQuestion={updateQuestion} />
     </>
   );
 };
