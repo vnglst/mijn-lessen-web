@@ -16,6 +16,7 @@ const MyLessons: FC = () => {
           <LessonsByUser
             userName={user.name}
             heading="Door jou gemaakte lessen"
+            take={50}
           />
         )}
       </Flex>

@@ -32,7 +32,7 @@ export interface LessonsByUserProps {
 export const LessonsByUser: FC<LessonsByUserProps> = ({
   heading,
   userName,
-  take = 25,
+  take = 5,
 }) => {
   const { data: lessons }: LessonsSWR = useSWR(
     `lessons/?userName=${userName}&take=${take}`,
@@ -47,14 +47,8 @@ export interface TodaysLessonsProps {
   take?: number;
 }
 
-export const TodaysLessons: FC<TodaysLessonsProps> = ({
-  heading,
-  take = 10,
-}) => {
-  const { data: reps }: RepSWR = useSWR(
-    `protected/repetitions?take=${take}`,
-    apiFetcher
-  );
+export const TodaysLessons: FC<TodaysLessonsProps> = ({ heading }) => {
+  const { data: reps }: RepSWR = useSWR(`protected/repetitions`, apiFetcher);
 
   const totalReps = reps?.length || 0;
 
