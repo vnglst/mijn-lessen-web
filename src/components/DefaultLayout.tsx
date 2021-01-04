@@ -75,7 +75,7 @@ const DefaultLayout: FC<Props> = ({
         alignItems="center"
         mt={6}
         minHeight="100vh"
-        backgroundImage="url('/images/background.png')"
+        backgroundImage="url('https://res.cloudinary.com/mijn-lessen-nl/image/upload/f_auto,q_auto/v1609785618/background.png')"
       >
         {children}
       </Flex>

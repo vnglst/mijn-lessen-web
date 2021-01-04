@@ -60,7 +60,8 @@ export const TodaysLessons: FC<TodaysLessonsProps> = ({ heading }) => {
             slug: "vandaag",
             title: "Herhalingen",
             subtitle: "Vragen die je eerder een keer fout had",
-            imageUrl: "images/sun.png",
+            imageUrl:
+              "https://res.cloudinary.com/mijn-lessen-nl/image/upload/f_auto,q_auto/v1609785617/sun.png",
             author: {
               name: "mijn-lessen.nl",
               avatar:
