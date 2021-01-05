@@ -15,6 +15,10 @@ const Footer: FC<FooterProps> = ({ ...rest }) => {
       {...rest}
     >
       <Text textColor="gray.500" fontSize="xs">
+        <TextLink textDecoration="none" href="https://www.freepik.com/">
+          Afbeeldingen afkomstig van Freepik
+        </TextLink>{" "}
+        |{" "}
         <TextLink textDecoration="none" href="/#">
           Algemene voorwaarden
         </TextLink>{" "}
@@ -23,10 +27,6 @@ const Footer: FC<FooterProps> = ({ ...rest }) => {
           Privacybeleid
         </TextLink>{" "}
         |{" "}
-        {/* <TextLink textDecoration="none" href="/#">
-          Over mijn-lessen.nl
-        </TextLink>{" "}
-        |{" "} */}
         <TextLink textDecoration="none" href="https://status.mijn-lessen.nl">
           Status
         </TextLink>{" "}

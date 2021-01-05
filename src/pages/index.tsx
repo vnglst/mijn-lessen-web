@@ -1,4 +1,12 @@
-import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import Footer from "@components/Footer";
 import AppHead from "@components/Head";
 import Number from "@components/landingpage/Number";
@@ -30,6 +38,62 @@ const Index: FC = () => {
           </Button>
         </NextLink>
       </Box>
+
+      <Flex
+        align="center"
+        justify={{ base: "center", md: "space-around", xl: "space-around" }}
+        direction={{ base: "column", lg: "row" }}
+        maxW="1500px"
+        mx="auto"
+        wrap="nowrap"
+        minH="70vh"
+        px={[4, 8]}
+      >
+        <Stack
+          spacing={4}
+          w={{ base: "80%", lg: "40%" }}
+          align={["center", "center", "flex-start"]}
+          mb={10}
+        >
+          <Heading
+            size="3xl"
+            color="gray.900"
+            fontWeight="bold"
+            textAlign={["center", "center", "left"]}
+          >
+            Welkom!
+          </Heading>
+          <Text
+            mt={6}
+            fontSize="xl"
+            textColor="gray.500"
+            textAlign={["center", "center", "left"]}
+          >
+            Mijn-lessen.nl is dé plek voor ouders om samen hun kinderen extra
+            lessen te maken. Voor als kinderen een beetje bijles nodig hebben,
+            of als ze op zoek zijn naar meer uitdaging.
+            <br />
+            <br />
+            Het platform is nog volop in ontwikkeling en nog niet geschikt voor
+            het grote publiek. Maar als je wil, kun je alvast een kijkje nemen
+            bij deze preview.
+            <br />
+            <br />
+            Ben je benieuwd wat Mijn Lessen te bieden heeft. Hieronder vind je
+            de 4 belangrijkste features.
+          </Text>
+        </Stack>
+        <Box
+          w={{ base: "100%", md: "80%", lg: "45%" }}
+          m={{ base: 12, md: 0 }}
+          position="relative"
+          borderRadius={5}
+          overflow="hidden"
+        >
+          <Image src="images/kids.jpg" />
+        </Box>
+      </Flex>
+
       <Flex
         align="center"
         justify={{ base: "center", md: "space-around", xl: "space-around" }}
@@ -56,7 +120,7 @@ const Index: FC = () => {
           <Text
             mt={6}
             lineHeight={1.5}
-            fontSize="2xl"
+            fontSize="xl"
             textColor="gray.500"
             textAlign={["center", "center", "left"]}
           >
@@ -99,7 +163,7 @@ const Index: FC = () => {
           <Text
             mt={6}
             lineHeight={1.5}
-            fontSize="2xl"
+            fontSize="xl"
             textColor="gray.500"
             textAlign={["center", "center", "left"]}
           >
@@ -136,9 +200,9 @@ const Index: FC = () => {
             Bekijk de lessen van anderen
           </Heading>
           <Text
-            mt={6}
+            my={6}
             lineHeight={1.5}
-            fontSize="2xl"
+            fontSize="xl"
             textColor="gray.500"
             textAlign={["center", "center", "left"]}
           >
@@ -157,7 +221,8 @@ const Index: FC = () => {
         wrap="nowrap"
         minH="70vh"
         px={[4, 8]}
-        my={10}
+        mt={10}
+        mb={16}
       >
         <Stack
           spacing={4}
@@ -176,7 +241,7 @@ const Index: FC = () => {
           <Text
             mt={6}
             lineHeight={1.5}
-            fontSize="2xl"
+            fontSize="xl"
             textColor="gray.500"
             textAlign={["center", "center", "left"]}
           >
