@@ -46,7 +46,7 @@ const Index: FC = () => {
         >
           <Number>01</Number>
           <Heading
-            size="4xl"
+            size="3xl"
             color="gray.900"
             fontWeight="bold"
             textAlign={["center", "center", "left"]}
@@ -89,7 +89,7 @@ const Index: FC = () => {
         >
           <Number>02</Number>
           <Heading
-            size="4xl"
+            size="3xl"
             color="gray.900"
             fontWeight="bold"
             textAlign={["center", "center", "left"]}
@@ -128,7 +128,7 @@ const Index: FC = () => {
         >
           <Number>03</Number>
           <Heading
-            size="4xl"
+            size="3xl"
             color="gray.900"
             fontWeight="bold"
             textAlign={["center", "center", "left"]}
@@ -166,7 +166,7 @@ const Index: FC = () => {
         >
           <Number>04</Number>
           <Heading
-            size="4xl"
+            size="3xl"
             color="gray.900"
             fontWeight="bold"
             textAlign={["center", "center", "left"]}
