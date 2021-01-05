@@ -6,7 +6,7 @@
   "repository": "git@github.com:vnglst/mijn-lessen-web.git",
   "scripts": {
     "dev": "NEXT_GIT_SHA=`git rev-parse --short HEAD` next",
-    "build": "NEXT_GIT_SHA='git rev-parse --short HEAD' next build",
+    "build": "NEXT_GIT_SHA=`git rev-parse --short HEAD` next build",
     "start": "next start",
     "test": "dotenv -e .env.test.local -- jest",
     "test:watch": "npm run test -- --watch",
