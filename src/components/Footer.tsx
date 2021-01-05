@@ -33,7 +33,7 @@ const Footer: FC<FooterProps> = ({ ...rest }) => {
         |{" "}
         <TextLink
           textDecoration="none"
-          href="https://github.com/vnglst/mijn-lessen-web"
+          href={`https://github.com/vnglst/mijn-lessen-web/releases/tag/${process.env.NEXT_VERSION}`}
         >
           {process.env.NEXT_VERSION}
         </TextLink>
