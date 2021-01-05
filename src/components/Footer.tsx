@@ -1,4 +1,4 @@
-import { Flex, Text, FlexProps } from "@chakra-ui/react";
+import { Flex, FlexProps, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import TextLink from "./ui/TextLink";
 
@@ -23,16 +23,26 @@ const Footer: FC<FooterProps> = ({ ...rest }) => {
           Privacybeleid
         </TextLink>{" "}
         |{" "}
-        <TextLink textDecoration="none" href="/#">
+        {/* <TextLink textDecoration="none" href="/#">
           Over mijn-lessen.nl
         </TextLink>{" "}
+        |{" "} */}
+        <TextLink textDecoration="none" href="https://status.mijn-lessen.nl">
+          Status
+        </TextLink>{" "}
         |{" "}
-        <TextLink textDecoration="none" href="/#">
-          v1.1
+        <TextLink
+          textDecoration="none"
+          href="https://github.com/vnglst/mijn-lessen-web"
+        >
+          {process.env.NEXT_VERSION}
         </TextLink>
         ,{" "}
-        <TextLink textDecoration="none" href="/#">
-          8de7cc9
+        <TextLink
+          textDecoration="none"
+          href={`https://github.com/vnglst/mijn-lessen-web/commit/${process.env.NEXT_GIT_SHA}`}
+        >
+          {process.env.NEXT_GIT_SHA}
         </TextLink>
       </Text>
     </Flex>

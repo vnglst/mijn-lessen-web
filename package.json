@@ -1,12 +1,12 @@
 {
   "name": "mijn-lessen-web",
   "description": "Mijn Lessen NextJs Web Server",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "repository": "git@github.com:vnglst/mijn-lessen-web.git",
   "scripts": {
-    "dev": "next",
-    "build": "next build",
+    "dev": "NEXT_GIT_SHA=`git rev-parse --short HEAD` next",
+    "build": "NEXT_GIT_SHA='git rev-parse --short HEAD' next build",
     "start": "next start",
     "test": "dotenv -e .env.test.local -- jest",
     "test:watch": "npm run test -- --watch",
