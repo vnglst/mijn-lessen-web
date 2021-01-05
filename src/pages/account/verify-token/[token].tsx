@@ -38,12 +38,15 @@ function TokenPage() {
       <CenteredLayout>
         <Text>
           Je bent ingelogd met het e-mailadres <Code>{data.email}</Code>! Je
-          kunt nu beginnen met <TextLink href="/">een eerste les</TextLink>.
+          kunt nu beginnen met <TextLink href="/start">een eerste les</TextLink>
+          .
         </Text>
         <ButtonGroup mt={12} justifyContent="center" display="flex">
           <Button
             variant="primary"
-            onClick={() => router.push("/").then(() => window.scrollTo(0, 0))}
+            onClick={() =>
+              router.push("/start").then(() => window.scrollTo(0, 0))
+            }
           >
             Starten
           </Button>
