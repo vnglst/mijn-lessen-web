@@ -29,7 +29,7 @@ const Index: FC = () => {
     >
       <AppHead
         title="Actief en zelfstandig leren"
-        description="Op Mijn Lessen bedenk je zelf lessen. Daardoor leer je actief, zelfstandig en vergeet je nooit meer wat je hebt geleerd. Ideaal voor ouders die zelf bijles willen geven aan hun kind."
+        description="Op Mijn Lessen bedenk je zelf lessen. Daardoor leer je actief, zelfstandig en vergeet je nooit meer wat je hebt geleerd. Ideaal slimme kids of voor ouders die zelf bijles willen geven aan hun kind."
       />
       <Box>
         <WaveSvg />
