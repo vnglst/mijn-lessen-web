@@ -85,7 +85,7 @@ const Index: FC = () => {
                 preview
               </Text>
             </Tooltip>{" "}
-            van Mijn Lessen te bieden heeft. Hieronder vind je de 4
+            van Mijn Lessen te bieden heeft? Hieronder vind je de 4
             belangrijkste features.
           </Text>
           <ButtonGroup
@@ -155,8 +155,8 @@ const Index: FC = () => {
           >
             Dat doe je als ouder samen met je kind, maar kinderen vinden het ook
             leuk om hun eigen lessen te maken. Ze weten vaak zelf het beste wat
-            ze moelijk vinden. En door ze zelf lessen te laten maken, gaan ze
-            actief met deze stof aan de slag.
+            ze moelijk vinden. En door zelf lessen te maken, gaan ze actief met
+            de stof aan de slag.
           </Text>
           <Text fontSize="xs" pt={2} textAlign="center" color="gray.600">
             <sup>*</sup> in de previewversie kunnen alleen betatesters zelf
@@ -197,8 +197,8 @@ const Index: FC = () => {
           >
             Beantwoord de vragen. Een foutje maken is niet erg. Die komen in
             dezelfde les nog een keer terug. Bovendien zorgt het algoritme van
-            Mijn Lessen ervoor dat deze vragen ook blijven terugkomen, zodat je
-            ze nooit meer vergeet.
+            Mijn Lessen ervoor dat deze vragen blijven terugkomen, zodat je ze
+            nooit meer vergeet.
           </Text>
         </Stack>
         <Video url="https://i.imgur.com/26utmW5.mp4" />
@@ -234,8 +234,8 @@ const Index: FC = () => {
             textAlign={["center", "center", "left"]}
           >
             Goede lessen kun je op Mijn Lessen ook met anderen delen. Er staan
-            nu nog niet zoveel lessen, maar als iedereen zijn lesje bijdraagt,
-            verandert dat natuurlijk snel.
+            nu nog niet zoveel lessen in, maar als iedereen zijn lesje
+            bijdraagt, verandert dat natuurlijk snel.
           </Text>
         </Stack>
         <Video url="https://i.imgur.com/S4O6SeT.mp4" />
@@ -271,9 +271,9 @@ const Index: FC = () => {
             textColor="gray.500"
             textAlign={["center", "center", "left"]}
           >
-            Elke dag verzamelt Mijn Lessen de vragen die je moeilijk vind in een
-            speciale les. Als je deze les dagelijks doet, vergeet je nooit meer
-            wat je geleerd hebt.
+            Elke dag verzamelt Mijn Lessen de vragen die je moeilijk vindt in
+            een speciale les. Als je deze les dagelijks doet, vergeet je nooit
+            meer wat je geleerd hebt.
           </Text>
         </Stack>
         <Video url="https://i.imgur.com/GwR6NlE.mp4" />
