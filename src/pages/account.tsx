@@ -68,7 +68,9 @@ function AccountPage() {
             </Button>
             <Button
               variant="primary"
-              onClick={() => router.push("/").then(() => window.scrollTo(0, 0))}
+              onClick={() =>
+                router.push("/start").then(() => window.scrollTo(0, 0))
+              }
             >
               Naar lessen
             </Button>

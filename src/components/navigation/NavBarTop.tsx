@@ -43,7 +43,7 @@ const NavBarTop = () => {
             _active={{ transform: "scale(0.95)" }}
             transition="all 0.75s ease"
           >
-            <NextLink href="/" passHref>
+            <NextLink href="/start" passHref>
               <a>
                 <NextImage
                   height="37.4"

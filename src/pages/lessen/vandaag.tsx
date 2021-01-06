@@ -28,7 +28,7 @@ function TodaysQuiz() {
     );
     if (!reallyClose) return;
     sessionStorage.clear();
-    router.push(`/`).then(() => window.scrollTo(0, 0));
+    router.push(`/start`).then(() => window.scrollTo(0, 0));
   };
 
   const handleComplete = async () => {

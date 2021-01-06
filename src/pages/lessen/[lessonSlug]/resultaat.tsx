@@ -51,7 +51,7 @@ function ResultPage() {
               </Button>
               <Button
                 onClick={() =>
-                  router.push(`/`).then(() => window.scrollTo(0, 0))
+                  router.push(`/start`).then(() => window.scrollTo(0, 0))
                 }
                 variant="primary"
               >

@@ -1,4 +1,8 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Button,
   ButtonGroup,
   Flex,
@@ -87,6 +91,22 @@ const RegisterPage = () => {
             />
             <FormErrorMessage>{errors.email}</FormErrorMessage>
           </FormControl>
+          <Alert
+            status="error"
+            variant="subtle"
+            flexDir="column"
+            p={4}
+            mt={8}
+            borderRadius={10}
+          >
+            <AlertIcon />
+            <AlertTitle mb={2}>Dit is een preview!</AlertTitle>
+            <AlertDescription textAlign="center">
+              Ons platform is nog vollop in ontwikkeling en nog niet geschikt
+              voor het grote publiek. In deze versie kunnen alleen betatesters
+              zelf lessen maken.
+            </AlertDescription>
+          </Alert>
           <ButtonGroup mt={10} justifyContent="space-between" display="flex">
             <TextLink href="/account/inloggen" my="auto">
               Inloggen met bestaand account
