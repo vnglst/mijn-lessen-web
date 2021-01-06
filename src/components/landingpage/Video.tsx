@@ -3,9 +3,10 @@ import React, { FC } from "react";
 
 export interface VideoProps {
   url: string;
+  autoplay?: boolean;
 }
 
-const Video: FC<VideoProps> = ({ url }) => {
+const Video: FC<VideoProps> = ({ url, autoplay = false }) => {
   return (
     <Box
       w={{ base: "100%", md: "80%", lg: "45%" }}
@@ -29,7 +30,7 @@ const Video: FC<VideoProps> = ({ url }) => {
       <Box pt={6}>
         <video
           src={url}
-          autoPlay
+          autoPlay={autoplay}
           muted
           loop
           controls

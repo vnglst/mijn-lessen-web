@@ -169,7 +169,7 @@ const Index: FC = () => {
             lessen maken.
           </Text>
         </Stack>
-        <Video url="https://i.imgur.com/jQaqRkL.mp4" />
+        <Video url="https://i.imgur.com/jQaqRkL.mp4" autoplay />
       </Flex>
       <Flex
         align="center"
