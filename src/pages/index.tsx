@@ -118,7 +118,10 @@ const Index: FC = () => {
           borderRadius={5}
           overflow="hidden"
         >
-          <Image src="images/kids.jpg" />
+          <Image
+            src="https://res.cloudinary.com/mijn-lessen-nl/image/upload/f_auto,q_auto/v1609958696/kids.jpg"
+            alt=""
+          />
         </Box>
       </Flex>
 
