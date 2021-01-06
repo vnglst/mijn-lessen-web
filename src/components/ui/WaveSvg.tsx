@@ -7,8 +7,8 @@ const WaveSvg: FC<WaveSvgProps> = ({}) => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1440 320"
-      style={{ maxHeight: "200px" }}
       preserveAspectRatio="none"
+      // style={{ minHeight: "120px", width: "100%" }}
     >
       <path
         fill="#fcd787"

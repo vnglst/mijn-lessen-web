@@ -1,18 +1,23 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Flex,
   Heading,
   Image,
   Stack,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import Footer from "@components/Footer";
 import AppHead from "@components/Head";
 import Number from "@components/landingpage/Number";
 import Video from "@components/landingpage/Video";
+import TextLink from "@components/ui/TextLink";
+import ButtonLink from "@components/ui/ButtonLink";
 import WaveSvg from "@components/ui/WaveSvg";
 import NextLink from "next/link";
+import NextImage from "next/image";
 import React, { FC } from "react";
 
 const Index: FC = () => {
@@ -31,14 +36,13 @@ const Index: FC = () => {
             position="absolute"
             right={0}
             top={0}
-            m={[1, 4]}
+            m={[0, 4]}
             color="black"
           >
             Inloggen
           </Button>
         </NextLink>
       </Box>
-
       <Flex
         align="center"
         justify={{ base: "center", md: "space-around", xl: "space-around" }}
@@ -48,40 +52,62 @@ const Index: FC = () => {
         wrap="nowrap"
         minH="70vh"
         px={[4, 8]}
+        mt={[10, 0]}
       >
         <Stack
-          spacing={4}
           w={{ base: "80%", lg: "40%" }}
           align={["center", "center", "flex-start"]}
           mb={10}
         >
-          <Heading
-            size="3xl"
-            color="gray.900"
-            fontWeight="bold"
-            textAlign={["center", "center", "left"]}
-          >
-            Welkom!
-          </Heading>
+          <Box mb={6}>
+            <NextImage
+              height="74"
+              width="190"
+              src="/images/mijn-lessen-logo.png"
+              alt="Mijn-Lessen.nl"
+            />
+          </Box>
           <Text
             mt={6}
             fontSize="xl"
             textColor="gray.500"
             textAlign={["center", "center", "left"]}
           >
-            Mijn-lessen.nl is dé plek voor ouders om samen hun kinderen extra
-            lessen te maken. Voor als kinderen een beetje bijles nodig hebben,
-            of als ze op zoek zijn naar meer uitdaging.
-            <br />
-            <br />
-            Het platform is nog volop in ontwikkeling en nog niet geschikt voor
-            het grote publiek. Maar als je wil, kun je alvast een kijkje nemen
-            bij deze preview.
-            <br />
-            <br />
-            Ben je benieuwd wat Mijn Lessen te bieden heeft. Hieronder vind je
-            de 4 belangrijkste features.
+            Maak samen met je kinderen extra lessen. Als bijles of als extra
+            uitdaging. Ben je benieuwd wat de{" "}
+            <Tooltip
+              label="Mijn-lessen.nl is nog volop in ontwikkeling en nog niet geschikt voor het
+      grote publiek. Maar als je wilt, kun je wel alvast een kijkje nemen."
+              aria-label="A tooltip"
+            >
+              <Text as="span" color="cyan.800">
+                preview
+              </Text>
+            </Tooltip>{" "}
+            van Mijn Lessen te bieden heeft. Hieronder vind je de 4
+            belangrijkste features.
           </Text>
+          <ButtonGroup
+            pt={8}
+            justifyContent="space-between"
+            mx="auto"
+            width="100%"
+            maxW="md"
+            flexDir={["column", "row"]}
+          >
+            <ButtonLink
+              variant="primary"
+              mb={5}
+              as={TextLink}
+              href="/account"
+              textDecoration="none"
+            >
+              Bekijk de preview
+            </ButtonLink>
+            <ButtonLink as={TextLink} href="/#maak-je-eigen">
+              Meer informatie
+            </ButtonLink>
+          </ButtonGroup>
         </Stack>
         <Box
           w={{ base: "100%", md: "80%", lg: "45%" }}
@@ -95,6 +121,7 @@ const Index: FC = () => {
       </Flex>
 
       <Flex
+        id="maak-je-eigen"
         align="center"
         justify={{ base: "center", md: "space-around", xl: "space-around" }}
         direction={{ base: "column", lg: "row" }}
@@ -136,7 +163,6 @@ const Index: FC = () => {
         </Stack>
         <Video url="https://i.imgur.com/jQaqRkL.mp4" />
       </Flex>
-
       <Flex
         align="center"
         justify={{ base: "center", md: "space-around", xl: "space-around" }}
@@ -175,7 +201,6 @@ const Index: FC = () => {
         </Stack>
         <Video url="https://i.imgur.com/26utmW5.mp4" />
       </Flex>
-
       <Flex
         align="center"
         justify={{ base: "center", md: "space-around", xl: "space-around" }}
@@ -213,7 +238,6 @@ const Index: FC = () => {
         </Stack>
         <Video url="https://i.imgur.com/S4O6SeT.mp4" />
       </Flex>
-
       <Flex
         align="center"
         justify={{ base: "center", md: "space-around", xl: "space-around" }}
@@ -245,9 +269,9 @@ const Index: FC = () => {
             textColor="gray.500"
             textAlign={["center", "center", "left"]}
           >
-            Elke dag verzamelt Mijn Lessen de vragen die je moeilijk vond in een
-            speciale les. Als je deze les trouw doet, vergeet je nooit meer wat
-            je geleerd hebt.
+            Elke dag verzamelt Mijn Lessen de vragen die je moeilijk vind in een
+            speciale les. Als je deze les dagelijks doet, vergeet je nooit meer
+            wat je geleerd hebt.
           </Text>
         </Stack>
         <Video url="https://i.imgur.com/GwR6NlE.mp4" />
