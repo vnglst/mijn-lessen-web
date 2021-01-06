@@ -1,7 +1,7 @@
 {
   "name": "mijn-lessen-web",
   "description": "Mijn Lessen NextJs Web Server",
-  "version": "0.1.0-canary.0",
+  "version": "0.1.0",
   "license": "MIT",
   "repository": "git@github.com:vnglst/mijn-lessen-web.git",
   "scripts": {
