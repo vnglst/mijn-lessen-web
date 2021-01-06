@@ -77,7 +77,7 @@ const Index: FC = () => {
             Maak samen met je kinderen extra lessen. Als bijles of als extra
             uitdaging. Ben je benieuwd wat de{" "}
             <Tooltip
-              label="Mijn-lessen.nl is nog volop in ontwikkeling en nog niet geschikt voor het
+              label="Mijn-lessen.nl is vollop in ontwikkeling en nog niet geschikt voor het
       grote publiek. Maar als je wilt, kun je wel alvast een kijkje nemen."
               aria-label="A tooltip"
             >
