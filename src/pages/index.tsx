@@ -195,13 +195,12 @@ const Index: FC = () => {
             textColor="gray.500"
             textAlign={["center", "center", "left"]}
           >
-            Beantwoord de vragen. Een foutje maken is niet erg. Die komen in
-            dezelfde les nog een keer terug. Bovendien zorgt het algoritme van
-            Mijn Lessen ervoor dat deze vragen blijven terugkomen, zodat je ze
-            nooit meer vergeet.
+            Beantwoord de vragen. Als je alle vragen goed hebt beantwoord, krijg
+            je als beloning voor elke vraag een lampje. Als je veel lampjes hebt
+            verdiend, ben je goed bezig.
           </Text>
         </Stack>
-        <Video url="https://i.imgur.com/26utmW5.mp4" />
+        <Video url="https://i.imgur.com/mihBmpR.mp4" />
       </Flex>
       <Flex
         align="center"
