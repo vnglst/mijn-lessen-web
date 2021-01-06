@@ -27,7 +27,10 @@ const Index: FC = () => {
       flexDir="column"
       backgroundImage="url('https://res.cloudinary.com/mijn-lessen-nl/image/upload/f_auto,q_auto/v1609785618/background.png')"
     >
-      <AppHead title="Home" />
+      <AppHead
+        title="Actief en zelfstandig leren"
+        description="Op Mijn Lessen bedenk je zelf lessen. Daardoor leer je actief, zelfstandig en vergeet je nooit meer wat je hebt geleerd. Ideaal voor ouders die zelf bijles willen geven aan hun kind."
+      />
       <Box>
         <WaveSvg />
         <NextLink href="/account/" passHref>
