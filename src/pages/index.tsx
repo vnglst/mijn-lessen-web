@@ -19,6 +19,7 @@ import WaveSvg from "@components/ui/WaveSvg";
 import NextLink from "next/link";
 import NextImage from "next/image";
 import React, { FC } from "react";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 const Index: FC = () => {
   return (
@@ -101,6 +102,7 @@ const Index: FC = () => {
               as={TextLink}
               href="/account"
               textDecoration="none"
+              rightIcon={<ArrowForwardIcon />}
             >
               Bekijk de preview
             </ButtonLink>
