@@ -1,19 +1,24 @@
-import { niceApi } from "@helpers/niceFetch";
 import React, { FC, useEffect, useState } from "react";
-import useSWR from "swr";
+import { useQuery, useQueryClient } from "react-query";
 import { User } from "../types";
 
 export type Session = {
-  error?: Error;
+  error?: unknown;
   session?: { user: User };
-  mutate?: (data?: any, shouldRevalidate?: boolean | undefined) => Promise<any>;
+  mutate?: () => Promise<void>;
 };
 
 export const SessionContext = React.createContext({} as Session);
 
 export const SessionProvider: FC = ({ children }) => {
   const [session, setSession] = useState({} as Session);
-  const { data, error, mutate } = useSWR(`session`, niceApi);
+
+  const queryClient = useQueryClient();
+  const mutate = () => queryClient.invalidateQueries(`session`);
+
+  const { data, error }: { data?: { user: User }; error: unknown } = useQuery(
+    "session"
+  );
 
   useEffect(() => {
     if (error) setSession({ error });

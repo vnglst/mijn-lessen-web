@@ -7,11 +7,10 @@ import {
   StartedLessons,
   TodaysLessons,
 } from "@components/lessons/LessonsBy";
-import { apiFetcher } from "@helpers/api";
 import { useSession } from "@hooks/useSession";
 import React, { FC } from "react";
 import LazyLoad from "react-lazyload";
-import useSWR from "swr";
+import { useQuery } from "react-query";
 import { Category, User } from "types";
 
 const MyLazyLoad: FC = ({ children }) => (
@@ -23,11 +22,7 @@ const MyLazyLoad: FC = ({ children }) => (
 const Index: FC = () => {
   const { session } = useSession();
   const user: User | undefined = session?.user;
-
-  const { data: categories }: { data?: Category[] } = useSWR(
-    `categories`,
-    apiFetcher
-  );
+  const { data: categories }: { data?: Category[] } = useQuery("categories");
 
   return (
     <DefaultLayout

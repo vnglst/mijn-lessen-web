@@ -1,7 +1,6 @@
-import { apiFetcher } from "@helpers/api";
 import React, { FC } from "react";
-import useSWR from "swr";
-import { Lesson, LessonsSWR, RepSWR, StatsSWR } from "../../types";
+import { useQuery } from "react-query";
+import { Lesson, Repetition, Stats } from "../../types";
 import LessonList from "./LessonList";
 
 export interface LessonsByCategoryProps {
@@ -15,9 +14,8 @@ export const LessonsByCategory: FC<LessonsByCategoryProps> = ({
   categoryId,
   take = 10,
 }) => {
-  const { data: lessons }: LessonsSWR = useSWR(
-    `lessons/?categoryId=${categoryId}&take=${take}`,
-    apiFetcher
+  const { data: lessons }: { data?: Lesson[] } = useQuery(
+    `lessons/?categoryId=${categoryId}&take=${take}`
   );
 
   return <LessonList lessons={lessons} heading={heading} />;
@@ -34,9 +32,8 @@ export const LessonsByUser: FC<LessonsByUserProps> = ({
   userName,
   take = 5,
 }) => {
-  const { data: lessons }: LessonsSWR = useSWR(
-    `lessons/?userName=${userName}&take=${take}`,
-    apiFetcher
+  const { data: lessons }: { data?: Lesson[] } = useQuery(
+    `lessons/?userName=${userName}&take=${take}`
   );
 
   return <LessonList lessons={lessons} heading={heading} />;
@@ -48,7 +45,9 @@ export interface TodaysLessonsProps {
 }
 
 export const TodaysLessons: FC<TodaysLessonsProps> = ({ heading }) => {
-  const { data: reps }: RepSWR = useSWR(`protected/repetitions`, apiFetcher);
+  const { data: reps }: { data?: Repetition[] } = useQuery(
+    `protected/repetitions`
+  );
 
   const totalReps = reps?.length || 0;
 
@@ -86,9 +85,8 @@ export const StartedLessons: FC<StartedLessonsProps> = ({
   heading,
   take = 10,
 }) => {
-  const { data: stats }: StatsSWR = useSWR(
-    `protected/stats/?status=STARTED&take${take}`,
-    apiFetcher
+  const { data: stats }: { data?: Stats[] } = useQuery(
+    `protected/stats/?status=STARTED&take${take}`
   );
 
   const lessons = stats?.map((stat) => {

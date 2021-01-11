@@ -3,7 +3,7 @@ import React from "react";
 
 export default function FullScreenSpinner() {
   return (
-    <Center width="100vw" height="100vh">
+    <Center top={0} bottom={0} left={0} right={0} position="absolute">
       <Spinner thickness="4px" size="lg" color="gray.600" />
     </Center>
   );
