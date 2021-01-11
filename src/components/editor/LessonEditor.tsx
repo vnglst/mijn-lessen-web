@@ -17,6 +17,7 @@ import { zIndexes } from "@helpers/constants";
 import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React, { FC, MouseEvent, useState } from "react";
+import { useQueryClient } from "react-query";
 import { Lesson, QuestionType } from "../../types";
 import MyFormLabel from "../ui/MyFormLabel";
 import RichTextEditor from "../ui/RichTextEditor";
@@ -25,20 +26,23 @@ import QuestionModal from "./QuestionModal";
 
 export interface LessonEditorProps {
   lesson: Lesson;
-  mutate: (data?: any, shouldRevalidate?: boolean | undefined) => Promise<any>;
 }
 
 type SaveState = "unsaved" | "saving" | "saved";
 
-const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
+const LessonEditor: FC<LessonEditorProps> = ({ lesson }) => {
   const router = useRouter();
   const { session } = useSession();
+  const queryClient = useQueryClient();
   const [intro, setIntro] = useState(lesson.intro);
   const [title, setTitle] = useState(lesson.title);
   const [subtitle, setSubtitle] = useState(lesson.subtitle || "");
   const [slug, setSlug] = useState(lesson.slug);
   const [imageUrl, setImageUrl] = useState(lesson.imageUrl || "");
   const [saving, setSaving] = useState("saved" as SaveState);
+
+  const mutateLesson = () =>
+    queryClient.invalidateQueries(`lessons/${lesson.slug}`);
 
   const isAdmin = session?.user.role === "ADMIN";
 
@@ -58,8 +62,7 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
       .json();
 
     // only update cache when slug is unchanged
-    if (lesson.slug === slug) mutate(updatedLesson);
-
+    if (lesson.slug === slug) mutateLesson();
     router
       .push(`/lessen/${updatedLesson.slug}`)
       .then(() => window.scrollTo(0, 0));
@@ -174,13 +177,13 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson, mutate }) => {
                   borderRadius={10}
                   alignItems="baseline"
                 >
-                  <QuestionModal question={question} mutate={mutate} />
+                  <QuestionModal question={question} mutate={mutateLesson} />
                 </ListItem>
               ))}
             </UnorderedList>
             <Box mt={2}>
               <QuestionModal
-                mutate={mutate}
+                mutate={mutateLesson}
                 question={{
                   draft: true,
                   lessonId: lesson.id,

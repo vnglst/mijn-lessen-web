@@ -3,31 +3,32 @@ import CenteredLayout from "@components/account/CenteredLayout";
 import DefaultLayout from "@components/DefaultLayout";
 import FullScreenSpinner from "@components/ui/FullScreenSpinner";
 import TextLink from "@components/ui/TextLink";
-import { apiFetcher } from "@helpers/api";
 import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import useSWR from "swr";
-import { UserSWR } from "types";
+import { useQuery } from "react-query";
+import { User } from "types";
 
 function TokenPage() {
   const { mutate } = useSession();
   const router = useRouter();
   const { token } = router.query;
-  const { data, error }: UserSWR = useSWR(
-    token ? `login/${token}` : null,
-    apiFetcher
-  );
+
+  const { data: user, error }: { data?: User; error: unknown } = useQuery([
+    `login/${token}`,
+    token,
+    { enabled: !!token },
+  ]);
 
   useEffect(() => {
-    if (!data || !mutate) return;
+    if (!user || !mutate) return;
     mutate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [user]);
 
   if (error) router.push("link-ongeldig").then(() => window.scrollTo(0, 0));
 
-  if (!data) return <FullScreenSpinner />;
+  if (!user) return <FullScreenSpinner />;
 
   return (
     <DefaultLayout
@@ -37,7 +38,7 @@ function TokenPage() {
     >
       <CenteredLayout>
         <Text>
-          Je bent ingelogd met het e-mailadres <Code>{data.email}</Code>! Je
+          Je bent ingelogd met het e-mailadres <Code>{user.email}</Code>! Je
           kunt nu beginnen met <TextLink href="/start">een eerste les</TextLink>
           .
         </Text>

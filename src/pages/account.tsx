@@ -10,21 +10,27 @@ import {
 import DefaultLayout from "@components/DefaultLayout";
 import FullScreenSpinner from "@components/ui/FullScreenSpinner";
 import { api } from "@helpers/api";
-import { niceApi } from "@helpers/niceFetch";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { GiLightBulb } from "react-icons/gi";
-import useSWR from "swr";
+import { useQuery, useQueryClient } from "react-query";
+import { User } from "types";
 
 function AccountPage() {
   const [loadingLogout, setLoadingLogout] = useState(false);
   const router = useRouter();
-  const { data: session, mutate } = useSWR(`session`, niceApi);
+
+  const queryClient = useQueryClient();
+  const mutate = () => queryClient.invalidateQueries(`session`);
+
+  const { data: session }: { data?: { user: User }; error: unknown } = useQuery(
+    "session"
+  );
 
   async function handleLogout() {
     setLoadingLogout(true);
     await api.post(`logout`);
-    mutate({});
+    mutate();
     router.push("/account/inloggen").then(() => window.scrollTo(0, 0));
     setLoadingLogout(false);
   }

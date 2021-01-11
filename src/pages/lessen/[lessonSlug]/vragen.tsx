@@ -2,16 +2,16 @@ import Quiz from "@components/quiz/Quiz";
 import QuizContainer from "@components/quiz/QuizContainer";
 import { levelUp } from "@components/quiz/QuizSounds";
 import FullScreenSpinner from "@components/ui/FullScreenSpinner";
-import { api, apiFetcher } from "@helpers/api";
+import { api } from "@helpers/api";
 import { shuffle } from "@helpers/random";
 import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React from "react";
-import useSWR from "swr";
+import { useQuery } from "react-query";
 import {
   Activity,
   ActivityTypes,
-  LessonSWR,
+  Lesson,
   Question,
   Status,
 } from "../../../types";
@@ -28,9 +28,9 @@ function QuestionsPage() {
   const { session, mutate: mutateSession } = useSession();
   const slug = router.query.lessonSlug as string;
 
-  const { data: lesson }: LessonSWR = useSWR(
-    () => (slug ? `lessons/${slug}` : null),
-    apiFetcher
+  const { data: lesson }: { data?: Lesson } = useQuery(
+    [`lessons/${slug}`, slug],
+    { enabled: !!slug }
   );
 
   const handleClose = () => {

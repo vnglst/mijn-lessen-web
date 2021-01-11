@@ -4,22 +4,24 @@ import QuizContainer from "@components/quiz/QuizContainer";
 import { levelUp } from "@components/quiz/QuizSounds";
 import FullScreenSpinner from "@components/ui/FullScreenSpinner";
 import { api } from "@helpers/api";
-import { niceApi } from "@helpers/niceFetch";
 import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React from "react";
-import useSWR from "swr";
-import { Activity, ActivityTypes, RepSWR } from "../../types";
+import { useQuery } from "react-query";
+import { Activity, ActivityTypes, Repetition } from "../../types";
 
 function TodaysQuiz() {
   const router = useRouter();
   const { mutate: mutateSession } = useSession();
 
-  const { data: reps }: RepSWR = useSWR(`protected/repetitions`, niceApi, {
-    revalidateOnFocus: false,
-    refreshWhenHidden: false,
-    refreshInterval: 0,
-  });
+  const { data: reps }: { data?: Repetition[] } = useQuery(
+    `protected/repetitions`,
+    {
+      refetchOnWindowFocus: false,
+      refetchInterval: false,
+    }
+  );
+
   const questions = reps?.map((rep) => rep.question);
 
   const handleClose = () => {
