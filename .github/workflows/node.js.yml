@@ -46,7 +46,7 @@ jobs:
         env:
           NEXT_PUBLIC_API_MOCKING: disabled
       # disable failing tests on CI
-      # - run: npm run test
+      - run: npm run test
       - run: npm run lint
       - run: npm run bundlewatch
         env:
