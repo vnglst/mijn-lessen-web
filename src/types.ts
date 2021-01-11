@@ -1,5 +1,3 @@
-import { mutate } from "swr";
-
 export type Option = {
   id: string;
   title: string;
@@ -52,9 +50,6 @@ export type Lesson = {
 
 export type Status = "INITIAL" | "STARTED" | "COMPLETED";
 
-export type LessonsSWR = { data?: Lesson[]; isValidating: boolean };
-export type LessonSWR = { data?: Lesson; mutate: typeof mutate };
-
 export type Category = {
   title: string;
   slug: string;
@@ -73,12 +68,6 @@ export type User = {
   lessonsCreated: Lesson[];
   repetitions: Repetition[];
   activities: Activity[];
-};
-
-export type UserSWR = {
-  data?: User;
-  mutate: typeof mutate;
-  error?: { message: string };
 };
 
 export type ActivityTypes =
@@ -108,8 +97,6 @@ export type Repetition = {
   question: Question;
 };
 
-export type RepSWR = { data?: Repetition[] };
-
 export type Stats = {
   id: string;
   createdAt: Date;
@@ -121,5 +108,3 @@ export type Stats = {
   lessonId: string;
   lesson: Lesson;
 };
-
-export type StatsSWR = { data?: Stats[] };
