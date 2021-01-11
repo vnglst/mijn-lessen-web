@@ -13,7 +13,7 @@ const HeroWave = () => {
         width="100%"
         height="40vh"
         zIndex={zIndexes.justBelowBase}
-        background="linear-gradient(180deg, #fcd787, transparent);"
+        background="linear-gradient(180deg, #fcd787, white);"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
