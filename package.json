@@ -30,7 +30,7 @@
     "ky-universal": "^0.8.2",
     "lodash": "^4.17.20",
     "msw": "^0.25.0",
-    "nanoid": "^3.1.20",
+    "nanoid": "^3.1.31",
     "next": "^10.0.4",
     "next-google-fonts": "^1.2.1",
     "next-seo": "^4.17.0",
