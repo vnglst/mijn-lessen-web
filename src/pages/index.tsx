@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   ButtonGroup,
   Flex,
   Heading,
@@ -16,7 +15,6 @@ import Video from "@components/landingpage/Video";
 import TextLink from "@components/ui/TextLink";
 import ButtonLink from "@components/ui/ButtonLink";
 import WaveSvg from "@components/ui/WaveSvg";
-import NextLink from "next/link";
 import NextImage from "next/image";
 import React, { FC } from "react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
