@@ -33,7 +33,7 @@ const Index: FC = () => {
       />
       <Box>
         <WaveSvg />
-        <NextLink href="/account/" passHref>
+        {/* <NextLink href="/account/" passHref>
           <Button
             variant="link"
             as={"a"}
@@ -45,7 +45,7 @@ const Index: FC = () => {
           >
             Inloggen
           </Button>
-        </NextLink>
+        </NextLink> */}
       </Box>
       <Flex
         align="center"
@@ -105,6 +105,8 @@ const Index: FC = () => {
               as={TextLink}
               href="/account"
               textDecoration="none"
+              disabled
+              title="Preview is niet meer beschikbaar"
               rightIcon={<ArrowForwardIcon />}
             >
               Bekijk de preview
