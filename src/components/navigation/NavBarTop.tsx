@@ -43,15 +43,14 @@ const NavBarTop = () => {
             _active={{ transform: "scale(0.95)" }}
             transition="all 0.75s ease"
           >
-            <NextLink href="/start" passHref>
-              <a>
+            <NextLink href="/start">
                 <NextImage
-                  height="37.4"
-                  width="95"
+                  height={37}
+                  width={95}
                   src="/images/mijn-lessen-logo.png"
                   alt="logo"
+                  style={{ width: "auto", height: "auto" }}
                 />
-              </a>
             </NextLink>
           </Box>
         </Flex>
