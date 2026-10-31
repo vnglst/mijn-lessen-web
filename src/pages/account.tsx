@@ -13,7 +13,7 @@ import { api } from "@helpers/api";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { GiLightBulb } from "react-icons/gi";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { User } from "types";
 
 function AccountPage() {
@@ -21,11 +21,11 @@ function AccountPage() {
   const router = useRouter();
 
   const queryClient = useQueryClient();
-  const mutate = () => queryClient.invalidateQueries(`session`);
+  const mutate = () => queryClient.invalidateQueries({ queryKey: ["session"] });
 
-  const { data: session }: { data?: { user: User }; error: unknown } = useQuery(
-    "session"
-  );
+  const { data: session } = useQuery<{ user: User }>({
+    queryKey: ["session"],
+  });
 
   async function handleLogout() {
     setLoadingLogout(true);

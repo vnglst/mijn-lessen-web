@@ -63,10 +63,11 @@ const Index: FC = () => {
         >
           <Box mb={6}>
             <NextImage
-              height="74"
-              width="190"
+              height={74}
+              width={190}
               src="/images/mijn-lessen-logo.png"
               alt="Mijn-Lessen.nl"
+              style={{ width: "auto", height: "auto" }}
             />
           </Box>
           <Text

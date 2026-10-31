@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Lesson, Repetition, Stats } from "../../types";
 import LessonList from "./LessonList";
 
@@ -14,9 +14,9 @@ export const LessonsByCategory: FC<LessonsByCategoryProps> = ({
   categoryId,
   take = 10,
 }) => {
-  const { data: lessons }: { data?: Lesson[] } = useQuery(
-    `lessons/?categoryId=${categoryId}&take=${take}`
-  );
+  const { data: lessons } = useQuery<Lesson[]>({
+    queryKey: [`lessons/?categoryId=${categoryId}&take=${take}`],
+  });
 
   return <LessonList lessons={lessons} heading={heading} />;
 };
@@ -32,9 +32,9 @@ export const LessonsByUser: FC<LessonsByUserProps> = ({
   userName,
   take = 5,
 }) => {
-  const { data: lessons }: { data?: Lesson[] } = useQuery(
-    `lessons/?userName=${userName}&take=${take}`
-  );
+  const { data: lessons } = useQuery<Lesson[]>({
+    queryKey: [`lessons/?userName=${userName}&take=${take}`],
+  });
 
   return <LessonList lessons={lessons} heading={heading} />;
 };
@@ -45,9 +45,9 @@ export interface TodaysLessonsProps {
 }
 
 export const TodaysLessons: FC<TodaysLessonsProps> = ({ heading }) => {
-  const { data: reps }: { data?: Repetition[] } = useQuery(
-    `protected/repetitions`
-  );
+  const { data: reps } = useQuery<Repetition[]>({
+    queryKey: [`protected/repetitions`],
+  });
 
   const totalReps = reps?.length || 0;
 
@@ -85,9 +85,9 @@ export const StartedLessons: FC<StartedLessonsProps> = ({
   heading,
   take = 10,
 }) => {
-  const { data: stats }: { data?: Stats[] } = useQuery(
-    `protected/stats/?status=STARTED&take${take}`
-  );
+  const { data: stats } = useQuery<Stats[]>({
+    queryKey: [`protected/stats/?status=STARTED&take${take}`],
+  });
 
   const lessons = stats?.map((stat) => {
     return {

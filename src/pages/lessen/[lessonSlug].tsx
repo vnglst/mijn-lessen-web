@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { GiHearts, GiLightBulb } from "react-icons/gi";
 import { GrView } from "react-icons/gr";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Lesson } from "types";
 
 function LessonOverview() {
@@ -28,10 +28,10 @@ function LessonOverview() {
   const router = useRouter();
   const { lessonSlug } = router.query;
 
-  const { data: lesson }: { data?: Lesson } = useQuery(
-    [`lessons/${lessonSlug}`, lessonSlug],
-    { enabled: !!lessonSlug }
-  );
+  const { data: lesson } = useQuery<Lesson>({
+    queryKey: [`lessons/${lessonSlug}`, lessonSlug],
+    enabled: !!lessonSlug,
+  });
 
   const [loading, setLoading] = useState(false);
   const user = session?.user;

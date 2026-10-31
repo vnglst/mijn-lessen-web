@@ -1,5 +1,5 @@
 import { Box, Container, Flex, Heading, Image, Text } from "@chakra-ui/react";
-import { default as React, FC } from "react";
+import { default as React, FC, PropsWithChildren } from "react";
 import AppHead from "./Head";
 import Footer from "./Footer";
 import NavBarTop from "./navigation/NavBarTop";
@@ -14,7 +14,7 @@ interface Props {
   showFooter?: boolean;
 }
 
-const DefaultLayout: FC<Props> = ({
+const DefaultLayout: FC<PropsWithChildren<Props>> = ({
   pageTitle,
   headingText,
   children,
@@ -31,7 +31,7 @@ const DefaultLayout: FC<Props> = ({
       <Container
         display="flex"
         mt="25vh"
-        justify="space-between"
+        justifyContent="space-between"
         maxWidth="2xl"
       >
         <Flex flexDirection="column" width="100%">

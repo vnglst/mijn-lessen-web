@@ -1,9 +1,9 @@
 import { Flex, Heading } from "@chakra-ui/react";
-import React, { FC } from "react";
+import React, { FC, PropsWithChildren } from "react";
 
 export interface NumberProps {}
 
-const Number: FC<NumberProps> = ({ children }) => {
+const Number: FC<PropsWithChildren<NumberProps>> = ({ children }) => {
   return (
     <Flex
       borderRadius="100%"

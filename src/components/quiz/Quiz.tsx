@@ -36,7 +36,7 @@ const Quiz: FC<Props> = ({ questions: initialQuestions, id, onComplete }) => {
   const correctOption = current.options.find((o) => o.correct) as Option;
 
   const handleNext = async () => {
-    let newQuestions = [...questions.slice(1)];
+    const newQuestions = [...questions.slice(1)];
     if (answerState === "incorrect") newQuestions.push(current);
 
     // still questions left, continue

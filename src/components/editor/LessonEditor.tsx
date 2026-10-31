@@ -17,7 +17,7 @@ import { zIndexes } from "@helpers/constants";
 import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React, { FC, MouseEvent, useState } from "react";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { Lesson, QuestionType } from "../../types";
 import MyFormLabel from "../ui/MyFormLabel";
 import RichTextEditor from "../ui/RichTextEditor";
@@ -42,7 +42,7 @@ const LessonEditor: FC<LessonEditorProps> = ({ lesson }) => {
   const [saving, setSaving] = useState("saved" as SaveState);
 
   const mutateLesson = () =>
-    queryClient.invalidateQueries(`lessons/${lesson.slug}`);
+    queryClient.invalidateQueries({ queryKey: [`lessons/${lesson.slug}`] });
 
   const isAdmin = session?.user.role === "ADMIN";
 

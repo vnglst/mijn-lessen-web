@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import React, { FC, PropsWithChildren, useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { User } from "../types";
 
 export type Session = {
@@ -10,15 +10,15 @@ export type Session = {
 
 export const SessionContext = React.createContext({} as Session);
 
-export const SessionProvider: FC = ({ children }) => {
+export const SessionProvider: FC<PropsWithChildren> = ({ children }) => {
   const [session, setSession] = useState({} as Session);
 
   const queryClient = useQueryClient();
-  const mutate = () => queryClient.invalidateQueries(`session`);
+  const mutate = () => queryClient.invalidateQueries({ queryKey: ["session"] });
 
-  const { data, error }: { data?: { user: User }; error: unknown } = useQuery(
-    "session"
-  );
+  const { data, error } = useQuery<{ user: User }>({
+    queryKey: ["session"],
+  });
 
   useEffect(() => {
     if (error) setSession({ error });

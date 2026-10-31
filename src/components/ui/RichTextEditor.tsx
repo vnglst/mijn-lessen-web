@@ -1,7 +1,7 @@
 import { Skeleton } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import { FC } from "react";
-import { ReactQuillProps } from "react-quill";
+import { ComponentProps, FC } from "react";
+import type ReactQuillType from "react-quill-new";
 
 const modules = {
   toolbar: [
@@ -21,13 +21,12 @@ const formats = [
   "bullet",
 ];
 
-const ReactQuill = dynamic(() => import("react-quill"), {
+const ReactQuill = dynamic(() => import("react-quill-new"), {
   ssr: false,
-  // eslint-disable-next-line react/display-name
   loading: () => <Skeleton />,
 });
 
-export interface RichTextEditorProps extends ReactQuillProps {}
+export type RichTextEditorProps = ComponentProps<typeof ReactQuillType>;
 
 /* TODO: custom medium like toolbar https://github.com/zenoamaro/react-quill#html-toolbar */
 const RichTextEditor: FC<RichTextEditorProps> = ({

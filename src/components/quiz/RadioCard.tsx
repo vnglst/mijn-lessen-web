@@ -1,23 +1,30 @@
-import { Box, Flex, RadioProps, useRadio } from "@chakra-ui/react";
-import React, { FC } from "react";
+import {
+  Box,
+  Flex,
+  SystemStyleObject,
+  UseRadioProps,
+  useRadio,
+} from "@chakra-ui/react";
+import React, { FC, PropsWithChildren } from "react";
 
-export interface RadioCardProps extends RadioProps {
-  isDisabled?: boolean;
+export interface RadioCardProps extends UseRadioProps {
+  _checked?: SystemStyleObject;
 }
 
-const RadioCard: FC<RadioCardProps> = ({ children, ...rest }) => {
-  const { getInputProps, getCheckboxProps } = useRadio(rest);
+const RadioCard: FC<PropsWithChildren<RadioCardProps>> = ({
+  children,
+  ...rest
+}) => {
+  const { getInputProps, getRadioProps } = useRadio(rest);
 
   const input = getInputProps();
-  const checkbox = getCheckboxProps();
+  const checkbox = getRadioProps() as object;
 
   return (
     <Box as="label">
       <input {...input} />
       <Flex
         {...checkbox}
-        disabled={rest.isDisabled}
-        checked={rest.isChecked}
         cursor="pointer"
         borderWidth="1px"
         borderRadius="md"

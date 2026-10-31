@@ -8,12 +8,12 @@ import {
   TodaysLessons,
 } from "@components/lessons/LessonsBy";
 import { useSession } from "@hooks/useSession";
-import React, { FC } from "react";
+import React, { FC, PropsWithChildren } from "react";
 import LazyLoad from "react-lazyload";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Category, User } from "types";
 
-const MyLazyLoad: FC = ({ children }) => (
+const MyLazyLoad: FC<PropsWithChildren> = ({ children }) => (
   <LazyLoad offset={1500} placeholder={<CardSkeleton />}>
     {children}
   </LazyLoad>
@@ -22,7 +22,9 @@ const MyLazyLoad: FC = ({ children }) => (
 const Index: FC = () => {
   const { session } = useSession();
   const user: User | undefined = session?.user;
-  const { data: categories }: { data?: Category[] } = useQuery("categories");
+  const { data: categories } = useQuery<Category[]>({
+    queryKey: ["categories"],
+  });
 
   return (
     <DefaultLayout

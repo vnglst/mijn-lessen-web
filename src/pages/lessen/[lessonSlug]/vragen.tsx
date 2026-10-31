@@ -7,7 +7,7 @@ import { shuffle } from "@helpers/random";
 import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
   Activity,
   ActivityTypes,
@@ -28,10 +28,10 @@ function QuestionsPage() {
   const { session, mutate: mutateSession } = useSession();
   const slug = router.query.lessonSlug as string;
 
-  const { data: lesson }: { data?: Lesson } = useQuery(
-    [`lessons/${slug}`, slug],
-    { enabled: !!slug }
-  );
+  const { data: lesson } = useQuery<Lesson>({
+    queryKey: [`lessons/${slug}`, slug],
+    enabled: !!slug,
+  });
 
   const handleClose = () => {
     const reallyClose = confirm(

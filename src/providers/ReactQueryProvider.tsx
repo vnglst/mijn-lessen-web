@@ -1,10 +1,14 @@
 import { api } from "@helpers/api";
-import { FC } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+import {
+  QueryClient,
+  QueryClientProvider,
+  QueryFunctionContext,
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { FC, PropsWithChildren } from "react";
 
-const defaultQueryFn = async ({ queryKey }: { queryKey: string[] }) => {
-  const data = await api.get(queryKey[0]).json();
+const defaultQueryFn = async ({ queryKey }: QueryFunctionContext) => {
+  const data = await api.get(queryKey[0] as string).json();
   return data;
 };
 
@@ -16,7 +20,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const ReactQueryProvider: FC = ({ children }) => {
+const ReactQueryProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       {children}

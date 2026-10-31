@@ -6,7 +6,7 @@ import TextLink from "@components/ui/TextLink";
 import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { User } from "types";
 
 function TokenPage() {
@@ -14,11 +14,10 @@ function TokenPage() {
   const router = useRouter();
   const { token } = router.query;
 
-  const { data: user, error }: { data?: User; error: unknown } = useQuery([
-    `login/${token}`,
-    token,
-    { enabled: !!token },
-  ]);
+  const { data: user, error } = useQuery<User>({
+    queryKey: [`login/${token}`, token],
+    enabled: !!token,
+  });
 
   useEffect(() => {
     if (!user || !mutate) return;
