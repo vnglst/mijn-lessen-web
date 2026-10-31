@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { zIndexes } from "@helpers/constants";
-import React, { FC } from "react";
+import React, { FC, PropsWithChildren } from "react";
 
 export interface UnderlineProps {
   color?: string;
@@ -8,7 +8,7 @@ export interface UnderlineProps {
   bottom?: number;
 }
 
-const Underline: FC<UnderlineProps> = ({
+const Underline: FC<PropsWithChildren<UnderlineProps>> = ({
   color = "brand.200",
   height = 6,
   bottom = 0,

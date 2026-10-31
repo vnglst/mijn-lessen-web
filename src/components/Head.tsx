@@ -1,13 +1,13 @@
 import { NextSeo } from "next-seo";
 import Head from "next/head";
-import React, { FC } from "react";
+import React, { FC, PropsWithChildren } from "react";
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const AppHead: FC<Props> = ({ title, description, children }) => {
+const AppHead: FC<PropsWithChildren<Props>> = ({ title, description, children }) => {
   return (
     <>
       <NextSeo title={title} description={description} />

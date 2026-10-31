@@ -3,17 +3,17 @@ import LessonEditor from "@components/editor/LessonEditor";
 import FullScreenSpinner from "@components/ui/FullScreenSpinner";
 import { useRouter } from "next/router";
 import React, { FC } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Lesson } from "../../../types";
 
 const EditLesson: FC = () => {
   const router = useRouter();
   const { lessonSlug } = router.query;
 
-  const { data: lesson }: { data?: Lesson } = useQuery(
-    [`lessons/${lessonSlug}`, lessonSlug],
-    { enabled: !!lessonSlug }
-  );
+  const { data: lesson } = useQuery<Lesson>({
+    queryKey: [`lessons/${lessonSlug}`, lessonSlug],
+    enabled: !!lessonSlug,
+  });
 
   return (
     <DefaultLayout

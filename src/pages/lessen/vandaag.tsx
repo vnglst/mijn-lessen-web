@@ -7,20 +7,18 @@ import { api } from "@helpers/api";
 import { useSession } from "@hooks/useSession";
 import { useRouter } from "next/router";
 import React from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Activity, ActivityTypes, Repetition } from "../../types";
 
 function TodaysQuiz() {
   const router = useRouter();
   const { mutate: mutateSession } = useSession();
 
-  const { data: reps }: { data?: Repetition[] } = useQuery(
-    `protected/repetitions`,
-    {
-      refetchOnWindowFocus: false,
-      refetchInterval: false,
-    }
-  );
+  const { data: reps } = useQuery<Repetition[]>({
+    queryKey: [`protected/repetitions`],
+    refetchOnWindowFocus: false,
+    refetchInterval: false,
+  });
 
   const questions = reps?.map((rep) => rep.question);
 

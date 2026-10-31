@@ -1,13 +1,13 @@
 import { Box, CloseButton } from "@chakra-ui/react";
 import LoginAlert from "@components/quiz/LoginAlert";
 import HeroWave from "@components/ui/HeroWave";
-import React, { FC } from "react";
+import React, { FC, PropsWithChildren } from "react";
 
 export interface QuizContainerProps {
   onClose: () => void;
 }
 
-const QuizContainer: FC<QuizContainerProps> = ({ onClose, children }) => {
+const QuizContainer: FC<PropsWithChildren<QuizContainerProps>> = ({ onClose, children }) => {
   return (
     <>
       <Box position="fixed" left={0} right={0}>

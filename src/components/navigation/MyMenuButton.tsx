@@ -1,10 +1,10 @@
 import { Button, MenuButton as ChakraMenuButton } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { FC } from "react";
+import { FC, PropsWithChildren } from "react";
 
 export interface MyMenuButtonProps {}
 
-const MyMenuButton: FC<MyMenuButtonProps> = ({ children }) => {
+const MyMenuButton: FC<PropsWithChildren<MyMenuButtonProps>> = ({ children }) => {
   return (
     <ChakraMenuButton
       as={Button}
